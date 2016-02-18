@@ -6,7 +6,7 @@ namespace Configgy.Cache
     /// <summary>
     /// A simple dictionary-based config cache.
     /// </summary>
-    public class SimpleConfigCache : IConfigCache
+    public class DictionaryCache : IConfigCache
     {
         private IDictionary<string, object> _internal = new Dictionary<string, object>();
 

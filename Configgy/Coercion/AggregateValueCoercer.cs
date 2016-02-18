@@ -11,8 +11,8 @@ namespace Configgy.Coercion
         private readonly IValueCoercer[] _coercers;
 
         public AggregateValueCoercer()
+            : this(new GeneralCoercer())
         {
-            // TODO: Create the default coercer set
         }
 
         public AggregateValueCoercer(params IValueCoercer[] coercers)
@@ -22,7 +22,12 @@ namespace Configgy.Coercion
 
         public object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
-            return _coercers
+            var propertyCoercers = property
+                .GetCustomAttributes()
+                .OfType<IValueCoercer>();
+
+            return propertyCoercers
+                .Union(_coercers)
                 .Select(c => c.CoerceTo<T>(value, valueName, property))
                 .Where(r => r != null)
                 .FirstOrDefault();

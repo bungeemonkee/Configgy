@@ -25,7 +25,7 @@ namespace Configgy
         /// Create a default Config instance.
         /// </summary>
         protected Config()
-            : this(new SimpleConfigCache(), new AggregateValueSource(), new AggregateValueValidator())
+            : this(new DictionaryCache(), new AggregateValueSource(), new AggregateValueValidator())
         {
         }
 
@@ -34,7 +34,7 @@ namespace Configgy
         /// </summary>
         /// <param name="commandLine">The command line to parse configuration values from.</param>
         protected Config(string[] commandLine)
-            : this(new SimpleConfigCache(), new AggregateValueSource(commandLine), new AggregateValueValidator())
+            : this(new DictionaryCache(), new AggregateValueSource(commandLine), new AggregateValueValidator())
         {
         }
 

@@ -14,8 +14,24 @@ namespace Configgy.Validation
 
         public AggregateValueValidator()
         {
-            // TODO: Add type-based validators
-            _validatorsByType = new Dictionary<Type, IValueValidator>();
+            // Add type-based validators
+            _validatorsByType = new Dictionary<Type, IValueValidator>
+            {
+                [typeof(byte)] = new ByteValidatorAttribute(),
+                [typeof(char)] = new CharValidatorAttribute(),
+                [typeof(DateTime)] = new DateTimeValidatorAttribute(),
+                [typeof(decimal)] = new DecimalValidatorAttribute(),
+                [typeof(double)] = new DoubleValidatorAttribute(),
+                [typeof(float)] = new FloatValidatorAttribute(),
+                [typeof(int)] = new IntValidatorAttribute(),
+                [typeof(long)] = new LongValidatorAttribute(),
+                [typeof(sbyte)] = new SByteValidatorAttribute(),
+                [typeof(short)] = new ShortValidatorAttribute(),
+                [typeof(TimeSpan)] = new TimeSpanValidatorAttribute(),
+                [typeof(uint)] = new UIntValidatorAttribute(),
+                [typeof(ulong)] = new ULongValidatorAttribute(),
+                [typeof(ushort)] = new UShortValidatorAttribute()
+            };
         }
 
         public void Validate<T>(string value, string valueName, PropertyInfo property)
