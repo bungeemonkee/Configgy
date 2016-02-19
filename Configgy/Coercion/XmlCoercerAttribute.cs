@@ -8,7 +8,7 @@ namespace Configgy.Coercion
     /// <summary>
     /// A Value coercer that converts an XML string into an object.
     /// </summary>
-    public class XmlCoercer : ValueCoercerAttributeBase
+    public class XmlCoercerAttribute : ValueCoercerAttributeBase
     {
         public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {

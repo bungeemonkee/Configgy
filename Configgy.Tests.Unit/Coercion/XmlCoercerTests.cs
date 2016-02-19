@@ -21,7 +21,7 @@ namespace Configgy.Tests.Unit.Coercion
 
             var expected = new int[] { 1, 4, 78, 222 };
 
-            var coercer = new XmlCoercer();
+            var coercer = new XmlCoercerAttribute();
 
             var result = coercer.CoerceTo<int[]>(input, null, null) as ICollection;
 
@@ -40,7 +40,7 @@ namespace Configgy.Tests.Unit.Coercion
     <int>222</int>
 </ArrayOfInt>";
 
-            var coercer = new XmlCoercer();
+            var coercer = new XmlCoercerAttribute();
 
             var result = coercer.CoerceTo<int[]>(input, null, null);
 

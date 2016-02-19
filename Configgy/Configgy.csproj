@@ -46,9 +46,9 @@
     <Compile Include="Coercion\AggregateValueCoercer.cs" />
     <Compile Include="Coercion\GeneralCoercer.cs" />
     <Compile Include="Coercion\IValueCoercer.cs" />
-    <Compile Include="Coercion\JsonCoercer.cs" />
+    <Compile Include="Coercion\JsonCoercerAttribute.cs" />
     <Compile Include="Coercion\ValueCoercerAttributeBase.cs" />
-    <Compile Include="Coercion\XmlCoercer.cs" />
+    <Compile Include="Coercion\XmlCoercerAttribute.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="ConfiggyConstants.cs" />

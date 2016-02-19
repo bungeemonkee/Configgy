@@ -6,7 +6,7 @@ namespace Configgy.Coercion
     /// <summary>
     /// A Value coercer that converts a JSON string into an object.
     /// </summary>
-    public class JsonCoercer : ValueCoercerAttributeBase
+    public class JsonCoercerAttribute : ValueCoercerAttributeBase
     {
         public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {

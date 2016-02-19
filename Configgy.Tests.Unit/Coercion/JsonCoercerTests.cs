@@ -14,7 +14,7 @@ namespace Configgy.Tests.Unit.Coercion
             const string input = "[1,4,78,222]";
             var expected = new int[] { 1, 4, 78, 222 };
 
-            var coercer = new JsonCoercer();
+            var coercer = new JsonCoercerAttribute();
 
             var result = coercer.CoerceTo<int[]>(input, null, null) as int[];
 
@@ -32,7 +32,7 @@ namespace Configgy.Tests.Unit.Coercion
                 ["Radish"] = "Icky"
             };
 
-            var coercer = new JsonCoercer();
+            var coercer = new JsonCoercerAttribute();
 
             var result = coercer.CoerceTo<Dictionary<string, string>>(input, null, null) as IDictionary;
 
@@ -44,7 +44,7 @@ namespace Configgy.Tests.Unit.Coercion
         {
             const string input = "{";
 
-            var coercer = new JsonCoercer();
+            var coercer = new JsonCoercerAttribute();
 
             var result = coercer.CoerceTo<Dictionary<string, string>>(input, null, null);
 
