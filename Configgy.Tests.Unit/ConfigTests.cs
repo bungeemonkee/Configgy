@@ -17,7 +17,7 @@ namespace Configgy.Tests.Unit
         [TestMethod]
         public void ClearCache_Calls_Cache_Clear()
         {
-            var cacheMock = new Mock<IConfigCache>();
+            var cacheMock = new Mock<IValueCache>();
 
             var config = new ConfigWrapper<object>(cacheMock.Object, null, null, null);
 
@@ -33,7 +33,7 @@ namespace Configgy.Tests.Unit
 
             var expected = new object();
 
-            var cacheMock = new Mock<IConfigCache>();
+            var cacheMock = new Mock<IValueCache>();
             cacheMock.Setup(c => c.GetValue(name, It.IsAny<Func<string, object>>()))
                 .Returns(expected);
 

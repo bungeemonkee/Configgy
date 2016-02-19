@@ -40,7 +40,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\IConfigCache.cs" />
+    <Compile Include="Cache\IValueCache.cs" />
     <Compile Include="Cache\DictionaryCache.cs" />
     <Compile Include="Coercion\AggregateValueCoercer.cs" />
     <Compile Include="Coercion\GeneralCoercer.cs" />

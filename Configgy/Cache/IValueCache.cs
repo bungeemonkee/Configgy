@@ -5,7 +5,7 @@ namespace Configgy.Cache
     /// <summary>
     /// Defines a config cache.
     /// </summary>
-    public interface IConfigCache
+    public interface IValueCache
     {
         /// <summary>
         /// Gets a value from the cache.

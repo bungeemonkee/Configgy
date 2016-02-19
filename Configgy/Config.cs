@@ -15,7 +15,7 @@ namespace Configgy
     /// </summary>
     public abstract class Config
     {
-        private readonly IConfigCache _cache;
+        private readonly IValueCache _cache;
         private readonly IValueSource _source;
         private readonly IValueValidator _validator;
         private readonly IValueCoercer _coercer;
@@ -44,7 +44,7 @@ namespace Configgy
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="valueFactory"></param>
-        protected Config(IConfigCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
+        protected Config(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
         {
             _cache = cache;
             _source = source;
