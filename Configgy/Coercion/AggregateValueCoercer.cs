@@ -22,7 +22,9 @@ namespace Configgy.Coercion
 
         public object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
-            var propertyCoercers = property
+            var propertyCoercers = property == null
+                ? Enumerable.Empty<IValueCoercer>()
+                : property
                 .GetCustomAttributes()
                 .OfType<IValueCoercer>();
 
