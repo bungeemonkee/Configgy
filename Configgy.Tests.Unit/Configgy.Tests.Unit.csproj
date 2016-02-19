@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,6 +57,8 @@
   <ItemGroup>
     <Compile Include="Cache\TestingCache.cs" />
     <Compile Include="Coercion\GeneralCoercerTests.cs" />
+    <Compile Include="Coercion\JsonCoercerTests.cs" />
+    <Compile Include="Coercion\XmlCoercerTests.cs" />
     <Compile Include="ConfigTests.cs" />
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
