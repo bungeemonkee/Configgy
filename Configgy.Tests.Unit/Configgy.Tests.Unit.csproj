@@ -55,15 +55,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Cache\DictionaryCacheTests.cs" />
     <Compile Include="Cache\TestingCache.cs" />
+    <Compile Include="Coercion\AggregateValueCoercerTests.cs" />
+    <Compile Include="Source\CommandLineValueSourceTests.cs" />
+    <Compile Include="Source\ConfigWrapperWithPropertyWithDefaultValueAttribute.cs" />
+    <Compile Include="Source\DefaultValueAttributeValueSourceTests.cs" />
     <Compile Include="Coercion\GeneralCoercerTests.cs" />
     <Compile Include="Coercion\JsonCoercerTests.cs" />
     <Compile Include="Coercion\XmlCoercerTests.cs" />
     <Compile Include="ConfigExtensionsTests.cs" />
     <Compile Include="ConfigTests.cs" />
+    <Compile Include="Coercion\ConfigWrapperWithPropertyWithCoercerAttribute.cs" />
     <Compile Include="ConfigWrapperWithNoProperties.cs" />
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\AggregateValueSourceTests.cs" />
+    <Compile Include="Validation\RegexValidatorTests.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />
     <Compile Include="Validation\ULongValidatorTests.cs" />
     <Compile Include="Validation\UIntValidatorTests.cs" />
@@ -89,9 +97,7 @@
       <Name>Configgy</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

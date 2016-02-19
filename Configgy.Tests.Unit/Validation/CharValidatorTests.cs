@@ -26,7 +26,7 @@ namespace Configgy.Tests.Unit.Validation
         {
             get
             {
-                return "30";
+                return "E";
             }
         }
 

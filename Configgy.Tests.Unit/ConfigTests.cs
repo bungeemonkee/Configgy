@@ -124,6 +124,104 @@ namespace Configgy.Tests.Unit
         }
 
         [TestMethod]
+        public void Get_Calls_Source_GetRawValue_Validator_Validate_And_Coercer_Coerce_Once_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation()
+        {
+            const string name = ConfigWrapper<object>.ThePropertyName;
+
+            var expectedRaw = "{}";
+            var expectedValue = new object();
+            var cache = new DictionaryCache();
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedRaw);
+
+            var validatorMock = new Mock<IValueValidator>();
+            validatorMock.Setup(s => s.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()));
+
+            var coercerMock = new Mock<IValueCoercer>();
+            coercerMock.Setup(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedValue);
+
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result1 = config.TheProperty;
+            var result2 = config.TheProperty;
+
+            sourceMock.Verify(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()), Times.Once);
+            validatorMock.Verify(v => v.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
+            coercerMock.Verify(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
+            Assert.AreEqual(expectedValue, result1);
+            Assert.AreSame(result1, result2);
+        }
+
+        [TestMethod]
+        public void Get_Calls_Source_GetRawValue_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Cache_Is_Cleared_In_Between()
+        {
+            const string name = ConfigWrapper<object>.ThePropertyName;
+
+            var expectedRaw = "{}";
+            var expectedValue = new object();
+            var cache = new DictionaryCache();
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedRaw);
+
+            var validatorMock = new Mock<IValueValidator>();
+            validatorMock.Setup(s => s.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()));
+
+            var coercerMock = new Mock<IValueCoercer>();
+            coercerMock.Setup(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedValue);
+
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result1 = config.TheProperty;
+            cache.Clear();
+            var result2 = config.TheProperty;
+
+            sourceMock.Verify(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            validatorMock.Verify(v => v.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            coercerMock.Verify(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            Assert.AreEqual(expectedValue, result1);
+            Assert.AreSame(result1, result2);
+        }
+
+        [TestMethod]
+        public void Get_Calls_Source_GetRawValue_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Property_Is_Removed_From_The_Cache_In_Between()
+        {
+            const string name = ConfigWrapper<object>.ThePropertyName;
+
+            var expectedRaw = "{}";
+            var expectedValue = new object();
+            var cache = new DictionaryCache();
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedRaw);
+
+            var validatorMock = new Mock<IValueValidator>();
+            validatorMock.Setup(s => s.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()));
+
+            var coercerMock = new Mock<IValueCoercer>();
+            coercerMock.Setup(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()))
+                .Returns(expectedValue);
+
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result1 = config.TheProperty;
+            cache.RemoveValue(name);
+            var result2 = config.TheProperty;
+
+            sourceMock.Verify(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            validatorMock.Verify(v => v.Validate<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            coercerMock.Verify(c => c.CoerceTo<object>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
+            Assert.AreEqual(expectedValue, result1);
+            Assert.AreSame(result1, result2);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(MissingValueException))]
         public void Get_Throws_MissingValueException_When_Source_GetRawValue_Returns_Null()
         {
