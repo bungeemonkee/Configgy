@@ -4,7 +4,7 @@ A simple, powerful, extensible, testable .NET configuration library.
 
 ## Intro
 
-Configgy is the last .NET configuration library you'll ever need. It is designed to support configuration values coming from any source, with any kind of validation, and then expsoe it all as strong types - even complex types like lists, dictionaries, or general .NET objects.
+Configgy is the last .NET configuration library you'll ever need. It is designed to support configuration values coming from any source, with any kind of validation, and then expose it all as strong types - even complex types like lists, dictionaries, or general .NET objects.
 
 ## Design
 
