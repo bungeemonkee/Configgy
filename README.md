@@ -54,3 +54,4 @@ So far this is like really really pre-alpha and mostly untested but it is tehcni
   * Unit tests
   * Inline documentation
   * Reference documentation and code samples
+  * Add support for Type objects as configuration values
