@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Validation
 {
-    public class SByteValidatorAttribute : ValueValidatorAtributeBase
+    public class SByteValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<sbyte>
     {
         public sbyte Min { get; protected set; }
 

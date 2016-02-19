@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Validation
 {
-    public class TimeSpanValidatorAttribute : ValueValidatorAtributeBase
+    public class TimeSpanValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<TimeSpan>
     {
         public TimeSpan Min { get; protected set; }
 

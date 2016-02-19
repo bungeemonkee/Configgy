@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Validation
 {
-    public class DateTimeValidatorAttribute : ValueValidatorAtributeBase
+    public class DateTimeValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<DateTime>
     {
         public DateTime Min { get; protected set; }
 

@@ -63,6 +63,7 @@
     <Compile Include="Source\EnvironmentVariableValueSource.cs" />
     <Compile Include="Source\IValueSource.cs" />
     <Compile Include="Source\AggregateValueSource.cs" />
+    <Compile Include="Validation\INumericishValidator.cs" />
     <Compile Include="Validation\RegexValidator.cs" />
     <Compile Include="Validation\UShortValidatorAttribute.cs" />
     <Compile Include="Validation\ULongValidatorAttribute.cs" />

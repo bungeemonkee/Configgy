@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Validation
 {
-    public class FloatValidatorAttribute : ValueValidatorAtributeBase
+    public class FloatValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<float>
     {
         public float Min { get; protected set; }
 

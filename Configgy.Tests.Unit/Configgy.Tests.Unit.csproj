@@ -55,9 +55,25 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Cache\TestingCache.cs" />
+    <Compile Include="Coercion\GeneralCoercerTests.cs" />
     <Compile Include="ConfigTests.cs" />
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\UShortValidatorTests.cs" />
+    <Compile Include="Validation\ULongValidatorTests.cs" />
+    <Compile Include="Validation\UIntValidatorTests.cs" />
+    <Compile Include="Validation\TimeSpanValidatorTests.cs" />
+    <Compile Include="Validation\ShortValidatorTests.cs" />
+    <Compile Include="Validation\SByteValidatorTests.cs" />
+    <Compile Include="Validation\LongValidatorTests.cs" />
+    <Compile Include="Validation\IntValidatorTests.cs" />
+    <Compile Include="Validation\FloatValidatorTests.cs" />
+    <Compile Include="Validation\DoubleValidatorTests.cs" />
+    <Compile Include="Validation\DecimalValidatorTests.cs" />
+    <Compile Include="Validation\DateTimeValidatorTests.cs" />
+    <Compile Include="Validation\CharValidatorTests.cs" />
+    <Compile Include="Validation\ByteValidatorTests.cs" />
+    <Compile Include="Validation\NumericishValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,6 +83,9 @@
       <Project>{1833c0d9-5794-4563-88bc-ea544e6fc2cf}</Project>
       <Name>Configgy</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

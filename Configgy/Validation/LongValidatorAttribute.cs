@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Validation
 {
-    public class LongValidatorAttribute : ValueValidatorAtributeBase
+    public class LongValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<long>
     {
         public long Min { get; protected set; }
 
