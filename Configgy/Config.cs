@@ -25,7 +25,7 @@ namespace Configgy
         /// Create a default Config instance.
         /// </summary>
         protected Config()
-            : this(new DictionaryCache(), new AggregateValueSource(), new AggregateValueValidator())
+            : this(new DictionaryCache(), new AggregateValueSource(), new AggregateValueValidator(), new AggregateValueCoercer())
         {
         }
 
@@ -34,7 +34,7 @@ namespace Configgy
         /// </summary>
         /// <param name="commandLine">The command line to parse configuration values from.</param>
         protected Config(string[] commandLine)
-            : this(new DictionaryCache(), new AggregateValueSource(commandLine), new AggregateValueValidator())
+            : this(new DictionaryCache(), new AggregateValueSource(commandLine), new AggregateValueValidator(), new AggregateValueCoercer())
         {
         }
 
@@ -44,11 +44,12 @@ namespace Configgy
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="valueFactory"></param>
-        protected Config(IConfigCache cache, IValueSource source, IValueValidator validator)
+        protected Config(IConfigCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
         {
             _cache = cache;
             _source = source;
             _validator = validator;
+            _coercer = coercer;
 
             _properties = GetType()
                 .GetMembers(BindingFlags.Instance | BindingFlags.Public)
