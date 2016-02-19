@@ -48,7 +48,8 @@ namespace Configgy.Validation
             if (property == null) return;
 
             // Get any validators from the property attributes
-            var propertyValidators = property.CustomAttributes
+            var propertyValidators = property
+                .GetCustomAttributes()
                 .OfType<IValueValidator>();
 
             // Use each property attribute validator to validate the value

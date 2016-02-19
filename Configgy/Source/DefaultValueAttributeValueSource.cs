@@ -10,8 +10,8 @@ namespace Configgy.Source
         {
             if (property == null) return null;
 
-            return property.CustomAttributes
-                .OfType<DefaultValueAttribute>()
+            return property
+                .GetCustomAttributes<DefaultValueAttribute>()
                 .Select(a => a.Value as string)
                 .FirstOrDefault();
         }
