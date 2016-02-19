@@ -11,6 +11,16 @@ namespace Configgy.Tests.Unit
 
         public T TheProperty { get { return Get<T>(); } }
 
+        public ConfigWrapper()
+            : base ()
+        {
+        }
+
+        public ConfigWrapper(string[] commandLine)
+            : base(commandLine)
+        {
+        }
+
         public ConfigWrapper(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
             : base(cache, source, validator, coercer)
         {

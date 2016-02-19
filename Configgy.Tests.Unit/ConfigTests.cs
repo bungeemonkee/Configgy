@@ -15,6 +15,24 @@ namespace Configgy.Tests.Unit
     public class ConfigTests
     {
         [TestMethod]
+        public void Default_Constructor_Works()
+        {
+            var config = new ConfigWrapper<object>();
+
+            Assert.IsNotNull(config);
+        }
+
+        [TestMethod]
+        public void Constructor_With_String_Array_Works()
+        {
+            var args = new string[] { "argument1", "argument2" };
+
+            var config = new ConfigWrapper<object>(args);
+
+            Assert.IsNotNull(config);
+        }
+
+        [TestMethod]
         public void ClearCache_Calls_Cache_Clear()
         {
             var cacheMock = new Mock<IValueCache>();
@@ -110,7 +128,7 @@ namespace Configgy.Tests.Unit
         public void Get_Throws_MissingValueException_When_Source_GetRawValue_Returns_Null()
         {
             const string name = "__value__";
-            
+
             var cache = new TestingCache();
 
             var sourceMock = new Mock<IValueSource>();
