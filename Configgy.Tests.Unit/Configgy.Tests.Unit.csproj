@@ -59,7 +59,9 @@
     <Compile Include="Coercion\GeneralCoercerTests.cs" />
     <Compile Include="Coercion\JsonCoercerTests.cs" />
     <Compile Include="Coercion\XmlCoercerTests.cs" />
+    <Compile Include="ConfigExtensionsTests.cs" />
     <Compile Include="ConfigTests.cs" />
+    <Compile Include="ConfigWrapperWithNoProperties.cs" />
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />
