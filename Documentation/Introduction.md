@@ -1,6 +1,6 @@
 # Documentation
 
-[README](..\README.md)
+[README](../README.md)
 
 1. [Introduction](Introduction.md)
 2. [Command Line Values](CommandLine.md)

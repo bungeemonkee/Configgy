@@ -6,9 +6,9 @@ A simple, powerful, extensible, testable .NET configuration library.
 
 [README](README.md)
 
-1. [Introduction](Documentation\Introduction.md)
-2. [Command Line Values](Documentation\CommandLine.md)
-3. [Custom Sources Including Databases](Documentation\CustomSources.md)
+1. [Introduction](Documentation/Introduction.md)
+2. [Command Line Values](Documentation/CommandLine.md)
+3. [Custom Sources Including Databases](Documentation/CustomSources.md)
 
 ## Description
 
