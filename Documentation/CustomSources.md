@@ -6,6 +6,8 @@
 2. [Command Line Values](CommandLine.md)
 3. [Custom Sources Including Databases](CustomSources.md)
 4. [Validators and Coercers](ValidatorsAndCoercers.md)
+5. [Dependency Injection](DependencyInjection.md)
+
 
 ## Custom Sources
 
@@ -102,6 +104,9 @@ Now our config object will implement the main config interface. But we're going 
 
 ```csharp
 
+public class MyConfig: IMyConfig
+{
+
     public int MaxThingCount { get { return Get<int>(); } }        
     public string DatabaseConectionString { get { return Get<string>(); } }        
     public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
@@ -125,6 +130,8 @@ Now our config object will implement the main config interface. But we're going 
         )
     {
     }
+}
+
 
 ```
 
