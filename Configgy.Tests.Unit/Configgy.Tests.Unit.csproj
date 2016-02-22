@@ -61,6 +61,8 @@
     <Compile Include="Coercion\ClassWithNoDefaultConstructor.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttributeTests.cs" />
     <Compile Include="Coercion\TypeCoercerTests.cs" />
+    <Compile Include="Source\ConnectionStringSourceTests.cs" />
+    <Compile Include="Source\AppSettingSourceTests.cs" />
     <Compile Include="Source\CommandLineSourceTests.cs" />
     <Compile Include="Source\ConfigWrapperWithPropertyWithDefaultValueAttribute.cs" />
     <Compile Include="Source\DefaultValueAttributeSourceTests.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Validation\NumericishValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
