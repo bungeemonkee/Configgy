@@ -94,6 +94,35 @@ namespace Configgy.Tests.Unit
         }
 
         [TestMethod]
+        public void Get_Calls_Source_GetRawValue_Validator_Validate_But_Skips_Coercer_Coerce_When_Callback_Invoked_For_String()
+        {
+            const string name = "__value__";
+
+            var expected = "bananas";
+            var cache = new TestingCache();
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(s => s.GetRawValue(name, null))
+                .Returns(expected);
+
+            var validatorMock = new Mock<IValueValidator>();
+            validatorMock.Setup(s => s.Validate<string>(expected, name, null));
+
+            var coercerMock = new Mock<IValueCoercer>();
+            coercerMock.Setup(c => c.CoerceTo<string>(expected, name, null))
+                .Returns(expected);
+
+            var config = new ConfigWrapper<string>(cache, sourceMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result = config.Get_Wrapper(name);
+
+            sourceMock.Verify(s => s.GetRawValue(name, null), Times.Once);
+            validatorMock.Verify(v => v.Validate<string>(expected, name, null), Times.Once);
+            coercerMock.Verify(c => c.CoerceTo<string>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>()), Times.Never);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void Get_Calls_Source_GetRawValue_Validator_Validate_And_Coercer_Coerce_When_Callback_Invoked_Via_Property()
         {
             const string name = ConfigWrapper<int>.ThePropertyName;

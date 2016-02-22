@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Configgy.Validation;
 using Configgy.Coercion;
+using System;
 
 namespace Configgy
 {
@@ -15,6 +16,8 @@ namespace Configgy
     /// </summary>
     public abstract class Config
     {
+        private static readonly Type StringType = typeof(string);
+
         private readonly IValueCache _cache;
         private readonly IValueSource _source;
         private readonly IValueValidator _validator;
@@ -97,12 +100,16 @@ namespace Configgy
             // Validate the value
             _validator.Validate<T>(value, valueName, property);
 
+            // optimization: skip coercion for string values
+            var type = typeof(T);
+            if (type == StringType) return value;
+
             // Coerce the value
             var result = _coercer.CoerceTo<T>(value, valueName, property);
             if (result == null)
             {
                 // Throw an exception informing the user of the failed coercion
-                throw new CoercionException(value, valueName, typeof(T), property);
+                throw new CoercionException(value, valueName, type, property);
             }
 
             // Return the result
