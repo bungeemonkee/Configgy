@@ -10,27 +10,34 @@
 
 Configgy is designed to be easy to use (and extend). At its core there is only one class (`Configgy.Config`) which contains one main method (`Get<T>(string)`). The `Config` class is an abstract base class intended to be sub-classed to contain all the properties used as configuration inputs for your program. That would look something like this:
 
-    using System;
-    using Configgy;
-    
-    public class MyConfig: Config, IMyConfig {   
-        public int MaxThingCount { Get<int>(); }        
-        public string DatabaseConectionString { Get<string>(); }        
-        public DateTime WhenToShutdown { Get<DateTime>(); }
-    }
+```csharp
+
+using System;
+using Configgy;
+
+public class MyConfig: Config, IMyConfig
+{   
+    public int MaxThingCount { Get<int>(); }        
+    public string DatabaseConectionString { Get<string>(); }        
+    public DateTime WhenToShutdown { Get<DateTime>(); }
+}
+
+```
 
 And that's it!
 
 Using this in a console program might look like this:
 
-    public void Main(string[] args)
-    {
-        var config = new MyConfig();
-        var logic = new MyLogicClass(config);
-        logic.DoSomething();
-    }
+```csharp
 
-### Explanation
+public void Main(string[] args)
+{
+    var config = new MyConfig();
+    var logic = new MyLogicClass(config);
+    logic.DoSomething();
+}
+
+```
 
 First, note the use of an interface (`IMyConfig`). This is just highly recommended so you can test anything that uses these properties such as the `MyLogicClass` in the above example.
 
