@@ -11,8 +11,10 @@ namespace Configgy.Source
             if (property == null) return null;
 
             return property
-                .GetCustomAttributes<DefaultValueAttribute>()
+                .GetCustomAttributes(true)
+                .OfType<DefaultValueAttribute>()
                 .Select(a => a.Value as string)
+                .Where(v => !string.IsNullOrEmpty(v))
                 .FirstOrDefault();
         }
     }

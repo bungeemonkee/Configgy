@@ -13,9 +13,44 @@ namespace Configgy.Validation
         private readonly IDictionary<Type, IValueValidator> _validatorsByType;
 
         public AggregateValidator()
+            : this(GetDefaultValidatorsByType())
+        {
+        }
+
+        public AggregateValidator(IDictionary<Type, IValueValidator> validatorsByType)
         {
             // Add type-based validators
-            _validatorsByType = new Dictionary<Type, IValueValidator>
+            _validatorsByType = validatorsByType;
+        }
+
+        public void Validate<T>(string value, string valueName, PropertyInfo property)
+        {
+            // Get the validator for the expected type
+            IValueValidator typeValidator;
+            if (_validatorsByType.TryGetValue(typeof(T), out typeValidator))
+            {
+                // Validate based strictly on the type
+                typeValidator.Validate<T>(value, valueName, property);
+            }
+
+            // If there is no property then return
+            if (property == null) return;
+
+            // Get any validators from the property attributes
+            var propertyValidators = property
+                .GetCustomAttributes(true)
+                .OfType<IValueValidator>();
+
+            // Use each property attribute validator to validate the value
+            foreach (var validator in propertyValidators)
+            {
+                validator.Validate<T>(value, valueName, property);
+            }
+        }
+
+        private static IDictionary<Type, IValueValidator> GetDefaultValidatorsByType()
+        {
+            return new Dictionary<Type, IValueValidator>
             {
                 [typeof(byte)] = new ByteValidatorAttribute(),
                 [typeof(char)] = new CharValidatorAttribute(),
@@ -32,31 +67,6 @@ namespace Configgy.Validation
                 [typeof(ulong)] = new ULongValidatorAttribute(),
                 [typeof(ushort)] = new UShortValidatorAttribute()
             };
-        }
-
-        public void Validate<T>(string value, string valueName, PropertyInfo property)
-        {
-            // Get the validator for the expected type
-            IValueValidator typeValidator;
-            if (_validatorsByType.TryGetValue(property.PropertyType, out typeValidator))
-            {
-                // Validate based strictly on the type
-                typeValidator.Validate<T>(value, valueName, property);
-            }
-
-            // If there is no property then return
-            if (property == null) return;
-
-            // Get any validators from the property attributes
-            var propertyValidators = property
-                .GetCustomAttributes()
-                .OfType<IValueValidator>();
-
-            // Use each property attribute validator to validate the value
-            foreach (var validator in propertyValidators)
-            {
-                validator.Validate<T>(value, valueName, property);
-            }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Configgy.Coercion
             var propertyCoercers = property == null
                 ? Enumerable.Empty<IValueCoercer>()
                 : property
-                .GetCustomAttributes()
+                .GetCustomAttributes(true)
                 .OfType<IValueCoercer>();
 
             return propertyCoercers

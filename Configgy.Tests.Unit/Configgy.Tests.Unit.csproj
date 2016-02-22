@@ -74,6 +74,7 @@
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AggregateSourceTests.cs" />
+    <Compile Include="Validation\AggregateValidatorTests.cs" />
     <Compile Include="Validation\RegexValidatorTests.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />
     <Compile Include="Validation\ULongValidatorTests.cs" />
