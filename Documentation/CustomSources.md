@@ -5,6 +5,7 @@
 1. [Introduction](Introduction.md)
 2. [Command Line Values](CommandLine.md)
 3. [Custom Sources Including Databases](CustomSources.md)
+4. [Validators and Coercers](ValidatorsAndCoercers.md)
 
 ## Custom Sources
 
