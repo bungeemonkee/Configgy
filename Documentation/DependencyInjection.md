@@ -248,4 +248,4 @@ public IContainer GetContainer()
 
 ```
 
-This registers a callback that first creates out bootstrapping version of MyConfig using the default controller then passes that into the second constructor of MyConfig to create a full version of our config object. That full version is what is returned. And when the program runs the `Validate()` method and later uses the configuration inside the logic class it is only ever aware of the full configuration object. Note that the logic class here is also being returned from the IoC. In this way it it getting the config instance injected to it automatically.
+This registers a callback that first creates out bootstrapping version of MyConfig using the default controller then passes that into the second constructor of MyConfig to create a full version of our config object. That full version is what is returned. And when the program runs the `Validate()` method and later uses the configuration inside the logic class it is only ever aware of the full configuration object. Note that the logic class here is also being returned from the IoC. In this way it is getting the config instance injected to it automatically.
