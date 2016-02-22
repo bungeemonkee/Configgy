@@ -46,6 +46,7 @@ And then we change the program like this:
 public void Main(string[] args)
 {
     var config = new MyConfig(args);
+    config.Validate();
     var logic = new MyLogicClass(config);
     logic.DoSomething();
 }
@@ -68,7 +69,7 @@ The intended use here is for developers writing back-end processes or tools for 
   * A constructor parameter :|
   * An attribute you can apply to the properties you want to be override-able :)
 
-The you'll have to change your configuration class to use the new source like this:
+Once you have your own implementation of [`IValueCoercer`](../Configgy/Coercion/IValueCoercer.cs) you'll have to change your configuration class to use the new source like this:
 
 ```csharp
 
@@ -82,9 +83,9 @@ using Configgy.Validation;
 public class MyConfig: Config, IMyConfig
 {
 
-    public int MaxThingCount { Get<int>(); }        
-    public string DatabaseConectionString { Get<string>(); }        
-    public DateTime WhenToShutdown { Get<DateTime>(); }
+    public int MaxThingCount { get { return Get<int>(); }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
     
     public MyConfig(string[] commandLine)
         : base (
@@ -105,4 +106,4 @@ public class MyConfig: Config, IMyConfig
 
 ```
 
-Really all this is doing is overriding the default value source for your config class to a new one that uses your overridden command line source class. To really understand this you should look into the constructors for [`Config`](../Configgy/Config.cs) and [`AggregateValueSource`](../Configgy/Config.cs).
+Really all this is doing is overriding the default value source for your config class to a new one that uses your overridden command line source class. To really understand this you should look at the constructors for [`Config`](../Configgy/Config.cs) and [`AggregateValueSource`](../Configgy/Config.cs).

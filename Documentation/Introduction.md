@@ -17,9 +17,9 @@ using Configgy;
 
 public class MyConfig: Config, IMyConfig
 {   
-    public int MaxThingCount { Get<int>(); }        
-    public string DatabaseConectionString { Get<string>(); }        
-    public DateTime WhenToShutdown { Get<DateTime>(); }
+    public int MaxThingCount { get { return Get<int>(); } }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
 }
 
 ```
@@ -33,6 +33,7 @@ Using this in a console program might look like this:
 public void Main(string[] args)
 {
     var config = new MyConfig();
+    config.Validate();
     var logic = new MyLogicClass(config);
     logic.DoSomething();
 }
