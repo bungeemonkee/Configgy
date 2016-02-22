@@ -58,7 +58,7 @@ We'll need a simple interface for our bootstrap configuration. This will only co
 
 public interface IMyBootstrapConfig
 {
-    string DatabaseConectionString { public get; }
+    string DatabaseConectionString { get; }
 }
 
 

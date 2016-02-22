@@ -47,6 +47,7 @@ public void Main(string[] args)
 {
     var config = new MyConfig(args);
     config.Validate();
+    
     var logic = new MyLogicClass(config);
     logic.DoSomething();
 }
@@ -59,17 +60,17 @@ So we've added a new constructor to `MyConfig` that simply passes the command li
 
 Now we can override any config value on the command line by using the `/c` or `/config` command line switch like this: `MyProgram.exe /config:MaxThingCount=25`. This way we could have a default value of 50 for MaxThingCount in the app.config, a value configured in the environment of 15, and still override both of those values on the command line.
 
-Generally speaking this should not be used as the sole command line parser for programs which require user input with every run. This should be used in the exceptional case where  configured value needs to be overridden.
+Generally speaking this should not be used as the sole command line parser for programs which require user input with every run. This should be used in the exceptional case where  a configured value needs to be overridden.
 
 ### Advanced: Restricting Command Line Overriding
 
-The intended use here is for developers writing back-end processes or tools for their own use (that's my primary use case). In which case being able to override any config value is really useful. But if you want to distribute a program that allows command line overrides to users but restricts which values they can override you should have a look at the source for [`CommandLineSource`](../Configgy/Source/CommandLineSource.cs). You can add a list of allowed override properties to this class in several ways:
+The intended use here is for developers writing back-end processes or tools for their own use (that's my primary use case). In which case being able to override any config value is really useful. But if you want to distribute a program that provides command line overrides to users but restricts which values they can override you should have a look at the source for [`CommandLineSource`](../Configgy/Source/CommandLineSource.cs). You can add a list of allowed override properties to this class in several ways:
 
   * A hard coded list :(
   * A constructor parameter :|
   * An attribute you can apply to the properties you want to be override-able :)
 
-Once you have your own implementation of [`IValueCoercer`](../Configgy/Coercion/IValueCoercer.cs) you'll have to change your configuration class to use the new source like this:
+Once you have your own implementation of [`IValueCoercer`](../Configgy/Coercion/IValueCoercer.cs) based on [`CommandLineSource`](../Configgy/Source/CommandLineSource.cs) you'll have to change your configuration class to use the new source like this:
 
 ```csharp
 

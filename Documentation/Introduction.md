@@ -34,6 +34,7 @@ public void Main(string[] args)
 {
     var config = new MyConfig();
     config.Validate();
+    
     var logic = new MyLogicClass(config);
     logic.DoSomething();
 }

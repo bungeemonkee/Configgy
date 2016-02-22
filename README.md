@@ -30,7 +30,7 @@ Here are a bunch of things supported by Configgy out of the box:
 * Strongly typed configurations including complex objects
     * Any value type you can imagine including enums, numerics, DateTime, TimeSpan and strings
     * JSON for complex objects (preferred)
-    * XML for complex objects (not reccomended but it works)
+    * XML for complex objects (not recommended but it works)
 * Configuration sources
     * App setting entries in a web/app config
     * Connection string entries in a web/app config
@@ -52,7 +52,7 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 * Pull your configuration values from any database, web service or other source you can imagine
 * Add your own validators to prevent/allow only certain enum values, strings, or complex object values
 * Write your own value source to change the command line configuration option syntax if you don't like the kick-ass one I came up with
-* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of System.Runtime.Caching.MemoryCache
+* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of `System.Runtime.Caching.MemoryCache`
 * Coerce values into the wrong types to annoy your coworkers!
 
 ## TODO
@@ -61,7 +61,7 @@ So far this is like really really pre-alpha but it is tehcnically feature-comple
 
 * Inline documentation
 * Reference documentation and code samples
-    * Using with dependency injection - refernce the database example for an advanced section
+    * Using with dependency injection - reference the database example for an advanced section
     * Writing validators (as properties)
     * Writing coercers (as properties)
 * Simple CSV list coercer property attribute
