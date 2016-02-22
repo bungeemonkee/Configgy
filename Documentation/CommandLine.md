@@ -106,4 +106,4 @@ public class MyConfig: Config, IMyConfig
 
 ```
 
-Really all this is doing is overriding the default value source for your config class to a new one that uses your overridden command line source class. To really understand this you should look at the constructors for [`Config`](../Configgy/Config.cs) and [`AggregateValueSource`](../Configgy/Config.cs).
+Really all this is doing is overriding the default value source for your config class to a new one that uses your overridden command line source class. To really understand this you should look at the constructors for [`Config`](../Configgy/Config.cs) and [`AggregateValueSource`](../Configgy/Source/AggregateValueSource.cs).
