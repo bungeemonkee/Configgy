@@ -13,7 +13,7 @@ The basic design of Configgy boils down to a few key points:
   * Get configuration values from anywhere. (Easily extensible configuration sources.)
   * Validate any configuration value in any way. (Easily extensible configuration validators.)
   * Support any strongly typed configuration value, including complex objects! (Easily extensible configuration type coercers.)
-  * Test all the things! (Modular/testable design. Current unit test coverage above 90%)
+  * Test all the things! (Modular/testable design. Current unit test coverage above 98%)
 
 ## Features
 
