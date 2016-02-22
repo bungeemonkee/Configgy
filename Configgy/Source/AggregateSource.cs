@@ -12,7 +12,7 @@ namespace Configgy.Source
 
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
-                  new ConectionStringsValueSource(),
+                  new ConectionStringsSource(),
                   new AppSettingSource(),
                   new DefaultValueAttributeSource())
         {
@@ -21,7 +21,7 @@ namespace Configgy.Source
         public AggregateSource(string[] commandLine)
             : this(new CommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
-                  new ConectionStringsValueSource(),
+                  new ConectionStringsSource(),
                   new AppSettingSource(),
                   new DefaultValueAttributeSource())
         {

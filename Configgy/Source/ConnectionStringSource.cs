@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Configgy.Source
 {
-    public class ConectionStringsValueSource : IValueSource
+    public class ConectionStringsSource : IValueSource
     {
         public string GetRawValue(string valueName, PropertyInfo property)
         {
