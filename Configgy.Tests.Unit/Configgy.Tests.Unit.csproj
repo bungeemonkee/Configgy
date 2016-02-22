@@ -58,6 +58,7 @@
     <Compile Include="Cache\DictionaryCacheTests.cs" />
     <Compile Include="Cache\TestingCache.cs" />
     <Compile Include="Coercion\AggregateValueCoercerTests.cs" />
+    <Compile Include="Coercion\TypeCoercerTests.cs" />
     <Compile Include="Source\CommandLineValueSourceTests.cs" />
     <Compile Include="Source\ConfigWrapperWithPropertyWithDefaultValueAttribute.cs" />
     <Compile Include="Source\DefaultValueAttributeValueSourceTests.cs" />

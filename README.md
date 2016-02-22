@@ -53,6 +53,5 @@ So far this is like really really pre-alpha but it is tehcnically feature-comple
 
   * Inline documentation
   * Reference documentation and code samples
-  * Add support for Type objects as configuration values
   * Optiization for string values: skip coercion
   * Simple CSV list coercer property attribute

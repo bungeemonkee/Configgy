@@ -11,7 +11,7 @@ namespace Configgy.Coercion
         private readonly IValueCoercer[] _coercers;
 
         public AggregateValueCoercer()
-            : this(new GeneralCoercer())
+            : this(new GeneralCoercer(), new TypeCoercer())
         {
         }
 
