@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Configgy.Source
 {
-    public class DefaultValueAttributeValueSource : IValueSource
+    public class DefaultValueAttributeSource : IValueSource
     {
         public string GetRawValue(string valueName, PropertyInfo property)
         {

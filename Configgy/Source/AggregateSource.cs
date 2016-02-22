@@ -6,28 +6,28 @@ namespace Configgy.Source
     /// <summary>
     /// A value source that aggregates multiple other value sources.
     /// </summary>
-    public class AggregateValueSource : IValueSource
+    public class AggregateSource : IValueSource
     {
         private readonly IValueSource[] _sources;
 
-        public AggregateValueSource()
-            : this(new EnvironmentVariableValueSource(),
+        public AggregateSource()
+            : this(new EnvironmentVariableSource(),
                   new ConectionStringsValueSource(),
-                  new AppSettingValueSource(),
-                  new DefaultValueAttributeValueSource())
+                  new AppSettingSource(),
+                  new DefaultValueAttributeSource())
         {
         }
 
-        public AggregateValueSource(string[] commandLine)
-            : this(new CommandLineValueSource(commandLine),
-                  new EnvironmentVariableValueSource(),
+        public AggregateSource(string[] commandLine)
+            : this(new CommandLineSource(commandLine),
+                  new EnvironmentVariableSource(),
                   new ConectionStringsValueSource(),
-                  new AppSettingValueSource(),
-                  new DefaultValueAttributeValueSource())
+                  new AppSettingSource(),
+                  new DefaultValueAttributeSource())
         {
         }
 
-        public AggregateValueSource(params IValueSource[] sources)
+        public AggregateSource(params IValueSource[] sources)
         {
             _sources = sources;
         }

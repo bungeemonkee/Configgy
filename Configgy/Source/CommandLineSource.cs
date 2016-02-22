@@ -6,14 +6,14 @@ using System.Text.RegularExpressions;
 
 namespace Configgy.Source
 {
-    public class CommandLineValueSource : IValueSource
+    public class CommandLineSource : IValueSource
     {
         private const string CommandLineParameterRegexValue = @"^/c(onfig)?:(?<name>[a-z][a-z0-9]*)=(?<value>.+)$";
         private static readonly Regex CommandLineParameterRegex = new Regex(CommandLineParameterRegexValue, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
         private readonly IReadOnlyDictionary<string, string> _values;
 
-        public CommandLineValueSource(string[] commandLine)
+        public CommandLineSource(string[] commandLine)
         {
             // parse all the command line parameters and save any matching lines into the dictionary
             _values = commandLine.Select(c => CommandLineParameterRegex.Match(c))

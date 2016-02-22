@@ -8,11 +8,11 @@ namespace Configgy.Validation
     /// <summary>
     /// A validator that actually aggregates other validators by type and from property attributes.
     /// </summary>
-    public class AggregateValueValidator : IValueValidator
+    public class AggregateValidator : IValueValidator
     {
         private readonly IDictionary<Type, IValueValidator> _validatorsByType;
 
-        public AggregateValueValidator()
+        public AggregateValidator()
         {
             // Add type-based validators
             _validatorsByType = new Dictionary<Type, IValueValidator>

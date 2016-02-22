@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Cache\IValueCache.cs" />
     <Compile Include="Cache\DictionaryCache.cs" />
-    <Compile Include="Coercion\AggregateValueCoercer.cs" />
+    <Compile Include="Coercion\AggregateCoercer.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttribute.cs" />
     <Compile Include="Coercion\TypeCoercer.cs" />
     <Compile Include="Coercion\GeneralCoercer.cs" />
@@ -59,13 +59,13 @@
     <Compile Include="Exceptions\ConfigValidationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\CommandLineValueSource.cs" />
-    <Compile Include="Source\ConnectionStringValueSource.cs" />
-    <Compile Include="Source\AppSettingValueSource.cs" />
-    <Compile Include="Source\DefaultValueAttributeValueSource.cs" />
-    <Compile Include="Source\EnvironmentVariableValueSource.cs" />
+    <Compile Include="Source\CommandLineSource.cs" />
+    <Compile Include="Source\ConnectionStringSource.cs" />
+    <Compile Include="Source\AppSettingSource.cs" />
+    <Compile Include="Source\DefaultValueAttributeSource.cs" />
+    <Compile Include="Source\EnvironmentVariableSource.cs" />
     <Compile Include="Source\IValueSource.cs" />
-    <Compile Include="Source\AggregateValueSource.cs" />
+    <Compile Include="Source\AggregateSource.cs" />
     <Compile Include="Validation\INumericishValidator.cs" />
     <Compile Include="Validation\RegexValidator.cs" />
     <Compile Include="Validation\UShortValidatorAttribute.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Validation\ShortValidatorAttribute.cs" />
     <Compile Include="Validation\IntValidatorAttribute.cs" />
     <Compile Include="Validation\IValueValidator.cs" />
-    <Compile Include="Validation\AggregateValueValidator.cs" />
+    <Compile Include="Validation\AggregateValidator.cs" />
     <Compile Include="Validation\ValueValidatorAttributeBase.cs" />
   </ItemGroup>
   <ItemGroup>

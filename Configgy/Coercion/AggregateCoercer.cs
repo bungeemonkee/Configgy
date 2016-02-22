@@ -6,16 +6,16 @@ namespace Configgy.Coercion
     /// <summary>
     /// A value coercer that simply aggregates the results from multiple other value coercers.
     /// </summary>
-    public class AggregateValueCoercer : IValueCoercer
+    public class AggregateCoercer : IValueCoercer
     {
         private readonly IValueCoercer[] _coercers;
 
-        public AggregateValueCoercer()
+        public AggregateCoercer()
             : this(new GeneralCoercer(), new TypeCoercer())
         {
         }
 
-        public AggregateValueCoercer(params IValueCoercer[] coercers)
+        public AggregateCoercer(params IValueCoercer[] coercers)
         {
             _coercers = coercers;
         }

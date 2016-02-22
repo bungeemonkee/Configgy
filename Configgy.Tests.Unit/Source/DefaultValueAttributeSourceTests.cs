@@ -14,7 +14,7 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void GetRawValue_Returns_Null_When_No_PropertyInfo()
         {
-            var source = new DefaultValueAttributeValueSource();
+            var source = new DefaultValueAttributeSource();
 
             var result = source.GetRawValue("something", null);
 
@@ -30,7 +30,7 @@ namespace Configgy.Tests.Unit.Coercion
             var expectedValue = 1;
             var cache = new TestingCache();
 
-            var source = new DefaultValueAttributeValueSource();
+            var source = new DefaultValueAttributeSource();
 
             var validatorMock = new Mock<IValueValidator>();
             validatorMock.Setup(s => s.Validate<int>(expectedRaw, name, It.IsAny<PropertyInfo>()));

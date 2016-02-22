@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
-    public class AggregateValueSourceTests
+    public class AggregateSourceTests
     {
         [TestMethod]
         public void GetRawValue_Returns_Value_From_First_Source_Without_Invoking_Second_Source()
@@ -20,7 +20,7 @@ namespace Configgy.Tests.Unit.Source
 
             var sourceMock2 = new Mock<IValueSource>();
 
-            var source = new AggregateValueSource(sourceMock1.Object, sourceMock2.Object);
+            var source = new AggregateSource(sourceMock1.Object, sourceMock2.Object);
 
             var result = source.GetRawValue(name, null);
 
@@ -43,7 +43,7 @@ namespace Configgy.Tests.Unit.Source
             coercerMock2.Setup(c => c.GetRawValue(name, null))
                 .Returns(value);
 
-            var source = new AggregateValueSource(coercerMock1.Object, coercerMock2.Object);
+            var source = new AggregateSource(coercerMock1.Object, coercerMock2.Object);
 
             var result = source.GetRawValue(name, null);
 

@@ -1,13 +1,13 @@
-﻿using System.Configuration;
+﻿using System;
 using System.Reflection;
 
 namespace Configgy.Source
 {
-    public class AppSettingValueSource : IValueSource
+    public class EnvironmentVariableSource : IValueSource
     {
         public string GetRawValue(string valueName, PropertyInfo property)
         {
-            return ConfigurationManager.AppSettings[valueName] as string;
+            return Environment.GetEnvironmentVariable(valueName);
         }
     }
 }

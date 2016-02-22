@@ -9,7 +9,7 @@ using System.Reflection;
 namespace Configgy.Tests.Unit.Coercion
 {
     [TestClass]
-    public class AggregateValueCoercerTests
+    public class AggregateCoercerTests
     {
         [TestMethod]
         public void CoerceTo_Returns_Value_From_First_Coercer_Without_Invoking_Second_Coercer()
@@ -24,7 +24,7 @@ namespace Configgy.Tests.Unit.Coercion
 
             var coercerMock2 = new Mock<IValueCoercer>();
 
-            var coercer = new AggregateValueCoercer(coercerMock1.Object, coercerMock2.Object);
+            var coercer = new AggregateCoercer(coercerMock1.Object, coercerMock2.Object);
 
             var result = coercer.CoerceTo<int>(value, name, null);
 
@@ -48,7 +48,7 @@ namespace Configgy.Tests.Unit.Coercion
             coercerMock2.Setup(c => c.CoerceTo<int>(value, name, null))
                 .Returns(expected);
 
-            var coercer = new AggregateValueCoercer(coercerMock1.Object, coercerMock2.Object);
+            var coercer = new AggregateCoercer(coercerMock1.Object, coercerMock2.Object);
 
             var result = coercer.CoerceTo<int>(value, name, null);
 
@@ -74,7 +74,7 @@ namespace Configgy.Tests.Unit.Coercion
 
             var coercerMock = new Mock<IValueCoercer>();
 
-            var coercer = new AggregateValueCoercer(coercerMock.Object);
+            var coercer = new AggregateCoercer(coercerMock.Object);
 
             var config = new ConfigWrapperWithPropertyWithCoercerProperty<int[]>(cache, sourceMock.Object, validatorMock.Object, coercer);
 

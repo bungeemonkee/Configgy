@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
-    public class CommandLineValueSourceTests
+    public class CommandLineSourceTests
     {
         [TestMethod]
         public void GetRawValue_Incudes_The_C_Switch()
@@ -13,7 +13,7 @@ namespace Configgy.Tests.Unit.Source
             const string value = "Blah";
             var commandLine = new string[] { "/c:Testing=Blah" };
 
-            var source = new CommandLineValueSource(commandLine);
+            var source = new CommandLineSource(commandLine);
 
             var result = source.GetRawValue(name, null);
 
@@ -27,7 +27,7 @@ namespace Configgy.Tests.Unit.Source
             const string value = "Blah";
             var commandLine = new string[] { "/config:Testing=Blah" };
 
-            var source = new CommandLineValueSource(commandLine);
+            var source = new CommandLineSource(commandLine);
 
             var result = source.GetRawValue(name, null);
 
@@ -41,7 +41,7 @@ namespace Configgy.Tests.Unit.Source
             const string value = "Blah";
             var commandLine = new string[] { "/lol:Testing=Blah" };
 
-            var source = new CommandLineValueSource(commandLine);
+            var source = new CommandLineSource(commandLine);
 
             var result = source.GetRawValue(name, null);
 
