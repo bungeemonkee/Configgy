@@ -64,14 +64,12 @@
     <Compile Include="Source\ConnectionStringSourceTests.cs" />
     <Compile Include="Source\AppSettingSourceTests.cs" />
     <Compile Include="Source\CommandLineSourceTests.cs" />
-    <Compile Include="Source\ConfigWrapperWithPropertyWithDefaultValueAttribute.cs" />
     <Compile Include="Source\DefaultValueAttributeSourceTests.cs" />
     <Compile Include="Coercion\GeneralCoercerTests.cs" />
     <Compile Include="Coercion\JsonCoercerTests.cs" />
     <Compile Include="Coercion\XmlCoercerTests.cs" />
     <Compile Include="ConfigExtensionsTests.cs" />
     <Compile Include="ConfigTests.cs" />
-    <Compile Include="Coercion\ConfigWrapperWithPropertyWithCoercerAttribute.cs" />
     <Compile Include="ConfigWrapperWithNoProperties.cs" />
     <Compile Include="ConfigWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

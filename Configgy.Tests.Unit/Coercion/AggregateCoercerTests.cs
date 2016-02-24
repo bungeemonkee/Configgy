@@ -1,7 +1,4 @@
 ﻿using Configgy.Coercion;
-using Configgy.Source;
-using Configgy.Tests.Unit.Cache;
-using Configgy.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Reflection;
@@ -60,28 +57,28 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void CoerceTo_Returns_Value_From_Property_Coercer_Attribute_Without_Invoking_CoerceTo_On_Other_Coercers()
         {
-            const string name = ConfigWrapperWithPropertyWithCoercerProperty<int[]>.ThePropertyName;
-            const string value = "[1,2,5]";
-            var expected = new int[] { 1, 2, 5 };
+            const string name = "name";
+            const string value = "1";
+            const int expected = 1;
+            
+            var coercerMock1 = new Mock<IValueCoercer>();
+            coercerMock1.Setup(c => c.CoerceTo<int>(value, name, It.IsAny<PropertyInfo>()))
+                .Returns(expected);
 
-            var cache = new TestingCache();
+            var coercerMock2 = new Mock<IValueCoercer>();
 
-            var sourceMock = new Mock<IValueSource>();
-            sourceMock.Setup(s => s.GetRawValue(name, It.IsAny<PropertyInfo>()))
-                .Returns(value);
+            var propertyInfoMock = new Mock<PropertyInfo>();
+            propertyInfoMock.Setup(p => p.GetCustomAttributes(true))
+                .Returns(() => new object[] { coercerMock1.Object });
 
-            var validatorMock = new Mock<IValueValidator>();
+            var coercer = new AggregateCoercer(coercerMock2.Object);
 
-            var coercerMock = new Mock<IValueCoercer>();
+            var result = (int)coercer.CoerceTo<int>(value, name, propertyInfoMock.Object);
 
-            var coercer = new AggregateCoercer(coercerMock.Object);
-
-            var config = new ConfigWrapperWithPropertyWithCoercerProperty<int[]>(cache, sourceMock.Object, validatorMock.Object, coercer);
-
-            var result = config.TheProperty;
-
-            coercerMock.Verify(c => c.CoerceTo<int[]>(value, name, null), Times.Never);
-            CollectionAssert.AreEqual(expected, result);
+            propertyInfoMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+            coercerMock1.Verify(c => c.CoerceTo<int>(value, name, propertyInfoMock.Object), Times.Once);
+            coercerMock2.Verify(c => c.CoerceTo<int>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>()), Times.Never);
+            Assert.AreEqual(expected, result);
         }
     }
 }

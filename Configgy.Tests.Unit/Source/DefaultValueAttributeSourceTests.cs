@@ -1,9 +1,7 @@
-﻿using Configgy.Coercion;
-using Configgy.Source;
-using Configgy.Tests.Unit.Cache;
-using Configgy.Validation;
+﻿using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Configgy.Tests.Unit.Coercion
@@ -24,28 +22,24 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void GetRawValue_Returns_Value_From_DefaultValueAttribute()
         {
-            const string name = ConfigWrapperWithPropertyWithefaultValueAttribute<int>.ThePropertyName;
+            const string name = "name";
+            const string value = "1";
 
-            var expectedRaw = "1";
-            var expectedValue = 1;
-            var cache = new TestingCache();
+            var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
+            defaultValueAttributeMock.SetupGet(d => d.Value)
+                .Returns(value);
+
+            var propertyInfoMock = new Mock<PropertyInfo>();
+            propertyInfoMock.Setup(p => p.GetCustomAttributes(true))
+                .Returns(() => new object[] { defaultValueAttributeMock.Object });
 
             var source = new DefaultValueAttributeSource();
 
-            var validatorMock = new Mock<IValueValidator>();
-            validatorMock.Setup(s => s.Validate<int>(expectedRaw, name, It.IsAny<PropertyInfo>()));
+            var result = source.GetRawValue(name, propertyInfoMock.Object);
 
-            var coercerMock = new Mock<IValueCoercer>();
-            coercerMock.Setup(c => c.CoerceTo<int>(expectedRaw, name, It.IsAny<PropertyInfo>()))
-                .Returns(expectedValue);
-
-            var config = new ConfigWrapperWithPropertyWithefaultValueAttribute<int>(cache, source, validatorMock.Object, coercerMock.Object);
-
-            var result = config.TheProperty;
-            
-            validatorMock.Verify(v => v.Validate<int>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
-            coercerMock.Verify(c => c.CoerceTo<int>(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
-            Assert.AreEqual(expectedValue, result);
+            defaultValueAttributeMock.VerifyGet(d => d.Value, Times.Once);
+            propertyInfoMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+            Assert.AreEqual(value, result);
         }
     }
 }
