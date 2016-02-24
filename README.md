@@ -17,6 +17,10 @@ A simple, powerful, extensible, testable .NET configuration library.
 
 Configgy is the last .NET configuration library you'll ever need. It is designed to support configuration values coming from any source, with any kind of validation, and then expose it all as strong types - even complex types like lists, dictionaries, or general .NET objects.
 
+## Installation
+
+You can build from this source or you can get it from nuget here: [https://www.nuget.org/packages/Configgy](https://www.nuget.org/packages/Configgy)
+
 ## Design
 
 The basic design of Configgy boils down to a few key points:
@@ -62,6 +66,6 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 So far this is very alpha but it is technically feature-complete per the above feature list. That being said here is what's missing:
 
-* Inline documentation
+* Finish Inline documentation
 * Simple CSV list coercer property attribute
     * This could be problematic and might get cut
