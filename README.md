@@ -63,4 +63,6 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 So far this is very alpha but it is technically feature-complete per the above feature list. That being said here is what's missing:
 
 * Inline documentation
-* Simple CSV list coercer property attribute (may not be as simple as I thought at first)
+* Simple CSV list coercer property attribute
+    * This could be problematic and might get cut
+* Nuget packaging/release setup (how do I do that?)
