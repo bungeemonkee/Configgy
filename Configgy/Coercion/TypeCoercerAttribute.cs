@@ -9,9 +9,9 @@ namespace Configgy.Coercion
     /// <remarks>
     /// See the documentation for <see cref="Type.GetType(string, bool, bool)"/>.
     /// </remarks>
-    public class TypeCoercer : IValueCoercer
+    public class TypeCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
-        public object CoerceTo<T>(string value, string valueName, PropertyInfo property)
+        public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
             return Type.GetType(value, false, true);
         }

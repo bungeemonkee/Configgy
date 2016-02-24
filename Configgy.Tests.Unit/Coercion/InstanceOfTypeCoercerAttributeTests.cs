@@ -50,7 +50,7 @@ namespace Configgy.Tests.Unit.Coercion
         {
             var value = nameof(ClassWithNoDefaultConstructor);
 
-            var coercer = new TypeCoercer();
+            var coercer = new TypeCoercerAttribute();
 
             var result = coercer.CoerceTo<Type>(value, null, null);
 

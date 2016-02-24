@@ -6,9 +6,9 @@ namespace Configgy.Coercion
     /// <summary>
     /// A general purpose value coercer that operates using the <see cref="TypeConverter"/> instances from <see cref="TypeDescriptor"/>.
     /// </summary>
-    public class GeneralCoercer : IValueCoercer
+    public class GeneralCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
-        public object CoerceTo<T>(string value, string valueName, PropertyInfo property)
+        public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
             var type = typeof(T);
 

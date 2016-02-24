@@ -16,7 +16,7 @@ namespace Configgy.Tests.Unit.Coercion
         {
             const string input = "some string";
 
-            var coercer = new GeneralCoercer();
+            var coercer = new GeneralCoercerAttribute();
 
             var result = coercer.CoerceTo<string>(input, null, null);
 
@@ -29,7 +29,7 @@ namespace Configgy.Tests.Unit.Coercion
             const string input = "243";
             const int expected = 243;
 
-            var coercer = new GeneralCoercer();
+            var coercer = new GeneralCoercerAttribute();
 
             var result = coercer.CoerceTo<int>(input, null, null);
 

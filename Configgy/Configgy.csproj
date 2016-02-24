@@ -45,8 +45,8 @@
     <Compile Include="Cache\DictionaryCache.cs" />
     <Compile Include="Coercion\AggregateCoercer.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttribute.cs" />
-    <Compile Include="Coercion\TypeCoercer.cs" />
-    <Compile Include="Coercion\GeneralCoercer.cs" />
+    <Compile Include="Coercion\TypeCoercerAttribute.cs" />
+    <Compile Include="Coercion\GeneralCoercerAttribute.cs" />
     <Compile Include="Coercion\IValueCoercer.cs" />
     <Compile Include="Coercion\JsonCoercerAttribute.cs" />
     <Compile Include="Coercion\ValueCoercerAttributeBase.cs" />

@@ -13,7 +13,7 @@ namespace Configgy.Tests.Unit.Coercion
             var expected = typeof(int);
             var value = "System.Int32";
 
-            var coercer = new TypeCoercer();
+            var coercer = new TypeCoercerAttribute();
 
             var result = coercer.CoerceTo<Type>(value, null, null);
 
@@ -25,7 +25,7 @@ namespace Configgy.Tests.Unit.Coercion
         {
             var value = "System.Int365";
 
-            var coercer = new TypeCoercer();
+            var coercer = new TypeCoercerAttribute();
 
             var result = coercer.CoerceTo<Type>(value, null, null);
 
@@ -37,7 +37,7 @@ namespace Configgy.Tests.Unit.Coercion
         {
             var value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
 
-            var coercer = new TypeCoercer();
+            var coercer = new TypeCoercerAttribute();
 
             var result = coercer.CoerceTo<Type>(value, null, null);
 
