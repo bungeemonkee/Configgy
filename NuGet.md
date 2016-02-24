@@ -2,7 +2,7 @@
 
 Notes for creating and updating the nuget package
 
-# Create the package
+## Create the package
 
 To create the NuGet package:
 
@@ -16,3 +16,9 @@ To create the NuGet package:
     2. CD to the solution directory
     3. Run: `.\nuget.exe pack Configgy\Configgy.csproj -Prop Configuration=Release`
 5. Upload the package to https://www.nuget.org/packages/upload
+
+## Notes
+
+* Nuget will include the `AssemblyInformationalVersion` if it exists, but will ignore it if it includes a SemVer build version as part of the prerelease identifier
+    * This is allowed: 1.0.0-alpha1
+    * But this is not: 1.0.0-alpha.1
