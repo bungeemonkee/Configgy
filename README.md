@@ -65,4 +65,3 @@ So far this is very alpha but it is technically feature-complete per the above f
 * Inline documentation
 * Simple CSV list coercer property attribute
     * This could be problematic and might get cut
-* Nuget packaging/release setup (how do I do that?)
