@@ -30,7 +30,7 @@ namespace Configgy.Validation
             ValidValues = validValues.Select(TimeSpan.Parse).ToArray();
         }
 
-        public override void Validate<T>(string value, string valueName, PropertyInfo property)
+        public override object Validate<T>(string value, string valueName, PropertyInfo property)
         {
             var val = TimeSpan.Parse(value);
 
@@ -43,6 +43,8 @@ namespace Configgy.Validation
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
+
+            return val;
         }
     }
 }

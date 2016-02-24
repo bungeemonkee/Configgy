@@ -15,7 +15,12 @@ namespace Configgy.Validation
         /// <param name="value">The raw string value.</param>
         /// <param name="valueName">The name of the value.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
+        /// <returns>
+        ///     If the validator also coerced the value in the process of validation it may return that value upon successful validation.
+        ///     If the validator did not coerce the value but did validate successfully it should return null.
+        ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
+        /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        void Validate<T>(string value, string valueName, PropertyInfo property);
+        object Validate<T>(string value, string valueName, PropertyInfo property);
     }
 }

@@ -23,18 +23,18 @@ namespace Configgy.Validation
             _validatorsByType = validatorsByType;
         }
 
-        public void Validate<T>(string value, string valueName, PropertyInfo property)
+        public object Validate<T>(string value, string valueName, PropertyInfo property)
         {
             // Get the validator for the expected type
+            // ...validate based on the type
+            // ...and get the result
             IValueValidator typeValidator;
-            if (_validatorsByType.TryGetValue(typeof(T), out typeValidator))
-            {
-                // Validate based strictly on the type
-                typeValidator.Validate<T>(value, valueName, property);
-            }
+            var result = _validatorsByType.TryGetValue(typeof(T), out typeValidator)
+                ? typeValidator.Validate<T>(value, valueName, property)
+                : null;
 
             // If there is no property then return
-            if (property == null) return;
+            if (property == null) return result;
 
             // Get any validators from the property attributes
             var propertyValidators = property
@@ -44,8 +44,14 @@ namespace Configgy.Validation
             // Use each property attribute validator to validate the value
             foreach (var validator in propertyValidators)
             {
-                validator.Validate<T>(value, valueName, property);
+                var localResult = validator.Validate<T>(value, valueName, property);
+                if (result == null)
+                {
+                    result = localResult;
+                }
             }
+
+            return result;
         }
 
         private static IDictionary<Type, IValueValidator> GetDefaultValidatorsByType()

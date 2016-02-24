@@ -141,5 +141,15 @@ namespace Configgy.Tests.Unit.Validation
 
             validator.Validate<TNumericish>(UnParseable, null, null);
         }
+
+        [TestMethod]
+        public void NumericishValidator_Validate_Returns_Value_For_Valid_Values()
+        {
+            var validator = MakeValidator(TypeMin, TypeMax, null);
+
+            var result = validator.Validate<TNumericish>(WithinTestingRange, null, null);
+
+            Assert.IsNotNull(result);
+        }
     }
 }

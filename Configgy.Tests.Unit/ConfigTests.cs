@@ -94,6 +94,37 @@ namespace Configgy.Tests.Unit
         }
 
         [TestMethod]
+        public void Get_Calls_Source_GetRawValue_Validator_Validate_But_Not_Coercer_Coerce_When_Callback_Invoked_And_Validator_Validate_Returns_A_Value()
+        {
+            const string name = "__value__";
+
+            var expectedRaw = "1";
+            var expectedValue = 1;
+            var cache = new TestingCache();
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(s => s.GetRawValue(name, null))
+                .Returns(expectedRaw);
+
+            var validatorMock = new Mock<IValueValidator>();
+            validatorMock.Setup(s => s.Validate<int>(expectedRaw, name, null))
+                .Returns(expectedValue);
+
+            var coercerMock = new Mock<IValueCoercer>();
+            coercerMock.Setup(c => c.CoerceTo<int>(expectedRaw, name, null))
+                .Returns(expectedValue);
+
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result = config.Get_Wrapper(name);
+
+            sourceMock.Verify(s => s.GetRawValue(name, null), Times.Once);
+            validatorMock.Verify(v => v.Validate<int>(expectedRaw, name, null), Times.Once);
+            coercerMock.Verify(c => c.CoerceTo<int>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>()), Times.Never);
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void Get_Calls_Source_GetRawValue_Validator_Validate_But_Skips_Coercer_Coerce_When_Callback_Invoked_For_String()
         {
             const string name = "__value__";

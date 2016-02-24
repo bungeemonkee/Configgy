@@ -13,12 +13,14 @@ namespace Configgy.Validation
             Expression = new Regex(expression);
         }
 
-        public override void Validate<T>(string value, string valueName, PropertyInfo property)
+        public override object Validate<T>(string value, string valueName, PropertyInfo property)
         {
             if (!Expression.IsMatch(value))
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
+
+            return null;
         }
     }
 }

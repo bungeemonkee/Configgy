@@ -98,14 +98,17 @@ namespace Configgy
             }
 
             // Validate the value
-            _validator.Validate<T>(value, valueName, property);
+            var result = _validator.Validate<T>(value, valueName, property);
 
             // optimization: skip coercion for string values
             var type = typeof(T);
             if (type == StringType) return value;
 
+            // optimization: if the validator did the coercion the just return that value
+            if (result != null) return result;
+
             // Coerce the value
-            var result = _coercer.CoerceTo<T>(value, valueName, property);
+            result = _coercer.CoerceTo<T>(value, valueName, property);
             if (result == null)
             {
                 // Throw an exception informing the user of the failed coercion
@@ -113,7 +116,7 @@ namespace Configgy
             }
 
             // Return the result
-            return (T)result;
+            return result;
         }
     }
 }
