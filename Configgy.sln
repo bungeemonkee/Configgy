@@ -15,7 +15,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{AB754859-8571-4BF6-93E5-88ACCEADDBED}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\CommandLine.md = Documentation\CommandLine.md
+		Documentation\CustomSources.md = Documentation\CustomSources.md
+		Documentation\DependencyInjection.md = Documentation\DependencyInjection.md
 		Documentation\Introduction.md = Documentation\Introduction.md
+		Documentation\ValidatorsAndCoercers.md = Documentation\ValidatorsAndCoercers.md
 	EndProjectSection
 EndProject
 Global
