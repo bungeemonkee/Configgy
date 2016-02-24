@@ -10,6 +10,10 @@
     <projectUrl>https://github.com/bungeemonkee/Configgy</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
+    <summary>
+      A simple, powerful, extensible, testable .NET configuration library.
+      See the readme here: https://github.com/bungeemonkee/Configgy/blob/master/README.md
+    </summary>
     <releaseNotes>Initial alpha release.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Configgy configuration config</tags>
