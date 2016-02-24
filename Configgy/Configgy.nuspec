@@ -14,7 +14,10 @@
       A simple, powerful, extensible, testable .NET configuration library.
       See the readme here: https://github.com/bungeemonkee/Configgy/blob/master/README.md
     </summary>
-    <releaseNotes>Initial alpha release.</releaseNotes>
+    <releaseNotes>
+      Initial beta release.
+      * Switches json and xml serialization to use the DataContract interface
+    </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Configgy configuration config</tags>
   </metadata>
