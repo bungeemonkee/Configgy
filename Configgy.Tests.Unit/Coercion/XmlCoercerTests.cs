@@ -10,14 +10,14 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void XmlCoercer_CoerceTo_Works_With_Array_Of_Int()
         {
-            const string input =
-@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfInt xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+            const string input = @"
+<ArrayOfint xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
     <int>1</int>
     <int>4</int>
     <int>78</int>
     <int>222</int>
-</ArrayOfInt>";
+</ArrayOfint>
+";
 
             var expected = new int[] { 1, 4, 78, 222 };
 
@@ -31,14 +31,14 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void XmlCoercer_CoerceTo_Returns_Null_With_Invalid_Xml()
         {
-            const string input =
-@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfInt xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+            const string input = @"
+<ArrayOfint xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
     <int>1</int
     <int>4</int>
     <int>78</int>
-    <int>222</int>
-</ArrayOfInt>";
+    <int222</int>
+</ArrayOfint>
+";
 
             var coercer = new XmlCoercerAttribute();
 

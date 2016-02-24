@@ -24,7 +24,7 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void JsonCoercer_CoerceTo_Works_With_Dictionary_Of_String_String()
         {
-            const string input = "{'Banana':'Good','Apple':'Yummy','Radish':'Icky'}";
+            const string input = "{\"Banana\":\"Good\",\"Apple\":\"Yummy\",\"Radish\":\"Icky\"}";
             var expected = new Dictionary<string, string>
             {
                 ["Banana"] = "Good",

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Text;
 
 namespace Configgy.Coercion
 {
@@ -14,11 +14,11 @@ namespace Configgy.Coercion
         {
             try
             {
-                var serializer = new XmlSerializer(typeof(T));
-                using (var stream = new StringReader(value))
-                using (var reader = XmlReader.Create(stream))
+                var serializer = new DataContractSerializer(typeof(T));
+
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
                 {
-                    return serializer.Deserialize(reader);
+                    return serializer.ReadObject(stream);
                 }
             }
             catch

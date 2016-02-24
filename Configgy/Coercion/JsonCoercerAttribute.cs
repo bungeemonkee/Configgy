@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.IO;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace Configgy.Coercion
 {
@@ -8,11 +10,21 @@ namespace Configgy.Coercion
     /// </summary>
     public class JsonCoercerAttribute : ValueCoercerAttributeBase
     {
+        private static readonly DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings()
+        {
+            UseSimpleDictionaryFormat = true
+        };
+
         public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(value);
+                var serializer = new DataContractJsonSerializer(typeof(T), settings);
+
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
+                {
+                    return serializer.ReadObject(stream);
+                }
             }
             catch
             {
