@@ -39,11 +39,12 @@ Here are a bunch of things supported by Configgy out of the box:
     * JSON for complex objects (preferred)
     * XML for complex objects (not recommended but it works)
 * Configuration sources
-    * App setting entries in a web/app config
-    * Connection string entries in a web/app config
     * Command line switches (trust me this bit is swanky)
-    * System.ComponentModel.DefaultValueAttribute
     * Environment variables
+    * Files (named like the conf value you're looking for)
+    * Connection string entries in a web/app config
+    * App setting entries in a web/app config
+    * System.ComponentModel.DefaultValueAttribute
 * Validation
     * Automatic validation for all numeric types, DateTime, TimeSpan, and by regex
     * Validation of any numeric, DateTime, or TimeSpan configuration properties by min/max or valid value arrays

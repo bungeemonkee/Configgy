@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AggregateSourceTests.cs" />
     <Compile Include="Source\EnvironmentVariableSourceTests.cs" />
+    <Compile Include="Source\FileSourceTests.cs" />
     <Compile Include="Validation\AggregateValidatorTests.cs" />
     <Compile Include="Validation\RegexValidatorTests.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />
@@ -97,6 +98,15 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="TestValue3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="TestValue2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestValue1.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Configgy\Configgy.csproj">

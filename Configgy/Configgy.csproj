@@ -63,6 +63,7 @@
     <Compile Include="Source\AppSettingSource.cs" />
     <Compile Include="Source\DefaultValueAttributeSource.cs" />
     <Compile Include="Source\EnvironmentVariableSource.cs" />
+    <Compile Include="Source\FileSource.cs" />
     <Compile Include="Source\IValueSource.cs" />
     <Compile Include="Source\AggregateSource.cs" />
     <Compile Include="Validation\INumericishValidator.cs" />
