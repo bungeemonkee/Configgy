@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <projectUrl>https://github.com/bungeemonkee/Configgy</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</licenseUrl>
-    <licenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <summary>
