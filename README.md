@@ -1,5 +1,7 @@
 # Configgy
 
+![Configgy: The Last Configuration Library for .NET](https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png)
+
 A simple, powerful, extensible, testable .NET configuration library.
 
 ## Documentation
@@ -70,3 +72,7 @@ So far this is very alpha but it is technically feature-complete per the above f
 * Finish Inline documentation
 * Simple CSV list coercer property attribute
     * This could be problematic and might get cut
+
+## Thanks
+
+Thanks to Alex Bielen for the awesome logo!

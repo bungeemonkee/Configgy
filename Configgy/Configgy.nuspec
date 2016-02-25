@@ -6,8 +6,9 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/bungeemonkee/Configgy</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <summary>
