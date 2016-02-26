@@ -48,7 +48,7 @@ Here are a bunch of things supported by Configgy out of the box:
     * App setting entries in a web/app config
     * System.ComponentModel.DefaultValueAttribute
 * Validation
-    * Automatic validation for all numeric types, DateTime, TimeSpan, and by regex
+    * Automatic validation for all numeric types, DateTime, TimeSpan
     * Validation of any numeric, DateTime, or TimeSpan configuration properties by min/max or valid value arrays
     * Validation of any configuration property by regular expression
 * Caching
@@ -67,7 +67,7 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 ## TODO
 
-So far this is very alpha but it is technically feature-complete per the above feature list. That being said here is what's missing:
+So far this is in beta but it is feature-complete per the above feature list. That being said here is what's missing:
 
 * Finish Inline documentation
 * Simple CSV list coercer property attribute
