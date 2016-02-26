@@ -2,7 +2,9 @@
 
 ![Configgy: The Last Configuration Library for .NET](https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png)
 
-A simple, powerful, extensible, testable .NET configuration library.
+A simple, powerful, extensible, testable .NET configuration library. 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master)
 
 ## Documentation
 
