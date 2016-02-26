@@ -10,14 +10,14 @@ shallow_clone: true
 environment:
   COVERALLS_REPO_TOKEN:
     secure: CbB+HqPrseFu6L/FGrJZf4uTUojOk+t0LuSAV6V5zHitbMwHr+yYuqh5ojlyhC1L
-	
+ 
 before_build:
 - cmd: nuget restore
 
 build:
   project: Configgy.sln
   verbosity: minimal
-  
+
 after_test:
 - cmd: >-
     packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[Configgy]* -[Configgy]System.*" -target:"vstest.console" -targetargs:"Configgy.Tests.Unit\bin\%configuration%\Configgy.Tests.Unit.dll" -output:coverage.xml
