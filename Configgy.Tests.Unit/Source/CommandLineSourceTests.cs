@@ -38,7 +38,6 @@ namespace Configgy.Tests.Unit.Source
         public void GetRawValue_Ignores_Unknown_Switches()
         {
             const string name = "Testing";
-            const string value = "Blah";
             var commandLine = new string[] { "/lol:Testing=Blah" };
 
             var source = new CommandLineSource(commandLine);
