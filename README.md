@@ -69,10 +69,7 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 ## TODO
 
-So far this is in beta but it is feature-complete per the above feature list. That being said here is what's missing:
-
-* Simple CSV list coercer property attribute
-    * This could be problematic and might get cut
+Currently there are no known TODO items. Yay!
 
 ## Thanks
 

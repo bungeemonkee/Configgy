@@ -44,6 +44,7 @@
     <Compile Include="Cache\IValueCache.cs" />
     <Compile Include="Cache\DictionaryCache.cs" />
     <Compile Include="Coercion\AggregateCoercer.cs" />
+    <Compile Include="Coercion\CsvCoercerAttribute.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttribute.cs" />
     <Compile Include="Coercion\TypeCoercerAttribute.cs" />
     <Compile Include="Coercion\GeneralCoercerAttribute.cs" />
