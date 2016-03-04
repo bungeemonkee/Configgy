@@ -21,7 +21,6 @@ namespace Configgy.Coercion
             var type = typeof(T);
 
             var converter = TypeDescriptor.GetConverter(type);
-            if (converter == null) return null;
 
             return converter.ConvertFromString(value);
         }
