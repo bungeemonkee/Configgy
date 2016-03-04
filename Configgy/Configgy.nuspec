@@ -16,9 +16,7 @@
       See the readme here: https://github.com/bungeemonkee/Configgy/blob/master/README.md
     </summary>
     <releaseNotes>
-      Second beta release.
-      * Adds a project icon. (Thanks Alex!)
-      * Adds a file source so large config strings can be in their own files.
+      First release candidate!
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Configgy configuration config</tags>
