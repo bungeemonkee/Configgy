@@ -45,8 +45,10 @@ namespace Configgy
         /// Create a totally customized Config instance.
         /// Generally you will not need this constructor.
         /// </summary>
-        /// <param name="cache"></param>
-        /// <param name="valueFactory"></param>
+        /// <param name="cache">The <see cref="IValueCache"/> instance to be used by this Config instance.</param>
+        /// <param name="source">The <see cref="IValueSource"/> instance to be used by this Config instance.</param>
+        /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
+        /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
         protected Config(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
         {
             _cache = cache;

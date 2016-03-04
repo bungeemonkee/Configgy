@@ -6,6 +6,9 @@ using Configgy.Exceptions;
 
 namespace Configgy
 {
+    /// <summary>
+    /// Extensions for <see cref="Config"/> instances.
+    /// </summary>
     public static class ConfigExtensions
     {
         /// <summary>

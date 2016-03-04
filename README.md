@@ -71,7 +71,6 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 So far this is in beta but it is feature-complete per the above feature list. That being said here is what's missing:
 
-* Finish Inline documentation
 * Simple CSV list coercer property attribute
     * This could be problematic and might get cut
 

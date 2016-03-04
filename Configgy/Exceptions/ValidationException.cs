@@ -3,17 +3,44 @@ using System.Reflection;
 
 namespace Configgy.Exceptions
 {
+    /// <summary>
+    /// Exception to be thrown when any value fails validation.
+    /// </summary>
     public class ValidationException : Exception
     {
+        /// <summary>
+        /// The raw string value that failed validation.
+        /// </summary>
         public readonly string Value;
+
+        /// <summary>
+        /// The name of the value that failed validation.
+        /// </summary>
         public readonly string ValueName;
+
+        /// <summary>
+        /// The property associated with the value that failed validation, or null if there is none.
+        /// </summary>
         public readonly PropertyInfo Property;
 
+        /// <summary>
+        /// Creates a new ValidationException with no inner exception.
+        /// </summary>
+        /// <param name="value">The raw string value.</param>
+        /// <param name="valueName">The name of the value.</param>
+        /// <param name="property">The property reference associated with the value.</param>
         public ValidationException(string value, string valueName, PropertyInfo property)
             : base(GetMessage(value, valueName))
         {
         }
 
+        /// <summary>
+        /// Creates a new ValidationException with an inner exception.
+        /// </summary>
+        /// <param name="value">The raw string value.</param>
+        /// <param name="valueName">The name of the value.</param>
+        /// <param name="property">The property reference associated with the value.</param>
+        /// <param name="innerException">The exception that caused the validation to fail.</param>
         public ValidationException(string value, string valueName, PropertyInfo property, Exception innerException)
             : base(GetMessage(value, valueName), innerException)
         {
