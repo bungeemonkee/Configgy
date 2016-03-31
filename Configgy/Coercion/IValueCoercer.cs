@@ -3,7 +3,7 @@
 namespace Configgy.Coercion
 {
     /// <summary>
-    /// Defines a value coercer - and object that can take raw string values and convert them into a specific type of object.
+    /// Defines a value coercer - an object that can take raw string values and convert them into a specific type of object.
     /// </summary>
     public interface IValueCoercer
     {
