@@ -12,7 +12,7 @@ namespace Configgy.Source
         private readonly string[] _fileExtensions;
 
         /// <summary>
-        /// Creates a default FileSource that looks for files with the extensions '.config', '.json', or '.xml'.
+        /// Creates a default FileSource that looks for files with the extensions '.conf', '.json', or '.xml'.
         /// </summary>
         public FileSource()
             : this(".conf", ".json", ".xml")
