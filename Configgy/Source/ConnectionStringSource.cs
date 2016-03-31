@@ -16,9 +16,7 @@ namespace Configgy.Source
         /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
         public string GetRawValue(string valueName, PropertyInfo property)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[valueName];
-            if (connectionString == null) return null;
-            return connectionString.ConnectionString;
+            return ConfigurationManager.ConnectionStrings[valueName]?.ConnectionString;
         }
     }
 }
