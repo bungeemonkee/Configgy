@@ -4,7 +4,7 @@
 
 A simple, powerful, extensible, testable .NET configuration library. 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master)
+[![Build Status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master)
 
 ## Documentation
 
@@ -69,7 +69,8 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 ## TODO
 
-Currently there are no known TODO items. Yay!
+Any TODO items, feature requests, bugs, etc. will be tracked as GitHub isues here:
+[https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+](https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+)
 
 ## Thanks
 
