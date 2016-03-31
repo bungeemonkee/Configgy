@@ -17,6 +17,7 @@ namespace Configgy.Source
         /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="FileSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
+        /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
         /// </list>
         /// </summary>
@@ -25,6 +26,7 @@ namespace Configgy.Source
                   new ConectionStringsSource(),
                   new FileSource(),
                   new AppSettingSource(),
+                  new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
         }
@@ -37,6 +39,7 @@ namespace Configgy.Source
         /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="FileSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
+        /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
         /// </list>
         /// </summary>
@@ -46,6 +49,7 @@ namespace Configgy.Source
                   new FileSource(),
                   new ConectionStringsSource(),
                   new AppSettingSource(),
+                  new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
         }
