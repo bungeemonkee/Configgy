@@ -14,8 +14,8 @@ namespace Configgy.Source
         /// Creates an AggregateSource that delegates to the following sources in order:
         /// <list type="number">
         /// <item><see cref="EnvironmentVariableSource"/></item>
-        /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="FileSource"/></item>
+        /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
         /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
@@ -23,8 +23,8 @@ namespace Configgy.Source
         /// </summary>
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
-                  new ConectionStringsSource(),
                   new FileSource(),
+                  new ConectionStringsSource(),
                   new AppSettingSource(),
                   new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
@@ -36,8 +36,8 @@ namespace Configgy.Source
         /// <list type="number">
         /// <item><see cref="CommandLineSource"/> using the given command line.</item>
         /// <item><see cref="EnvironmentVariableSource"/></item>
-        /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="FileSource"/></item>
+        /// <item><see cref="ConectionStringsSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
         /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
