@@ -68,6 +68,8 @@
     <Compile Include="Source\FileSource.cs" />
     <Compile Include="Source\IValueSource.cs" />
     <Compile Include="Source\AggregateSource.cs" />
+    <Compile Include="Transfomers\AggregateTransformer.cs" />
+    <Compile Include="Transfomers\IValueTransformer.cs" />
     <Compile Include="Validation\INumericishValidator.cs" />
     <Compile Include="Validation\RegexValidator.cs" />
     <Compile Include="Validation\UShortValidatorAttribute.cs" />

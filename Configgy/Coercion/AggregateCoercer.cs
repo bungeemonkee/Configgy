@@ -26,7 +26,7 @@ namespace Configgy.Coercion
         /// <summary>
         /// Creates an aggregate coercer that delegates to any coercers as property attributes then the given coercers.
         /// </summary>
-        /// <param name="coercers"></param>
+        /// <param name="coercers">The coerces this aggregate coercer will delegate to.</param>
         public AggregateCoercer(params IValueCoercer[] coercers)
         {
             _coercers = coercers;

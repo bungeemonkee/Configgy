@@ -79,6 +79,7 @@
     <Compile Include="Source\EnvironmentVariableSourceTests.cs" />
     <Compile Include="Source\EmbeddedResourceSourceTests.cs" />
     <Compile Include="Source\FileSourceTests.cs" />
+    <Compile Include="Transformers\AggregateTransformerTests.cs" />
     <Compile Include="Validation\AggregateValidatorTests.cs" />
     <Compile Include="Validation\RegexValidatorTests.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />

@@ -1,6 +1,7 @@
 ﻿using Configgy.Cache;
 using Configgy.Coercion;
 using Configgy.Source;
+using Configgy.Transfomers;
 using Configgy.Validation;
 
 namespace Configgy.Tests.Unit
@@ -12,7 +13,7 @@ namespace Configgy.Tests.Unit
         public T TheProperty { get { return Get<T>(); } }
 
         public ConfigWrapper()
-            : base ()
+            : base()
         {
         }
 
@@ -21,8 +22,8 @@ namespace Configgy.Tests.Unit
         {
         }
 
-        public ConfigWrapper(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
-            : base(cache, source, validator, coercer)
+        public ConfigWrapper(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
+            : base(cache, source, transformer, validator, coercer)
         {
         }
 

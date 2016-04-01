@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using Configgy.Validation;
 using Configgy.Coercion;
 using System;
+using Configgy.Transfomers;
 
 namespace Configgy
 {
@@ -20,6 +21,7 @@ namespace Configgy
 
         private readonly IValueCache _cache;
         private readonly IValueSource _source;
+        private readonly IValueTransformer _transformer;
         private readonly IValueValidator _validator;
         private readonly IValueCoercer _coercer;
         private readonly IReadOnlyDictionary<string, PropertyInfo> _properties;
@@ -28,7 +30,7 @@ namespace Configgy
         /// Create a default Config instance.
         /// </summary>
         protected Config()
-            : this(new DictionaryCache(), new AggregateSource(), new AggregateValidator(), new AggregateCoercer())
+            : this(new DictionaryCache(), new AggregateSource(), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer())
         {
         }
 
@@ -37,9 +39,23 @@ namespace Configgy
         /// </summary>
         /// <param name="commandLine">The command line to parse configuration values from.</param>
         protected Config(string[] commandLine)
-            : this(new DictionaryCache(), new AggregateSource(commandLine), new AggregateValidator(), new AggregateCoercer())
+            : this(new DictionaryCache(), new AggregateSource(commandLine), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer())
         {
         }
+
+        /// <summary>
+        /// Create a mostly customized Config instance.
+        /// WARNING: This constructor does not specify a <see cref="IValueTransformer"/> - it always uses a <see cref="AggregateTransformer"/>.
+        /// WARNING: This constructor is to be removed in version 2.0!
+        /// </summary>
+        /// <param name="cache">The <see cref="IValueCache"/> instance to be used by this Config instance.</param>
+        /// <param name="source">The <see cref="IValueSource"/> instance to be used by this Config instance.</param>
+        /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
+        /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
+        [Obsolete("This constructor is to be removed in version 2.0.", true)]
+        protected Config(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
+            : this (cache, source, new AggregateTransformer(), validator, coercer)
+        { }
 
         /// <summary>
         /// Create a totally customized Config instance.
@@ -47,15 +63,18 @@ namespace Configgy
         /// </summary>
         /// <param name="cache">The <see cref="IValueCache"/> instance to be used by this Config instance.</param>
         /// <param name="source">The <see cref="IValueSource"/> instance to be used by this Config instance.</param>
+        /// <param name="transformer">The <see cref="IValueTransformer"/> instance to be used by this Config instance.</param>
         /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
         /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
-        protected Config(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
+        protected Config(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
         {
             _cache = cache;
             _source = source;
+            _transformer = transformer;
             _validator = validator;
             _coercer = coercer;
 
+            // Pre-cache all the properties on this instance
             _properties = GetType()
                 .GetMembers(BindingFlags.Instance | BindingFlags.Public)
                 .OfType<PropertyInfo>()
@@ -99,14 +118,17 @@ namespace Configgy
                 throw new MissingValueException(valueName);
             }
 
+            // Transform the value
+            value = _transformer.TransformValue(value, valueName, property);
+
             // Validate the value
             var result = _validator.Validate<T>(value, valueName, property);
 
-            // optimization: skip coercion for string values
+            // Optimization: skip coercion for string values
             var type = typeof(T);
             if (type == StringType) return value;
 
-            // optimization: if the validator did the coercion the just return that value
+            // Optimization: if the validator did the coercion the just return that value
             if (result != null) return result;
 
             // Coerce the value
