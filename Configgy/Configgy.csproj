@@ -69,7 +69,10 @@
     <Compile Include="Source\IValueSource.cs" />
     <Compile Include="Source\AggregateSource.cs" />
     <Compile Include="Transfomers\AggregateTransformer.cs" />
+    <Compile Include="Transfomers\DecryptionTransformerAttribute.cs" />
+    <Compile Include="Transfomers\EncryptionUtility.cs" />
     <Compile Include="Transfomers\IValueTransformer.cs" />
+    <Compile Include="Transfomers\ValueTransformerAttributeBase.cs" />
     <Compile Include="Validation\INumericishValidator.cs" />
     <Compile Include="Validation\RegexValidator.cs" />
     <Compile Include="Validation\UShortValidatorAttribute.cs" />
