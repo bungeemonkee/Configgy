@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace Configgy.Transfomers
 {
     /// <summary>
-    /// A value transformer that takes a base 64 encoded and X509 certificate ecnrypted 
+    /// A value transformer that takes a base 64 encoded and RSA encrypted string and returns the decrypted string.
     /// </summary>
     public class DecryptionTransformerAttribute : ValueTransformerAttributeBase
     {
