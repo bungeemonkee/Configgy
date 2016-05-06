@@ -10,7 +10,7 @@ namespace Configgy.Tests.Unit.Validation
         [TestMethod]
         public void Validate_Allows_Valid_Value()
         {
-            var valdator = new RegexValidator("aaabbbccc");
+            var valdator = new RegexValidatorAttribute("aaabbbccc");
 
             valdator.Validate<string>("aaabbbccc", "testing", null);
         }
@@ -19,7 +19,7 @@ namespace Configgy.Tests.Unit.Validation
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void Validate_Throws_Exception_For_Invalid_Value()
         {
-            var valdator = new RegexValidator("aaabbbccc");
+            var valdator = new RegexValidatorAttribute("aaabbbccc");
 
             valdator.Validate<string>("the number twelve", "testing", null);
         }

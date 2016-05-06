@@ -74,7 +74,7 @@
     <Compile Include="Transfomers\IValueTransformer.cs" />
     <Compile Include="Transfomers\ValueTransformerAttributeBase.cs" />
     <Compile Include="Validation\INumericishValidator.cs" />
-    <Compile Include="Validation\RegexValidator.cs" />
+    <Compile Include="Validation\RegexValidatorAttribute.cs" />
     <Compile Include="Validation\UShortValidatorAttribute.cs" />
     <Compile Include="Validation\ULongValidatorAttribute.cs" />
     <Compile Include="Validation\UIntValidatorAttribute.cs" />

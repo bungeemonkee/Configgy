@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> that matches the raw value against a <see cref="Regex"/>.
     /// </summary>
-    public class RegexValidator : ValueValidatorAtributeBase
+    public class RegexValidatorAttribute : ValueValidatorAtributeBase
     {
         /// <summary>
         /// The expression to validate the raw value against.
@@ -18,7 +18,7 @@ namespace Configgy.Validation
         /// Creates a new RegexValidator with the given expression.
         /// </summary>
         /// <param name="expression"></param>
-        public RegexValidator(string expression)
+        public RegexValidatorAttribute(string expression)
         {
             Expression = new Regex(expression);
         }
