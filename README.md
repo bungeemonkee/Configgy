@@ -2,7 +2,7 @@
 
 ![Configgy: The Last Configuration Library for .NET](https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png)
 
-A simple, powerful, extensible, testable .NET configuration library. 
+A simple, powerful, extensible, testable .NET configuration library.
 
 [![Build Status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master)
 
@@ -10,11 +10,12 @@ A simple, powerful, extensible, testable .NET configuration library.
 
 [README](README.md)
 
-1. [Introduction](Documentation/Introduction.md)
-2. [Command Line Values](Documentation/CommandLine.md)
-3. [Custom Sources Including Databases](Documentation/CustomSources.md)
-4. [Custom Validators and Coercers](Documentation/ValidatorsAndCoercers.md)
-5. [Dependency Injection](Documentation/DependencyInjection.md)
+1. [Overview](Documentation/1-Overview.md)
+    1. [Cache](Documentation/Pipeline/1-Cache.md)
+    2. [Source](Documentation/Pipeline/2-Source.md)
+    3. [Transform](Documentation/Pipeline/3-Transform.md)
+    4. [Validate](Documentation/Pipeline/4-Validate.md)
+    5. [Coerce](Documentation/Pipeline/5-Coerce.md)
 
 
 ## Description
@@ -30,6 +31,7 @@ You can build from this source or you can get it from nuget here: [https://www.n
 The basic design of Configgy boils down to a few key points:
 
 * Get configuration values from anywhere. (Easily extensible configuration sources.)
+* Transform raw values before validation or coercion. (Easily extensible value transformers.)
 * Validate any configuration value in any way. (Easily extensible configuration validators.)
 * Support any strongly typed configuration value, including complex objects! (Easily extensible configuration type coercers.)
 * Test all the things! (Modular/testable design. Current unit test coverage above 90%)
@@ -49,6 +51,8 @@ Here are a bunch of things supported by Configgy out of the box:
     * Connection string entries in a web/app config
     * App setting entries in a web/app config
     * System.ComponentModel.DefaultValueAttribute
+* Value transformers
+    * Convert encrypted strings (RSA encrypted then base-64 encoded) into plaintext.
 * Validation
     * Automatic validation for all numeric types, DateTime, TimeSpan
     * Validation of any numeric, DateTime, or TimeSpan configuration properties by min/max or valid value arrays
@@ -61,13 +65,14 @@ Here are a bunch of things supported by Configgy out of the box:
 
 Here are a bunch of things that are really easy to do because of the Configgy design
 
-* Pull your configuration values from any database, web service or other source you can imagine
-* Add your own validators to prevent/allow only certain enum values, strings, or complex object values
-* Write your own value source to change the command line configuration option syntax if you don't like the kick-ass one I came up with
-* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of `System.Runtime.Caching.MemoryCache`
+* Encrypt sensitive settings such as api keys, connection strings, passwords, etc.
+* Pull your configuration values from any database, web service or other source you can imagine.
+* Add your own validators to prevent/allow only certain enum values, strings, or complex object values.
+* Write your own value source to change the command line configuration option syntax if you don't like the kick-ass one I came up with.
+* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of `System.Runtime.Caching.MemoryCache`.
 * Coerce values into the wrong types to annoy your coworkers!
 
-## TODO
+## Bugs And Feature Requests
 
 Any TODO items, feature requests, bugs, etc. will be tracked as GitHub isues here:
 [https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+](https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+)

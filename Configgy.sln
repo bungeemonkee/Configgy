@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configgy.Tests.Unit", "Configgy.Tests.Unit\Configgy.Tests.Unit.csproj", "{7F12D645-C71F-4062-A498-CFEB89102E53}"
 EndProject
@@ -15,11 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{AB754859-8571-4BF6-93E5-88ACCEADDBED}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\CommandLine.md = Documentation\CommandLine.md
-		Documentation\CustomSources.md = Documentation\CustomSources.md
-		Documentation\DependencyInjection.md = Documentation\DependencyInjection.md
-		Documentation\Introduction.md = Documentation\Introduction.md
-		Documentation\ValidatorsAndCoercers.md = Documentation\ValidatorsAndCoercers.md
+		Documentation\1-Overview.md = Documentation\1-Overview.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OLD", "OLD", "{C8696C8A-D2FC-44CA-B4F0-9FFC209103EF}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\OLD\CommandLine.md = Documentation\OLD\CommandLine.md
+		Documentation\OLD\CustomSources.md = Documentation\OLD\CustomSources.md
+		Documentation\OLD\DependencyInjection.md = Documentation\OLD\DependencyInjection.md
+		Documentation\OLD\Introduction.md = Documentation\OLD\Introduction.md
+		Documentation\OLD\ValidatorsAndCoercers.md = Documentation\OLD\ValidatorsAndCoercers.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipeline", "Pipeline", "{14212D2E-1CC4-45AA-82C7-D66B59EF2E42}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Pipeline\1-Cache.md = Documentation\Pipeline\1-Cache.md
+		Documentation\Pipeline\2-Source.md = Documentation\Pipeline\2-Source.md
+		Documentation\Pipeline\3-Transform.md = Documentation\Pipeline\3-Transform.md
+		Documentation\Pipeline\4-Validate.md = Documentation\Pipeline\4-Validate.md
+		Documentation\Pipeline\5 - Coerce.md = Documentation\Pipeline\5 - Coerce.md
 	EndProjectSection
 EndProject
 Global
@@ -42,5 +56,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AB754859-8571-4BF6-93E5-88ACCEADDBED} = {7BD7B5E4-83FB-4251-97E3-C1C418D1CDAB}
+		{C8696C8A-D2FC-44CA-B4F0-9FFC209103EF} = {AB754859-8571-4BF6-93E5-88ACCEADDBED}
+		{14212D2E-1CC4-45AA-82C7-D66B59EF2E42} = {AB754859-8571-4BF6-93E5-88ACCEADDBED}
 	EndGlobalSection
 EndGlobal
