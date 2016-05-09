@@ -21,6 +21,9 @@ namespace Configgy.Coercion
         /// <returns>The coerced value or null if the value could not be coerced.</returns>
         public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
+            // Only try to coerce values into Type objects
+            if (typeof(T) != typeof(Type)) return null;
+
             return Type.GetType(value, false, true);
         }
     }

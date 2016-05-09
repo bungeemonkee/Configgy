@@ -43,5 +43,17 @@ namespace Configgy.Tests.Unit.Coercion
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void CoerceTo_Returns_Null_For_Types_That_Arent_Type()
+        {
+            var value = "System.Int32";
+
+            var coercer = new TypeCoercerAttribute();
+
+            var result = coercer.CoerceTo<int>(value, null, null);
+
+            Assert.IsNull(result);
+        }
     }
 }

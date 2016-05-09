@@ -22,6 +22,9 @@ namespace Configgy.Coercion
 
             var converter = TypeDescriptor.GetConverter(type);
 
+            // If the converter can't convert this type of thing then don't try
+            if (!converter.CanConvertFrom(typeof(string))) return null;
+
             return converter.ConvertFromString(value);
         }
     }
