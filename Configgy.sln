@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipeline", "Pipeline", "{14
 		Documentation\Pipeline\2-Source.md = Documentation\Pipeline\2-Source.md
 		Documentation\Pipeline\3-Transform.md = Documentation\Pipeline\3-Transform.md
 		Documentation\Pipeline\4-Validate.md = Documentation\Pipeline\4-Validate.md
-		Documentation\Pipeline\5 - Coerce.md = Documentation\Pipeline\5 - Coerce.md
+		Documentation\Pipeline\5-Coerce.md = Documentation\Pipeline\5-Coerce.md
 	EndProjectSection
 EndProject
 Global
