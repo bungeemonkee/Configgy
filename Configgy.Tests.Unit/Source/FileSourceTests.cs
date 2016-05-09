@@ -1,9 +1,11 @@
 ﻿using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class FileSourceTests
     {
         [TestMethod]

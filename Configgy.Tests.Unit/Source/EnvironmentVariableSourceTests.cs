@@ -1,10 +1,12 @@
 ﻿using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class EnvironmentVariableSourceTests
     {
         public const string Name = "environment variable testing name";

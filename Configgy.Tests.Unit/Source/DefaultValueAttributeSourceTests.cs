@@ -2,11 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Configgy.Tests.Unit.Coercion
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DefaultValueAttributeValueSourceTests
     {
         [TestMethod]

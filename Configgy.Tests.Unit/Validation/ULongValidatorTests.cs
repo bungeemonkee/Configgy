@@ -1,9 +1,11 @@
 ﻿using Configgy.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Validation
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ULongValidatorTests : NumericishValidatorTests<ULongValidatorAttribute, ulong>
     {
         protected override string AboveTestingMax

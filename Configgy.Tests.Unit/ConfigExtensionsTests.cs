@@ -7,11 +7,13 @@ using Configgy.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Configgy.Tests.Unit
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ConfigExtensionsTests
     {
         [TestMethod]

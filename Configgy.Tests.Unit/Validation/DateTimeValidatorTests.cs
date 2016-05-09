@@ -2,10 +2,12 @@
 using Configgy.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Validation
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DateTimeValidatorTests : NumericishValidatorTests<DateTimeValidatorAttribute, DateTime>
     {
         protected override string AboveTestingMax

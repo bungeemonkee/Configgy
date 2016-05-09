@@ -1,10 +1,12 @@
 ﻿using Configgy.Coercion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Coercion
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class InstanceOfTypeCoercerAttributeTests
     {
         [TestMethod]

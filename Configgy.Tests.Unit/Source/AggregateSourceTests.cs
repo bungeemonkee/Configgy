@@ -1,11 +1,13 @@
 ﻿using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class AggregateSourceTests
     {
         [TestMethod]

@@ -9,10 +9,12 @@ using Configgy.Validation;
 using Configgy.Coercion;
 using Configgy.Exceptions;
 using Configgy.Transfomers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ConfigTests
     {
         [TestMethod]

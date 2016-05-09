@@ -3,9 +3,11 @@ using Configgy.Coercion;
 using Configgy.Source;
 using Configgy.Transfomers;
 using Configgy.Validation;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit
 {
+    [ExcludeFromCodeCoverage]
     public class ConfigWrapper<T> : Config
     {
         public const string ThePropertyName = nameof(TheProperty);

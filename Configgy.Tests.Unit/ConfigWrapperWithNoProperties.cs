@@ -3,9 +3,11 @@ using Configgy.Coercion;
 using Configgy.Source;
 using Configgy.Transfomers;
 using Configgy.Validation;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit
 {
+    [ExcludeFromCodeCoverage]
     public class ConfigWrapperWithNoProperties : Config
     {
         public ConfigWrapperWithNoProperties(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)

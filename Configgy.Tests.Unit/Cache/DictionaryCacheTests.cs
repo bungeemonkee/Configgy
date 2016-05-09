@@ -1,9 +1,11 @@
 ﻿using Configgy.Cache;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit.Cache
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DictionaryCacheTests
     {
         [TestMethod]

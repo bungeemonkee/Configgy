@@ -1,11 +1,13 @@
 ﻿using Configgy.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Configgy.Tests.Unit.Validation
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class TimeSpanValidatorTests : NumericishValidatorTests<TimeSpanValidatorAttribute, TimeSpan>
     {
         protected override string AboveTestingMax

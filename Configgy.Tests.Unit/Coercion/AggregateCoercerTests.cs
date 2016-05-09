@@ -1,11 +1,13 @@
 ﻿using Configgy.Coercion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Configgy.Tests.Unit.Coercion
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class AggregateCoercerTests
     {
         [TestMethod]
