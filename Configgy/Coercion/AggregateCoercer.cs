@@ -19,7 +19,7 @@ namespace Configgy.Coercion
         /// </list>
         /// </summary>
         public AggregateCoercer()
-            : this(new GeneralCoercerAttribute(), new TypeCoercerAttribute())
+            : this(new TypeCoercerAttribute(), new GeneralCoercerAttribute())
         {
         }
 
