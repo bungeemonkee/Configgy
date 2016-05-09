@@ -62,6 +62,7 @@
     <Compile Include="Coercion\ClassWithNoDefaultConstructor.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttributeTests.cs" />
     <Compile Include="Coercion\CsvCoercerTests.cs" />
+    <Compile Include="Coercion\RegexCoercerTests.cs" />
     <Compile Include="Coercion\TypeCoercerTests.cs" />
     <Compile Include="Source\ConnectionStringSourceTests.cs" />
     <Compile Include="Source\AppSettingSourceTests.cs" />

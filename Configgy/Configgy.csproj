@@ -46,6 +46,7 @@
     <Compile Include="Coercion\AggregateCoercer.cs" />
     <Compile Include="Coercion\CsvCoercerAttribute.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttribute.cs" />
+    <Compile Include="Coercion\RegexCoercerAttribute.cs" />
     <Compile Include="Coercion\TypeCoercerAttribute.cs" />
     <Compile Include="Coercion\GeneralCoercerAttribute.cs" />
     <Compile Include="Coercion\IValueCoercer.cs" />
