@@ -1,13 +1,13 @@
 # Configgy
 
-[README](../README.md)
+[README](../../README.md)
 
-1. [Overview](1-Overview.md)
-    1. [Cache](Pipeline/1-Cache.md)
-    2. [Source](Pipeline/2-Source.md)
-    3. [Transform](Pipeline/3-Transform.md)
-    4. [Validate](Pipeline/4-Validate.md)
-    5. [Coerce](Pipeline/5-Coerce.md)
+1. [Overview](../1-Overview.md)
+    1. [Cache](1-Cache.md)
+    2. [Source](2-Source.md)
+    3. [Transform](3-Transform.md)
+    4. [Validate](4-Validate.md)
+    5. [Coerce](5-Coerce.md)
 
 ## Pipeline - Transform
 
