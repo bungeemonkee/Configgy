@@ -22,6 +22,24 @@ A simple, powerful, extensible, testable .NET configuration library.
 
 Configgy is the last .NET configuration library you'll ever need. It is designed to support configuration values coming from any source, with any kind of validation, and then expose it all as strong types - even complex types like lists, dictionaries, or general .NET objects.
 
+## Usage
+
+The simplest usage of Configgy is to simply inherit from `Configgy.Config` and add the configuration properties you want like this:
+
+```csharp
+
+using System;
+using Configgy;
+
+public class MyConfig: Config, IMyConfig
+{   
+    public int MaxThingCount { get { return Get<int>(); } }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
+}
+
+```
+
 ## Installation
 
 You can build from this source or you can get it from nuget here: [https://www.nuget.org/packages/Configgy](https://www.nuget.org/packages/Configgy)

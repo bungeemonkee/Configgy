@@ -11,6 +11,26 @@
 
 ## Overview
 
+Configgy is designed to be easy to use (and extend). At its core there is only one class (`Configgy.Config`) which contains one main method (`Get<T>(string)`). The `Config` class is an abstract base class intended to be sub-classed to contain all the properties used as configuration inputs for your program. That would look something like this:
+
+```csharp
+
+using System;
+using Configgy;
+
+public class MyConfig: Config, IMyConfig
+{   
+    public int MaxThingCount { get { return Get<int>(); } }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
+}
+
+```
+
+And that's it! 
+
+## Pipeline
+
 When any configuration property is accessed the the main `Configgy.Config` class executes a 5 stage pipeline. The stages are each represented by a single interface and are as follows:
 
 1. [Cache](Pipeline/1-Cache.md) (`Configgy.Cache.IValueCache`)
