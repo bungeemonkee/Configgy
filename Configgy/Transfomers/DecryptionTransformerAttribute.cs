@@ -11,7 +11,9 @@ namespace Configgy.Transfomers
     {
         public string CertificateThumbprint { get; private set; }
 
-        public StoreLocation CertificateStore { get; set; }
+        public StoreLocation CertificateStoreLocation { get; set; }
+
+        public StoreName CertificateStoreName { get; set; }
 
         public DecryptionTransformerAttribute(string certificateThumbprint)
         {
@@ -21,12 +23,13 @@ namespace Configgy.Transfomers
             }
 
             CertificateThumbprint = certificateThumbprint;
-            CertificateStore = StoreLocation.LocalMachine;
+            CertificateStoreLocation = StoreLocation.LocalMachine;
+            CertificateStoreName = StoreName.My;
         }
 
         public override string TransformValue(string value, string valueName, PropertyInfo property)
         {
-            return EncryptionUtility.Decrypt(value, CertificateThumbprint, CertificateStore);
+            return EncryptionUtility.Decrypt(value, CertificateThumbprint, CertificateStoreName, CertificateStoreLocation);
         }
     }
 }

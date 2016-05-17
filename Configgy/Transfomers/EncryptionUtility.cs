@@ -7,9 +7,9 @@ namespace Configgy.Transfomers
 {
     public static class EncryptionUtility
     {
-        public static X509Certificate2 GetCertificate(string certificateThumbprint, StoreLocation certificateStore)
+        public static X509Certificate2 GetCertificate(string certificateThumbprint, StoreName storeName, StoreLocation certificateStore)
         {
-            var certificates = new X509Store(certificateStore);
+            var certificates = new X509Store(storeName, certificateStore);
             try
             {
                 certificates.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
@@ -27,18 +27,18 @@ namespace Configgy.Transfomers
             throw new InvalidOperationException($"No matching certificate was found. Store: {certificateStore} Thumbprint: {certificateThumbprint}");
         }
 
-        public static string Decrypt(string value, string certificateThumbprint, StoreLocation certificateStore)
+        public static string Decrypt(string value, string certificateThumbprint, StoreName storeName, StoreLocation certificateStore)
         {
-            var certificate = GetCertificate(certificateThumbprint, certificateStore);
+            var certificate = GetCertificate(certificateThumbprint, storeName, certificateStore);
             var encrypt = (RSACryptoServiceProvider)certificate.PrivateKey;
             var bytes = Convert.FromBase64String(value);
             bytes = encrypt.Encrypt(bytes, false);
             return Encoding.UTF8.GetString(bytes);
         }
 
-        public static string Encrypt(string value, string certificateThumbprint, StoreLocation certificateStore)
+        public static string Encrypt(string value, string certificateThumbprint, StoreName storeName, StoreLocation certificateStore)
         {
-            var certificate = GetCertificate(certificateThumbprint, certificateStore);
+            var certificate = GetCertificate(certificateThumbprint, storeName, certificateStore);
             var encrypt = (RSACryptoServiceProvider)certificate.PrivateKey;
             var bytes = Encoding.UTF8.GetBytes(value);
             bytes = encrypt.Encrypt(bytes, false);
