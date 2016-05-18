@@ -30,18 +30,26 @@ namespace Configgy.Transfomers
         public static string Decrypt(string value, string certificateThumbprint, StoreName storeName, StoreLocation certificateStore)
         {
             var certificate = GetCertificate(certificateThumbprint, storeName, certificateStore);
-            var encrypt = (RSACryptoServiceProvider)certificate.PrivateKey;
+            var rsa = certificate?.PrivateKey as RSACryptoServiceProvider;
+            if (rsa == null)
+            {
+                throw new InvalidOperationException("Certificate does not contain an RSA public key.");
+            }
             var bytes = Convert.FromBase64String(value);
-            bytes = encrypt.Encrypt(bytes, false);
+            bytes = rsa.Decrypt(bytes, false);
             return Encoding.UTF8.GetString(bytes);
         }
 
         public static string Encrypt(string value, string certificateThumbprint, StoreName storeName, StoreLocation certificateStore)
         {
             var certificate = GetCertificate(certificateThumbprint, storeName, certificateStore);
-            var encrypt = (RSACryptoServiceProvider)certificate.PrivateKey;
+            var rsa = certificate?.PublicKey?.Key as RSACryptoServiceProvider;
+            if (rsa == null)
+            {
+                throw new InvalidOperationException("Certificate does not contain an RSA public key.");
+            }
             var bytes = Encoding.UTF8.GetBytes(value);
-            bytes = encrypt.Encrypt(bytes, false);
+            bytes = rsa.Encrypt(bytes, false);
             return Convert.ToBase64String(bytes, Base64FormattingOptions.InsertLineBreaks);
         }
     }
