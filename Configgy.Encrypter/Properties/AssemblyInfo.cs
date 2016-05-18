@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Configgy.Encrypter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Configgy.Encrypter: A simple encrypter app for encrypting config settings for Configgy")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("David Love")]
 [assembly: AssemblyProduct("Configgy.Encrypter")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -41,15 +41,8 @@ using System.Windows;
 )]
 
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+// These should always match the values for the version of Configgy that this is being deployed with.
+// See the AssemblyInfo.cs for Configgy
+[assembly: AssemblyVersion("1.1.1.1")]
+[assembly: AssemblyFileVersion("1.1.1.1")]
+[assembly: AssemblyInformationalVersion("1.1.1-beta1")]
