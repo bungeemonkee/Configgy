@@ -13,6 +13,9 @@ IF NOT EXIST "%MSBUILDDIR%msbuild.exe" goto MissingMSBuildExe
 "%MSBUILDDIR%msbuild.exe" Configgy.sln /p:Configuration=Release
 .\nuget.exe pack Configgy\Configgy.csproj -Prop Configuration=Release
 
+"%MSBUILDDIR%msbuild.exe" Configgy.Encrypter.sln /p:Configuration=Release
+.\nuget.exe pack Configgy.Encrypter\Configgy.Encrypter.csproj -Prop Configuration=Release
+
 :Exit
 pause
 exit
