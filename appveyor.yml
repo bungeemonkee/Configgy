@@ -12,7 +12,7 @@ environment:
     secure: CbB+HqPrseFu6L/FGrJZf4uTUojOk+t0LuSAV6V5zHitbMwHr+yYuqh5ojlyhC1L
  
 before_build:
-- cmd: nuget restore
+- cmd: nuget restore Configgy.sln
 
 build:
   project: Configgy.sln
