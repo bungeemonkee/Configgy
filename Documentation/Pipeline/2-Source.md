@@ -29,7 +29,19 @@ The default source is an instance of `Configgy.Source.AggregateSource` which use
 
 To make your config aware of the command line you need to pass the command line into the config object through the constructor.
 
-Then you can override any config value on the command line by using the `/c` or `/config` command line switch. For example: `MyProgram.exe /config:MaxThingCount=25`. This way you could have a default value of 50 for MaxThingCount in the app.config, a value configured in the environment of 15, and still override both of those values on the command line.
+Then you can override any config value on the command line by specifying it as a long-form switch.
+For example: `MyProgram.exe --MaxThingCount=25`.
+
+Using this syntax you can also specify any boolean properties with no value and the value "True" will be assumed.
+For example: `MyProgram.exe --DoSomething=True` and `MyProgram.exe --DoSomething` are equivalent.
+
+To set a boolean value to false you must explicitly specify the value "False".
+Ie. `MyProgram.exe --DoSomething=False`.
+
+Additionally a second syntax is supported by using the `/c` or `/config` command line switch.
+For example: `MyProgram.exe /config:MaxThingCount=25`.
+
+This way you could have a default value of 50 for MaxThingCount in the app.config, a value configured in the environment of 15, and still override both of those values on the command line.
 
 ### Environment Variables
 
