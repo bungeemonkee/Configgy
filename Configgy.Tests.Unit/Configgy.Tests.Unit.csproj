@@ -64,6 +64,7 @@
     <Compile Include="Coercion\CsvCoercerTests.cs" />
     <Compile Include="Coercion\RegexCoercerTests.cs" />
     <Compile Include="Coercion\TypeCoercerTests.cs" />
+    <Compile Include="Source\DashedCommandLineSourceTests.cs" />
     <Compile Include="Source\ConnectionStringSourceTests.cs" />
     <Compile Include="Source\AppSettingSourceTests.cs" />
     <Compile Include="Source\CommandLineSourceTests.cs" />

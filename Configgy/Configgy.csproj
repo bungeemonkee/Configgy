@@ -63,6 +63,7 @@
     <Compile Include="Source\CommandLineSource.cs" />
     <Compile Include="Source\ConnectionStringSource.cs" />
     <Compile Include="Source\AppSettingSource.cs" />
+    <Compile Include="Source\DashedCommandLineSource.cs" />
     <Compile Include="Source\DefaultValueAttributeSource.cs" />
     <Compile Include="Source\EmbeddedResourceSource.cs" />
     <Compile Include="Source\EnvironmentVariableSource.cs" />

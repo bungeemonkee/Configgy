@@ -45,6 +45,7 @@ namespace Configgy.Source
         /// </summary>
         public AggregateSource(string[] commandLine)
             : this(new CommandLineSource(commandLine),
+                  new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
                   new ConectionStringsSource(),
