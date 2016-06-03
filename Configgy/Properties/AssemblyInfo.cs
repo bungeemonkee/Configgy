@@ -6,7 +6,11 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("Configgy")]
 [assembly: AssemblyDescription("Configgy: Configuration library for .NET")]
-[assembly: AssemblyConfiguration("")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
 [assembly: AssemblyCompany("David Love")]
 [assembly: AssemblyProduct("Configgy")]
 [assembly: AssemblyCopyright("")]
