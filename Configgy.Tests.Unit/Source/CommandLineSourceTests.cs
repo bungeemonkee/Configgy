@@ -48,5 +48,19 @@ namespace Configgy.Tests.Unit.Source
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void GetRawValue_Is_Not_Case_Sensitive()
+        {
+            const string name = "Testing";
+            const string expected = "Blah";
+            var commandLine = new string[] { "/c:tEstinG=Blah" };
+
+            var source = new CommandLineSource(commandLine);
+
+            var result = source.GetRawValue(name, null);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }
