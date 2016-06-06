@@ -48,15 +48,16 @@ namespace Configgy.Tests.Unit.Source
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Null_For_Resource_That_Doesnt_Exist()
+        public void GetRawValue_Allows_Names_With_Underscores()
         {
-            const string name = "this resource doesn't exist";
+            const string name = "Test_Value_4_Embedded";
+            const string value = "Setting!";
 
             var source = new EmbeddedResourceSource();
 
             var result = source.GetRawValue(name, null);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(value, result);
         }
     }
 }
