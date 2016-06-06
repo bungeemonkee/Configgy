@@ -24,9 +24,9 @@ using System.Reflection;
 //    Minor Version : Increased for each non-api-breaking release
 //    Build Number : 0 for alpha versions, 1 for beta versions, 2 for release candidates, 3 for releases
 //    Revision : Always 0 for release versions, always 1+ for alpha, beta, rc versions to indicate the alpha/beta/rc number
-[assembly: AssemblyVersion("1.1.1.2")]
-[assembly: AssemblyFileVersion("1.1.1.2")]
+[assembly: AssemblyVersion("1.1.1.3")]
+[assembly: AssemblyFileVersion("1.1.1.3")]
 
 // This version number will roughly follow semantic versioning : http://semver.org
 // The first three numbers will always match the first the numbers of the version above.
-[assembly: AssemblyInformationalVersion("1.1.1-beta2")]
+[assembly: AssemblyInformationalVersion("1.1.1-beta3")]

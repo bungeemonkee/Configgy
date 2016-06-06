@@ -16,7 +16,8 @@
       See the readme here: https://github.com/bungeemonkee/Configgy/blob/master/README.md
     </summary>
     <releaseNotes>
-      Second beta of version 1.1
+      Third beta of version 1.1
+      * Fixes issue #14: EmbeddedResourceSource does not allow underscores
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Configgy configuration config</tags>
