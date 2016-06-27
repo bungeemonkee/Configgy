@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Configgy.Source
@@ -71,7 +73,18 @@ namespace Configgy.Source
         /// <returns></returns>
         public string GetRawValue(string valueName, PropertyInfo property)
         {
+            ISet<Type> sourcesToIgnore = new HashSet<Type>();
+            if (property != null)
+            {
+                sourcesToIgnore.UnionWith(property
+                    .GetCustomAttributes(true)
+                    .OfType<PreventSourceAttribute>()
+                    .Select(x => x.SourceType)
+                    .Where(x => x != null));
+            }
+
             return _sources
+                .Where(x => !sourcesToIgnore.Contains(x.GetType()))
                 .Select(s => s.GetRawValue(valueName, property))
                 .FirstOrDefault(v => !string.IsNullOrEmpty(v));
         }
