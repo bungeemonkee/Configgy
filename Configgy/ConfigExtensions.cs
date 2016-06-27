@@ -28,10 +28,10 @@ namespace Configgy
                 .GetMembers(BindingFlags.Public | BindingFlags.Instance)
                 .OfType<PropertyInfo>()
                 .Where(p => p.CanRead)
-                .ToArray();
+                .ToList();
 
             // if there are no properties to verify then return
-            if (properties.Length == 0) return;
+            if (properties.Count == 0) return;
 
             var exceptions = new Dictionary<string, Exception>();
 
