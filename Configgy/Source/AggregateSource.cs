@@ -34,7 +34,7 @@ namespace Configgy.Source
         /// <summary>
         /// Creates an AggregateSource using the given command line that delegates to the following sources in order:
         /// <list type="number">
-        /// <item><see cref="CommandLineSource"/> using the given command line.</item>
+        /// <item><see cref="DashedCommandLineSource"/> using the given command line.</item>
         /// <item><see cref="EnvironmentVariableSource"/></item>
         /// <item><see cref="FileSource"/></item>
         /// <item><see cref="ConectionStringsSource"/></item>
@@ -44,8 +44,7 @@ namespace Configgy.Source
         /// </list>
         /// </summary>
         public AggregateSource(string[] commandLine)
-            : this(new CommandLineSource(commandLine),
-                  new DashedCommandLineSource(commandLine),
+            : this(new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
                   new ConectionStringsSource(),

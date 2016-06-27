@@ -68,7 +68,6 @@
     <Compile Include="Source\DashedCommandLineSourceTests.cs" />
     <Compile Include="Source\ConnectionStringSourceTests.cs" />
     <Compile Include="Source\AppSettingSourceTests.cs" />
-    <Compile Include="Source\CommandLineSourceTests.cs" />
     <Compile Include="Source\DefaultValueAttributeSourceTests.cs" />
     <Compile Include="Coercion\GeneralCoercerTests.cs" />
     <Compile Include="Coercion\JsonCoercerTests.cs" />

@@ -60,7 +60,6 @@
     <Compile Include="Exceptions\ConfigValidationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\CommandLineSource.cs" />
     <Compile Include="Source\ConnectionStringSource.cs" />
     <Compile Include="Source\AppSettingSource.cs" />
     <Compile Include="Source\DashedCommandLineSource.cs" />
