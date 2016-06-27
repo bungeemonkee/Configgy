@@ -51,8 +51,7 @@ namespace Configgy.Coercion
             return propertyCoercers
                 .Union(_coercers)
                 .Select(c => c.CoerceTo<T>(value, valueName, property))
-                .Where(r => r != null)
-                .FirstOrDefault();
+                .FirstOrDefault(r => r != null);
         }
     }
 }
