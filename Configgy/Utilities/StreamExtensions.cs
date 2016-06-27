@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Configgy.Utilities
 {
-    internal static class StreamExtensions
+    public static class StreamExtensions
     {
         public static void WriteInt(this Stream stream, int value)
         {

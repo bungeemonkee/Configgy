@@ -59,6 +59,7 @@
     <Compile Include="Cache\DictionaryCacheTests.cs" />
     <Compile Include="Cache\TestingCache.cs" />
     <Compile Include="Coercion\AggregateCoercerTests.cs" />
+    <Compile Include="Coercion\ClassWithBrokenConstructor.cs" />
     <Compile Include="Coercion\ClassWithNoDefaultConstructor.cs" />
     <Compile Include="Coercion\InstanceOfTypeCoercerAttributeTests.cs" />
     <Compile Include="Coercion\CsvCoercerTests.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Source\EmbeddedResourceSourceTests.cs" />
     <Compile Include="Source\FileSourceTests.cs" />
     <Compile Include="Transformers\AggregateTransformerTests.cs" />
+    <Compile Include="Utilities\StreamExtensionsTests.cs" />
     <Compile Include="Validation\AggregateValidatorTests.cs" />
     <Compile Include="Validation\RegexValidatorTests.cs" />
     <Compile Include="Validation\UShortValidatorTests.cs" />

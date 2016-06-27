@@ -59,5 +59,17 @@ namespace Configgy.Tests.Unit.Source
 
             Assert.AreEqual(value, result);
         }
+
+        [TestMethod]
+        public void GetRawValue_Returns_Null_For_Resources_That_Dont_Exist()
+        {
+            const string name = "NOT ACTUALLY A RESOURCE!!!!!!";
+
+            var source = new EmbeddedResourceSource();
+
+            var result = source.GetRawValue(name, null);
+
+            Assert.IsNull(result);
+        }
     }
 }

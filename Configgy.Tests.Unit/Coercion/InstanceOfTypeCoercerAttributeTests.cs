@@ -58,5 +58,17 @@ namespace Configgy.Tests.Unit.Coercion
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void CoerceTo_Returns_Null_When_Constructor_Throws_Exception()
+        {
+            var value = typeof(ClassWithBrokenConstructor).AssemblyQualifiedName;
+
+            var coercer = new InstanceOfTypeCoercerAttribute();
+
+            var result = coercer.CoerceTo<Type>(value, null, null);
+
+            Assert.IsNull(result);
+        }
     }
 }
