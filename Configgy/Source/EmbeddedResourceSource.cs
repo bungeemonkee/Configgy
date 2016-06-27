@@ -68,8 +68,7 @@ namespace Configgy.Source
                 .Where(x => x.Match.Success)
                 .Where(x => x.Match.Groups["name"]?.Value == valueName)
                 .Select(x => GetResourceText(x.Assembly, x.Resource))
-                .Where(x => x != null)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x != null);
         }
 
         /// <summary>
