@@ -50,9 +50,9 @@ namespace Configgy.Tests.Unit.Coercion
         [TestMethod]
         public void CoerceTo_Returns_Null_For_Class_With_No_Default_Constructor()
         {
-            var value = nameof(ClassWithNoDefaultConstructor);
+            var value = typeof(ClassWithNoDefaultConstructor).AssemblyQualifiedName;
 
-            var coercer = new TypeCoercerAttribute();
+            var coercer = new InstanceOfTypeCoercerAttribute();
 
             var result = coercer.CoerceTo<Type>(value, null, null);
 
