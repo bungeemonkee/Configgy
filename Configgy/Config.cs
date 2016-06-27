@@ -44,20 +44,6 @@ namespace Configgy
         }
 
         /// <summary>
-        /// Create a mostly customized Config instance.
-        /// WARNING: This constructor does not specify a <see cref="IValueTransformer"/> - it always uses a <see cref="AggregateTransformer"/>.
-        /// WARNING: This constructor is to be removed in version 2.0!
-        /// </summary>
-        /// <param name="cache">The <see cref="IValueCache"/> instance to be used by this Config instance.</param>
-        /// <param name="source">The <see cref="IValueSource"/> instance to be used by this Config instance.</param>
-        /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
-        /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
-        [Obsolete("This constructor is to be removed in version 2.0.", true)]
-        protected Config(IValueCache cache, IValueSource source, IValueValidator validator, IValueCoercer coercer)
-            : this (cache, source, new AggregateTransformer(), validator, coercer)
-        { }
-
-        /// <summary>
         /// Create a totally customized Config instance.
         /// Generally you will not need this constructor.
         /// </summary>
