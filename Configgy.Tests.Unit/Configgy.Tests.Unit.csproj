@@ -64,6 +64,7 @@
     <Compile Include="Coercion\InstanceOfTypeCoercerAttributeTests.cs" />
     <Compile Include="Coercion\CsvCoercerTests.cs" />
     <Compile Include="Coercion\RegexCoercerTests.cs" />
+    <Compile Include="ConfigWrapperWithHelpAttributes.cs" />
     <Compile Include="Source\ValueSourceStub.cs" />
     <Compile Include="Coercion\TypeCoercerTests.cs" />
     <Compile Include="Source\DashedCommandLineSourceTests.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Source\EnvironmentVariableSourceTests.cs" />
     <Compile Include="Source\EmbeddedResourceSourceTests.cs" />
     <Compile Include="Source\FileSourceTests.cs" />
+    <Compile Include="TestingEnum.cs" />
     <Compile Include="Transformers\AggregateTransformerTests.cs" />
     <Compile Include="Utilities\StreamExtensionsTests.cs" />
     <Compile Include="Validation\AggregateValidatorTests.cs" />
