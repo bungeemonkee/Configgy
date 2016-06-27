@@ -11,8 +11,8 @@ namespace Configgy.Transfomers
         private readonly IValueTransformer[] _transformers;
 
         /// <summary>
-        /// A simple ordering mechanism used to ensure trasnformers are chained in the correct sequence.
-        /// For AggregateTransformer thsi value is always 10.
+        /// A simple ordering mechanism used to ensure transformers are chained in the correct sequence.
+        /// For AggregateTransformer this value is always 10.
         /// </summary>
         public int Order => 10;
 
