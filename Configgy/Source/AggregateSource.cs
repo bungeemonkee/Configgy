@@ -86,7 +86,7 @@ namespace Configgy.Source
             return _sources
                 .Where(x => !sourcesToIgnore.Contains(x.GetType()))
                 .Select(s => s.GetRawValue(valueName, property))
-                .FirstOrDefault(v => !string.IsNullOrEmpty(v));
+                .FirstOrDefault(v => v != null);
         }
     }
 }

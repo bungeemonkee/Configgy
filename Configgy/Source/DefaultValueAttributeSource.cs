@@ -17,14 +17,10 @@ namespace Configgy.Source
         /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
         public string GetRawValue(string valueName, PropertyInfo property)
         {
-            if (property == null) return null;
-
-            return property
-                .GetCustomAttributes(true)
+            return property?.GetCustomAttributes(true)
                 .OfType<DefaultValueAttribute>()
                 .Select(a => a.Value as string)
-                .Where(v => !string.IsNullOrEmpty(v))
-                .FirstOrDefault();
+                .FirstOrDefault(v => v != null);
         }
     }
 }
