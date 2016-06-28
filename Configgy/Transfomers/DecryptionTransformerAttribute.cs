@@ -1,7 +1,5 @@
 ﻿using Configgy.Utilities;
-using System;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Configgy.Transfomers
 {
@@ -10,27 +8,9 @@ namespace Configgy.Transfomers
     /// </summary>
     public class DecryptionTransformerAttribute : ValueTransformerAttributeBase
     {
-        public string CertificateThumbprint { get; private set; }
-
-        public StoreLocation CertificateStoreLocation { get; set; }
-
-        public StoreName CertificateStoreName { get; set; }
-
-        public DecryptionTransformerAttribute(string certificateThumbprint)
-        {
-            if (certificateThumbprint == null)
-            {
-                throw new ArgumentNullException(nameof(certificateThumbprint));
-            }
-
-            CertificateThumbprint = certificateThumbprint;
-            CertificateStoreLocation = StoreLocation.LocalMachine;
-            CertificateStoreName = StoreName.My;
-        }
-
         public override string TransformValue(string value, string valueName, PropertyInfo property)
         {
-            return EncryptionUtility.Decrypt(value, CertificateThumbprint, CertificateStoreName, CertificateStoreLocation);
+            return EncryptionUtility.Decrypt(value);
         }
     }
 }

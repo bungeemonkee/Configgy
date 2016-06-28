@@ -85,6 +85,7 @@
     <Compile Include="Source\FileSourceTests.cs" />
     <Compile Include="TestingEnum.cs" />
     <Compile Include="Transformers\AggregateTransformerTests.cs" />
+    <Compile Include="Utilities\EncryptionUtilityTests.cs" />
     <Compile Include="Utilities\StreamExtensionsTests.cs" />
     <Compile Include="Validation\AggregateValidatorTests.cs" />
     <Compile Include="Validation\RegexValidatorTests.cs" />
