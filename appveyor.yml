@@ -1,3 +1,6 @@
+init:
+  - git config --global core.autocrlf true
+
 version: '{branch}-{build}'
 
 skip_tags: true
@@ -10,7 +13,7 @@ shallow_clone: true
 environment:
   COVERALLS_REPO_TOKEN:
     secure: CbB+HqPrseFu6L/FGrJZf4uTUojOk+t0LuSAV6V5zHitbMwHr+yYuqh5ojlyhC1L
- 
+
 before_build:
 - cmd: nuget restore Configgy.sln
 
