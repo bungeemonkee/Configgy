@@ -16,7 +16,7 @@ namespace Configgy.Source
         /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
         public string GetRawValue(string valueName, PropertyInfo property)
         {
-            return ConfigurationManager.AppSettings[valueName] as string;
+            return ConfigurationManager.AppSettings[valueName];
         }
     }
 }
