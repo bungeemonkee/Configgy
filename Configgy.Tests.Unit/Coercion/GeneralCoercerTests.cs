@@ -45,5 +45,17 @@ namespace Configgy.Tests.Unit.Coercion
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void GeneralCoercer_CoerceTo_Returns_Null_For_Empty_String_When_Type_Is_Nullable()
+        {
+            const string input = "";
+
+            var coercer = new GeneralCoercerAttribute();
+
+            var result = coercer.CoerceTo<int?>(input, null, null);
+
+            Assert.IsNull(result);
+        }
     }
 }

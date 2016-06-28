@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Configgy.Coercion
@@ -8,6 +9,8 @@ namespace Configgy.Coercion
     /// </summary>
     public class GeneralCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
+        private static readonly Type NullableType = typeof(Nullable<>);
+
         /// <summary>
         /// Coerce the raw string value into the expected result type.
         /// </summary>
@@ -19,6 +22,9 @@ namespace Configgy.Coercion
         public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
         {
             var type = typeof(T);
+
+            // If the value is an enpty string and the type is a Nullable<> then return null
+            if (value == string.Empty && type.IsGenericType && type.GetGenericTypeDefinition() == NullableType) return null;
 
             var converter = TypeDescriptor.GetConverter(type);
 
