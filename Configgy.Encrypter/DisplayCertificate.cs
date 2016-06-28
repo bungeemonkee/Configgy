@@ -7,7 +7,7 @@ namespace Configgy.Encrypter
     {
         public X509Certificate2 Certificate { get; }
 
-        public string DisplayName => $"Thumbprint: {Certificate.Thumbprint} Private Key: {(Certificate.HasPrivateKey ? "Yes" : "No ")} Name: {Certificate.FriendlyName}";
+        public string DisplayName => $"Thumbprint: {Certificate.Thumbprint} Private Key: {(Certificate.HasPrivateKey ? "Yes" : "No ")} Expiration: {Certificate.NotAfter:yyyy-MM-dd} Name: {Certificate.FriendlyName}";
 
         public DisplayCertificate(X509Certificate2 certificate)
         {

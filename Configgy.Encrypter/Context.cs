@@ -95,6 +95,7 @@ namespace Configgy.Encrypter
                 .Distinct()
                 .OrderByDescending(x => x.Certificate.HasPrivateKey)
                 .ThenBy(x => x.Certificate.FriendlyName)
+                .ThenByDescending(x => x.Certificate.NotAfter)
                 .ToList();
         }
     }
