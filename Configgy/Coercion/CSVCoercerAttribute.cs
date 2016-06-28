@@ -59,13 +59,16 @@ namespace Configgy.Coercion
             // make sure the requested type is actually correct
             if (typeof(T) != ArrayType) return null;
 
+            // If the string is empty then just return an empty array
+            if (value == string.Empty) return Array.CreateInstance(ItemType, 0);
+
             // get the converter for the given item type
             var converter = TypeDescriptor.GetConverter(ItemType);
 
             try
             {
                 // get the converted values
-                var values = value.Split(new string[] { Separator }, StringSplitOptions.None)
+                var values = value.Split(new [] { Separator }, StringSplitOptions.None)
                     .Select(x => converter.ConvertFromString(x))
                     .ToArray();
 

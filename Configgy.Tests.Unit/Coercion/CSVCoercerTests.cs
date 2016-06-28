@@ -57,5 +57,18 @@ namespace Configgy.Tests.Unit.Coercion
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void CoerceTo_Returns_Empty_Array_With_Empty_String()
+        {
+            const string input = "";
+
+            var coercer = new CsvCoercerAttribute(typeof(int));
+
+            var result = coercer.CoerceTo<int[]>(input, null, null);
+
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(int[]));
+        }
     }
 }
