@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Configgy.Encrypter"
         mc:Ignorable="d"
-        Title="Configgy Encrypter" Height="768" Width="1024">
+        Title="Configgy Encrypter"
+        Height="768"
+        Width="1024"
+        MinHeight="768"
+        MinWidth="512">
     <Window.DataContext>
         <local:Context/>
     </Window.DataContext>
