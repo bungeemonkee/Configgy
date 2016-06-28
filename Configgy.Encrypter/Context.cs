@@ -91,11 +91,10 @@ namespace Configgy.Encrypter
         {
             return EncryptionUtility
                 .FindCertificates(x => true)
-                .OrderByDescending(x => x.HasPrivateKey)
-                .Select(x => new DisplayCertificate
-                {
-                    Certificate = x
-                })
+                .Select(x => new DisplayCertificate(x))
+                .Distinct()
+                .OrderByDescending(x => x.Certificate.HasPrivateKey)
+                .ThenBy(x => x.Certificate.FriendlyName)
                 .ToList();
         }
     }
