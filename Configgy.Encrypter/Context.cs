@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using Configgy.Utilities;
-using System.Security.Cryptography;
 
 namespace Configgy.Encrypter
 {
@@ -14,13 +12,13 @@ namespace Configgy.Encrypter
     {
         private string _input;
         private string _output;
-        private CertificateWithSource _certificate;
+        private DisplayCertificate _certificate;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IList<CertificateWithSource> Certificates { get; set; }
+        public IList<DisplayCertificate> Certificates { get; set; }
 
-        public CertificateWithSource Certificate
+        public DisplayCertificate Certificate
         {
             get { return _certificate; }
             set
@@ -68,11 +66,10 @@ namespace Configgy.Encrypter
         private void NotifyPropertyChanged([CallerMemberName] string property = null)
         {
             var handler = PropertyChanged;
-            if (handler == null) return;
-            handler(this, new PropertyChangedEventArgs(property));
+            handler?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private async void SetOutput(string input, CertificateWithSource certificate)
+        private void SetOutput(string input, DisplayCertificate certificate)
         {
             if (input == null || certificate == null)
             {
@@ -81,7 +78,7 @@ namespace Configgy.Encrypter
 
             try
             {
-                Output = EncryptionUtility.Encrypt(input, certificate.Certifcate.Thumbprint, certificate.StoreName, certificate.StoreLocation);
+                Output = EncryptionUtility.Encrypt(input, certificate.Certificate);
             }
             catch (Exception ex)
             {
@@ -90,49 +87,16 @@ namespace Configgy.Encrypter
             }
         }
 
-        private static IList<CertificateWithSource> GetCertificates()
+        private static IList<DisplayCertificate> GetCertificates()
         {
-            var stores = Enum.GetValues(typeof(StoreName)).Cast<StoreName>().ToArray();
-            var locations = Enum.GetValues(typeof(StoreLocation)).Cast<StoreLocation>().ToArray();
-
-            var certificates = new List<CertificateWithSource>();
-
-            foreach (var store in stores)
-            {
-                foreach (var location in locations)
+            return EncryptionUtility
+                .FindCertificates(x => true)
+                .OrderByDescending(x => x.HasPrivateKey)
+                .Select(x => new DisplayCertificate
                 {
-                    X509Store source = null;
-                    try
-                    {
-                        source = new X509Store(store, location);
-                        source.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
-                        certificates.AddRange(source.Certificates
-                            .Cast<X509Certificate2>()
-                            .Where(x => x.HasPrivateKey)
-                            .Where(x => x.PrivateKey is RSACryptoServiceProvider)
-                            .Select(x => new CertificateWithSource
-                            {
-                                Certifcate = x,
-                                StoreName = store,
-                                StoreLocation = location
-                            })
-                        );
-                    }
-                    catch
-                    {
-                        // Just try the next one
-                    }
-                    finally
-                    {
-                        if (source != null)
-                        {
-                            source.Close();
-                        }
-                    }
-                }
-            }
-
-            return certificates;
+                    Certificate = x
+                })
+                .ToList();
         }
     }
 }
