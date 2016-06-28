@@ -23,6 +23,9 @@ namespace Configgy.Tests.Unit
         [CsvCoercer(typeof(byte))]
         public byte[] SomeBytes => Get<byte[]>();
 
+        [Help("A really pretty unlikely value.")]
+        public ushort? NullableUshort => Get<ushort?>();
+
         [XmlCoercer]
         [PreventSource(typeof(DashedCommandLineSource))]
         public byte[] XmlThatShouldNotBeIncludedEver => Get<byte[]>();

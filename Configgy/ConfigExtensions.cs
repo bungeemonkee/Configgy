@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,6 +16,26 @@ namespace Configgy
     /// </summary>
     public static class ConfigExtensions
     {
+        private static readonly Type NullableType = typeof(Nullable<>);
+        private static readonly IDictionary<Type, string> SimpleTypeNames = new Dictionary<Type, string>
+        {
+            [typeof(byte)] = "byte",
+            [typeof(char)] = "char",
+            [typeof(decimal)] = "decimal",
+            [typeof(double)] = "double",
+            [typeof(float)] = "float",
+            [typeof(int)] = "int",
+            [typeof(long)] = "long",
+            [typeof(sbyte)] = "sbyte",
+            [typeof(short)] = "short",
+            [typeof(uint)] = "uint",
+            [typeof(ulong)] = "ulong",
+            [typeof(ushort)] = "ushort",
+            [typeof(bool)] = "bool",
+            [typeof(string)] = "string",
+            [typeof(object)] = "object"
+        };
+
         /// <summary>
         /// Validates every configuration property. 
         /// </summary>
@@ -198,13 +219,7 @@ namespace Configgy
                     sb.Append(property.Property.Name);
                 }
                 sb.Append("=<");
-                sb.Append(property.Property.PropertyType.Name);
-                if (property.Property.PropertyType.IsEnum)
-                {
-                    // For enums also print the enum values
-                    sb.Append(':');
-                    sb.Append(string.Join(",", Enum.GetNames(property.Property.PropertyType)));
-                }
+                sb.Append(GetTypeDisplayName(property.Property.PropertyType));
                 sb.AppendLine(">");
 
                 // Print the property description
@@ -215,6 +230,30 @@ namespace Configgy
             }
 
             return sb.ToString();
+        }
+
+        private static string GetTypeDisplayName(Type type)
+        {
+            // If the type has a simpler name then use that
+            string name;
+            if (SimpleTypeNames.TryGetValue(type, out name)) return name;
+
+            // If the type is an array make sure to use the simple type name
+            if (type.IsArray) return GetTypeDisplayName(type.GetElementType()) + "[]";
+
+            // If the type is an enum include the enum values
+            if (type.IsEnum) return $"{type.Name}({string.Join(",", Enum.GetNames(type))})";
+
+            // Simple type - just return the simple name
+            if (!type.IsGenericType) return type.Name;
+
+            // If the type is a nullable then return it with the '?' synytax
+            if (type.GetGenericTypeDefinition() == NullableType) return GetTypeDisplayName(type.GetGenericArguments()[0]) + "?";
+
+            // Construct a more readable name for the generic type
+            name = type.Name.Split('`')[0];
+            var subTypes = string.Join(",", type.GetGenericArguments().Select(GetTypeDisplayName));
+            return $"{name}<{subTypes}>";
         }
 
         private static void PadAndWrap(string text, int leftPad, int width, StringBuilder sb)
