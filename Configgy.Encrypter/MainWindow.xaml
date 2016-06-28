@@ -9,7 +9,7 @@
         Height="768"
         Width="1024"
         MinHeight="768"
-        MinWidth="512">
+        MinWidth="1024">
     <Window.DataContext>
         <local:Context/>
     </Window.DataContext>
