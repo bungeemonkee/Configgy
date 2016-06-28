@@ -6,6 +6,6 @@ namespace Configgy.Encrypter
     {
         public X509Certificate2 Certificate { get; set; }
 
-        public string DisplayName => $"Thumbprint: {Certificate.Thumbprint} Private Key: {Certificate.HasPrivateKey} Name: {Certificate.FriendlyName}";
+        public string DisplayName => $"Thumbprint: {Certificate.Thumbprint} Private Key: {(Certificate.HasPrivateKey ? "Yes" : "No ")} Name: {Certificate.FriendlyName}";
     }
 }

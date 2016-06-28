@@ -15,8 +15,8 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ListBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinHeight="100" ItemsSource="{Binding Certificates}" SelectedItem="{Binding Certificate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="DisplayName" />
-        <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinHeight="100" AcceptsReturn="True" Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
-        <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinHeight="100" IsReadOnly="True" Text="{Binding Output}" Grid.Row="2" />
+        <ListBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontFamily="Courier New" MinHeight="100" ItemsSource="{Binding Certificates}" SelectedItem="{Binding Certificate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="DisplayName" />
+        <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontFamily="Courier New" MinHeight="100" AcceptsReturn="True" Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+        <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontFamily="Courier New" MinHeight="100" IsReadOnly="True" Text="{Binding Output}" Grid.Row="2" />
     </Grid>
 </Window>
