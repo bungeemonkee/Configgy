@@ -23,10 +23,8 @@ The default coercer is `Configgy.Coercion.AggregateCoerver`. This coercer uses t
 
 ## CSV Properties
 
-For properties that are simple arrays of objects there is a coercer that can parse these lists: `Configgy.Coercion.CsvCoercerAttribute`. This coercer returns an array of the parsed objects of the given type. Simply apply the attribute to the array property. The property could also be of type `IEnumerable`, `IEnumerable<T>
-    `, `IList`, or `IList<T>
-        ` as arrays can be cast to all these types.
+For properties that are simple arrays of objects there is a coercer that can parse these lists: `Configgy.Coercion.CsvCoercerAttribute`. This coercer returns an array of the parsed objects of the given type. Simply apply the attribute to the array property. The property could also be of type `IEnumerable`, `IEnumerable<T>`, `IList`, or `IList<T>` as arrays can be cast to all these types.
 
-        ## Json/Xml Properties
+## Json/Xml Properties
 
-        For properties that are complex objects Configgy provides coercers that can take raw values in either json or xml and deserialize complex objects from them. __Json is highly recommended over xml__ due to the facts that json is simpler, more compact, and the `System.Runtime.Serialization.DataContractSerializer` class which is used internally has many (often undocumented) idiosyncrasies.
+For properties that are complex objects Configgy provides coercers that can take raw values in either json or xml and deserialize complex objects from them. __Json is highly recommended over xml__ due to the facts that json is simpler, more compact, and the `System.Runtime.Serialization.DataContractSerializer` class which is used internally has many (often undocumented) idiosyncrasies.
