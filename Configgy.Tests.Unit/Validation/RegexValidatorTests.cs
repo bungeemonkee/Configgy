@@ -14,7 +14,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var valdator = new RegexValidatorAttribute("aaabbbccc");
 
-            valdator.Validate<string>("aaabbbccc", "testing", null);
+            string value;
+            valdator.Validate("aaabbbccc", "testing", null, out value);
         }
 
         [TestMethod]
@@ -23,7 +24,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var valdator = new RegexValidatorAttribute("aaabbbccc");
 
-            valdator.Validate<string>("the number twelve", "testing", null);
+            string value;
+            valdator.Validate("the number twelve", "testing", null, out value);
         }
     }
 }

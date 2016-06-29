@@ -31,22 +31,26 @@ namespace Configgy.Source
         /// </summary>
         /// <param name="valueName">The name of the value to get.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
-        public string GetRawValue(string valueName, PropertyInfo property)
+        /// <param name="value">The value found in the source.</param>
+        /// <returns>True if the config value was found in the source, false otherwise.</returns>
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
             foreach (var extension in _fileExtensions)
             {
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, valueName + extension);
                 try
                 {
-                    return File.ReadAllText(path);
+                    value = File.ReadAllText(path);
+                    return true;
                 }
-                catch
+                catch (FileNotFoundException)
                 {
+                    // Ignore files that are not found, but other errors are actual errors
                 }
             }
 
-            return null;
+            value = null;
+            return false;
         }
     }
 }

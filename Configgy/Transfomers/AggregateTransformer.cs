@@ -32,18 +32,15 @@ namespace Configgy.Transfomers
             _transformers = transformers;
         }
 
-        public string TransformValue(string value, string valueName, PropertyInfo property)
+        public string Transform(string value, string valueName, PropertyInfo property)
         {
-            var propertyTransformers = property == null
-                ? Enumerable.Empty<IValueTransformer>()
-                : property
-                    .GetCustomAttributes(true)
-                    .OfType<IValueTransformer>();
+            var propertyTransformers = property?.GetCustomAttributes(true)
+                .OfType<IValueTransformer>() ?? Enumerable.Empty<IValueTransformer>();
 
             return propertyTransformers
                 .Union(_transformers)
                 .OrderBy(x => x.Order)
-                .Aggregate(value, (x, y) => y.TransformValue(x, valueName, property));
+                .Aggregate(value, (x, y) => y.Transform(x, valueName, property));
         }
     }
 }

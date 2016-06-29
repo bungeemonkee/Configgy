@@ -31,20 +31,22 @@ namespace Configgy.Validation
         /// <param name="value">The raw string value.</param>
         /// <param name="valueName">The name of the value.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
+        /// <param name="result">If the validator did the coercion it should set this to the result.</param>
         /// <returns>
-        ///     If the validator also coerced the value in the process of validation it may return that value upon successful validation.
-        ///     If the validator did not coerce the value but did validate successfully it should return null.
+        ///     True if the validator performed coercion as a side effect, false otherwise.
+        ///     Any return value (true or false) indicates successful validation.
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        public override object Validate<T>(string value, string valueName, PropertyInfo property)
+        public override bool Validate<T>(string value, string valueName, PropertyInfo property, out T result)
         {
             if (!Expression.IsMatch(value))
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            return null;
+            result = default(T);
+            return false;
         }
     }
 }

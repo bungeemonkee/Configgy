@@ -9,67 +9,77 @@ namespace Configgy.Tests.Unit.Source
     public class EmbeddedResourceSourceTests
     {
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_conf_Resource()
+        public void Get_Returns_Value_From_conf_Resource()
         {
             const string name = "TestValue1Embedded";
-            const string value = "This is a string value.";
+            const string expected = "This is a string value.";
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_json_Resource()
+        public void Get_Returns_Value_From_json_Resource()
         {
             const string name = "TestValue2Embedded";
-            const string value = "[ \"string array\" ]";
+            const string expected = "[ \"string array\" ]";
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_xml_Resource()
+        public void Get_Returns_Value_From_xml_Resource()
         {
             const string name = "TestValue3Embedded";
-            const string value = "<element>some xml</element>";
+            const string expected = "<element>some xml</element>";
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Allows_Names_With_Underscores()
+        public void Get_Allows_Names_With_Underscores()
         {
             const string name = "Test_Value_4_Embedded";
-            const string value = "Setting!";
+            const string expected = "Setting!";
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Null_For_Resources_That_Dont_Exist()
+        public void Get_Returns_Null_For_Resources_That_Dont_Exist()
         {
             const string name = "NOT ACTUALLY A RESOURCE!!!!!!";
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.IsNull(result);
+            Assert.IsNull(value);
+            Assert.IsFalse(result);
         }
     }
 }

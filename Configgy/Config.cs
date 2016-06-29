@@ -87,7 +87,7 @@ namespace Configgy
         /// <returns>The configuration value.</returns>
         protected T Get<T>([CallerMemberName] string valueName = null)
         {
-            return (T)_cache.GetValue(valueName, ProduceValue<T>);
+            return (T)_cache.Get(valueName, ProduceValue<T>);
         }
 
         private object ProduceValue<T>(string valueName)
@@ -97,29 +97,29 @@ namespace Configgy
             _properties.TryGetValue(valueName, out property);
 
             // Get the value from the factory
-            var value = _source.GetRawValue(valueName, property);
-            if (value == null)
+            string value;
+            if (!_source.Get(valueName, property, out value))
             {
                 // Throw an exception informing the user of the missing value
                 throw new MissingValueException(valueName);
             }
 
             // Transform the value
-            value = _transformer.TransformValue(value, valueName, property);
+            value = _transformer.Transform(value, valueName, property);
 
             // Validate the value
-            var result = _validator.Validate<T>(value, valueName, property);
+            T result;
+            var coerced = _validator.Validate(value, valueName, property, out result);
 
             // Optimization: skip coercion for string values
             var type = typeof(T);
             if (type == StringType) return value;
 
             // Optimization: if the validator did the coercion the just return that value
-            if (result != null) return result;
+            if (coerced) return result;
 
             // Coerce the value
-            result = _coercer.CoerceTo<T>(value, valueName, property);
-            if (result == null)
+            if (!_coercer.Coerce(value, valueName, property, out result))
             {
                 // Throw an exception informing the user of the failed coercion
                 throw new CoercionException(value, valueName, type, property);

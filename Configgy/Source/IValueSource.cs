@@ -13,7 +13,8 @@ namespace Configgy.Source
         /// </summary>
         /// <param name="valueName">The name of the value to get.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
-        string GetRawValue(string valueName, PropertyInfo property);
+        /// <param name="value">The value found in the source.</param>
+        /// <returns>True if the config value was found in the source, false otherwise.</returns>
+        bool Get(string valueName, PropertyInfo property, out string value);
     }
 }

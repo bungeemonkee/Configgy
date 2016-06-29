@@ -8,7 +8,7 @@ namespace Configgy.Tests.Unit.Source
     [ExcludeFromCodeCoverage]
     public class ValueSourceStub : IValueSource
     {
-        public string GetRawValue(string valueName, PropertyInfo property)
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
             throw new NotImplementedException();
         }

@@ -9,6 +9,8 @@ namespace Configgy.Coercion
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public abstract class ValueCoercerAttributeBase : Attribute, IValueCoercer
     {
+        private static readonly Type NullableType = typeof(Nullable<>);
+
         /// <summary>
         /// Coerce the raw string value into the expected result type.
         /// </summary>
@@ -16,7 +18,14 @@ namespace Configgy.Coercion
         /// <param name="value">The raw string value to be coerced.</param>
         /// <param name="valueName">The name of the value to be coerced.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <returns>The coerced value or null if the value could not be coerced.</returns>
-        public abstract object CoerceTo<T>(string value, string valueName, PropertyInfo property);
+        /// <param name="result">The coerced value.</param>
+        /// <returns>True if the value could be coerced, false otherwise.</returns>
+        public abstract bool Coerce<T>(string value, string valueName, PropertyInfo property, out T result);
+
+        protected bool IsNullable<T>()
+        {
+            var type = typeof(T);
+            return type.IsClass || (type.IsGenericType && type.GetGenericTypeDefinition() == NullableType);
+        }
     }
 }

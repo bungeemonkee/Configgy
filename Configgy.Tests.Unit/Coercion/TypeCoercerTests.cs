@@ -10,52 +10,61 @@ namespace Configgy.Tests.Unit.Coercion
     public class TypeCoercerTests
     {
         [TestMethod]
-        public void CoerceTo_Returns_Correct_Type_Instance_For_Known_Types()
+        public void Coerce_Returns_Correct_Type_Instance_For_Known_Types()
         {
+            const string value = "System.Int32";
             var expected = typeof(int);
-            var value = "System.Int32";
 
             var coercer = new TypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            Type result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
             Assert.AreSame(expected, result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Unknown_Types()
+        public void Coerce_Returns_Null_For_Unknown_Types()
         {
-            var value = "System.Int365";
+            const string value = "System.Int365";
 
             var coercer = new TypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            Type result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
             Assert.IsNull(result);
+            Assert.IsFalse(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Invlaid_Type_Name()
+        public void Coerce_Returns_Null_For_Invlaid_Type_Name()
         {
-            var value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
+            const string value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
 
             var coercer = new TypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            Type result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
             Assert.IsNull(result);
+            Assert.IsFalse(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Types_That_Arent_Type()
+        public void Coerce_Returns_Null_For_Types_That_Arent_Type()
         {
-            var value = "System.Int32";
+            const int expected = default(int);
+            const string value = "System.Int32";
 
             var coercer = new TypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<int>(value, null, null);
+            int result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(expected, result);
+            Assert.IsFalse(coerced);
         }
     }
 }

@@ -38,24 +38,26 @@ namespace Configgy.Validation
         /// <param name="value">The raw string value.</param>
         /// <param name="valueName">The name of the value.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
+        /// <param name="result">If the validator did the coercion it should set this to the result.</param>
         /// <returns>
-        ///     If the validator also coerced the value in the process of validation it may return that value upon successful validation.
-        ///     If the validator did not coerce the value but did validate successfully it should return null.
+        ///     True if the validator performed coercion as a side effect, false otherwise.
+        ///     Any return value (true or false) indicates successful validation.
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        public object Validate<T>(string value, string valueName, PropertyInfo property)
+        public bool Validate<T>(string value, string valueName, PropertyInfo property, out T result)
         {
+            // Set the result to the default value
+            result = default(T);
+
             // Get the validator for the expected type
             // ...validate based on the type
             // ...and get the result
             IValueValidator typeValidator;
-            var result = _validatorsByType.TryGetValue(typeof(T), out typeValidator)
-                ? typeValidator.Validate<T>(value, valueName, property)
-                : null;
+            var coerced = _validatorsByType.TryGetValue(typeof(T), out typeValidator) && typeValidator.Validate(value, valueName, property, out result);
 
             // If there is no property then return
-            if (property == null) return result;
+            if (property == null) return coerced;
 
             // Get any validators from the property attributes
             var propertyValidators = property
@@ -65,14 +67,15 @@ namespace Configgy.Validation
             // Use each property attribute validator to validate the value
             foreach (var validator in propertyValidators)
             {
-                var localResult = validator.Validate<T>(value, valueName, property);
-                if (result == null)
+                T localResult;
+                if (validator.Validate(value, valueName, property, out localResult) && !coerced)
                 {
                     result = localResult;
+                    coerced = true;
                 }
             }
 
-            return result;
+            return coerced;
         }
 
         private static IDictionary<Type, IValueValidator> GetDefaultValidatorsByType()

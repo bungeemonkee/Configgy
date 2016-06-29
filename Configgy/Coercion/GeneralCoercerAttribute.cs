@@ -9,8 +9,6 @@ namespace Configgy.Coercion
     /// </summary>
     public class GeneralCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
-        private static readonly Type NullableType = typeof(Nullable<>);
-
         /// <summary>
         /// Coerce the raw string value into the expected result type.
         /// </summary>
@@ -18,20 +16,34 @@ namespace Configgy.Coercion
         /// <param name="value">The raw string value to be coerced.</param>
         /// <param name="valueName">The name of the value to be coerced.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <returns>The coerced value or null if the value could not be coerced.</returns>
-        public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
+        /// <param name="result">The coerced value.</param>
+        /// <returns>True if the value could be coerced, false otherwise.</returns>
+        public override bool Coerce<T>(string value, string valueName, PropertyInfo property, out T result)
         {
             var type = typeof(T);
 
-            // If the value is an enpty string and the type is a Nullable<> then return null
-            if (value == string.Empty && type.IsGenericType && type.GetGenericTypeDefinition() == NullableType) return null;
+            // If the value is null...
+            if (value == null)
+            {
+                // Set the result to the default
+                result = default(T);
+
+                // If the type is nullable return true, if not then the default value is not correct
+                return IsNullable<T>();
+            }
 
             var converter = TypeDescriptor.GetConverter(type);
 
             // If the converter can't convert this type of thing then don't try
-            if (!converter.CanConvertFrom(typeof(string))) return null;
+            if (!converter.CanConvertFrom(typeof(string)))
+            {
+                result = default(T);
+                return false;
+            }
 
-            return converter.ConvertFromString(value);
+            // Convert the value
+            result = (T)converter.ConvertFromString(value);
+            return true;
         }
     }
 }

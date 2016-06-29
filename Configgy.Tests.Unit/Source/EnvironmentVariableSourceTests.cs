@@ -25,26 +25,29 @@ namespace Configgy.Tests.Unit.Source
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_Environment()
+        public void Get_Returns_Value_From_Environment()
         {
-
             var source = new EnvironmentVariableSource();
 
-            var result = source.GetRawValue(Name, null);
+            string value;
+            var result = source.Get(Name, null, out value);
 
-            Assert.AreEqual(Value, result);
+            Assert.AreEqual(Value, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Null_When_No_Matching_Environment_Variable()
+        public void Get_Returns_Null_When_No_Matching_Environment_Variable()
         {
-            var name = Name + " garbage string: P(*TO(*HFJJJFS#@(**&&^$%#*&()FDGO*^FDC VBNJUYT";
+            const string name = " garbage string: P(*TO(*HFJJJFS#@(**&&^$%#*&()FDGO*^FDC VBNJUYT";
 
             var source = new EnvironmentVariableSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.IsNull(result);
+            Assert.IsNull(value);
+            Assert.IsFalse(result);
         }
     }
 }

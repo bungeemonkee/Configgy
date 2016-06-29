@@ -5,7 +5,7 @@ namespace Configgy.Validation
     /// And extension of <see cref="IValueValidator"/> for number-like objects that includes validation for min and max values and/or a valid value range.
     /// </summary>
     /// <typeparam name="T">The numeric (ish) type.</typeparam>
-    public interface INumericishValidator<T> : IValueValidator
+    public interface INumericishValidator<out T> : IValueValidator
     {
         /// <summary>
         /// The minimum allowed value.

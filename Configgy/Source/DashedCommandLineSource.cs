@@ -8,7 +8,7 @@ namespace Configgy.Source
 {
     public class DashedCommandLineSource : IValueSource
     {
-        private const string CommandLineParameterRegexValue = @"^\-\-(?<name>[a-z][a-z0-9]*)(?:=(?<value>.+))?$";
+        private const string CommandLineParameterRegexValue = @"^\-\-(?<name>[a-z][a-z0-9]*)(?<equals>=(?<value>.*))?$";
         private static readonly Regex CommandLineParameterRegex = new Regex(CommandLineParameterRegexValue, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
         private readonly IReadOnlyDictionary<string, string> _values;
@@ -23,7 +23,7 @@ namespace Configgy.Source
             _values = commandLine.Select(c => CommandLineParameterRegex.Match(c))
                 .Where(m => m.Success)
                 .Select(m => m.Groups)
-                .ToDictionary(g => g["name"].Value, g => g["value"].Value == string.Empty ? null : g["value"].Value, StringComparer.InvariantCultureIgnoreCase);
+                .ToDictionary(g => g["name"].Value, g => g["equals"].Value == string.Empty ? null : g["value"].Value, StringComparer.InvariantCultureIgnoreCase);
         }
 
         /// <summary>
@@ -31,20 +31,25 @@ namespace Configgy.Source
         /// </summary>
         /// <param name="valueName">The name of the value to get.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
-        public string GetRawValue(string valueName, PropertyInfo property)
+        /// <param name="value">The value found in the source.</param>
+        /// <returns>True if the config value was found in the source, false otherwise.</returns>
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
             // See if the name exists in the dictionary
-            if (!_values.ContainsKey(valueName)) return null;
+            if (!_values.ContainsKey(valueName))
+            {
+                value = null;
+                return false;
+            }
 
             // Get the raw value from the dictionary
-            var result = _values[valueName];
+            value = _values[valueName];
 
             // If the name is in the dictionary but contains no value and it is a boolean property then we assume it is true
-            if (result == null && property.PropertyType == typeof(bool)) return "True";
+            if (value == null && property.PropertyType == typeof(bool)) value = "True";
 
             // Return the value
-            return result;
+            return value != null;
         }
     }
 }

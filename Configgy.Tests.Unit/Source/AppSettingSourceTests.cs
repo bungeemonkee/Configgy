@@ -9,28 +9,32 @@ namespace Configgy.Tests.Unit.Source
     public class AppSettingSourceTests
     {
         [TestMethod]
-        public void GetRawValue_Returns_String_From_AppSettings()
+        public void Get_Returns_String_From_AppSettings()
         {
-            var name = "name";
-            var value = "value";
+            const string name = "name";
+            const string expected = "value";
 
             var source = new AppSettingSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Null_When_No_Matching_AppSettings_Value()
+        public void Get_Returns_Null_When_No_Matching_AppSettings_Value()
         {
-            var name = "kfnnpa";
+            const string name = "kfnnpa";
 
             var source = new AppSettingSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.IsNull(result);
+            Assert.IsNull(value);
+            Assert.IsFalse(result);
         }
     }
 }

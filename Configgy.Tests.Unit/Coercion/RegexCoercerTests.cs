@@ -11,38 +11,44 @@ namespace Configgy.Tests.Unit.Coercion
     public class RegexCoercerTests
     {
         [TestMethod]
-        public void CoerceTo_Returns_Regex_For_Valid_Expression_Strings()
+        public void Coerce_Returns_Regex_For_Valid_Expression_Strings()
         {
-            var value = ".*";
+            const string value = ".*";
 
             var coercer = new RegexCoercerAttribute();
 
-            var result = coercer.CoerceTo<Regex>(value, null, null);
+            Regex result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
-            Assert.IsInstanceOfType(result, typeof(Regex));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CoerceTo_Throws_Exception_For_Invalid_Expression_Strings()
+        public void Coerce_Throws_Exception_For_Invalid_Expression_Strings()
         {
-            var value = "(";
+            const string value = "(";
 
             var coercer = new RegexCoercerAttribute();
 
-            var result = coercer.CoerceTo<Regex>(value, null, null);
+            Regex result;
+            coercer.Coerce(value, null, null, out result);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Types_Other_Than_Regex()
+        public void Coerce_Returns_Null_For_Types_Other_Than_Regex()
         {
-            var value = ".*";
+            const int expected = default(int);
+            const string value = ".*";
 
             var coercer = new RegexCoercerAttribute();
 
-            var result = coercer.CoerceTo<int>(value, null, null);
+            int result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(expected, result);
+            Assert.IsFalse(coerced);
         }
     }
 }

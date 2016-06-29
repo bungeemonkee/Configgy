@@ -10,52 +10,58 @@ namespace Configgy.Tests.Unit.Coercion
     public class GeneralCoercerTests
     {
         [TestMethod]
-        public void GeneralCoercer_CoerceTo_Works_With_Strings()
+        public void GeneralCoercer_Coerce_Works_With_Strings()
         {
             const string input = "some string";
 
             var coercer = new GeneralCoercerAttribute();
 
-            var result = coercer.CoerceTo<string>(input, null, null);
+            string result;
+            var coerced = coercer.Coerce(input, null, null, out result);
 
             Assert.AreEqual(input, result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
-        public void GeneralCoercer_CoerceTo_Works_With_Ints()
+        public void GeneralCoercer_Coerce_Works_With_Ints()
         {
             const string input = "243";
             const int expected = 243;
 
             var coercer = new GeneralCoercerAttribute();
 
-            var result = coercer.CoerceTo<int>(input, null, null);
+            int result;
+            var coerced = coercer.Coerce<int>(input, null, null, out result);
 
             Assert.AreEqual(expected, result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
-        public void GeneralCoercer_CoerceTo_Returns_Null_When_The_TypeConverter_Cant_Convert_From_String()
+        public void GeneralCoercer_Coerce_Returns_Null_When_The_TypeConverter_Cant_Convert_From_String()
         {
             const string input = ".*";
 
             var coercer = new GeneralCoercerAttribute();
 
-            var result = coercer.CoerceTo<Regex>(input, null, null);
+            Regex result;
+            var coerced = coercer.Coerce(input, null, null, out result);
 
             Assert.IsNull(result);
+            Assert.IsFalse(coerced);
         }
 
         [TestMethod]
-        public void GeneralCoercer_CoerceTo_Returns_Null_For_Empty_String_When_Type_Is_Nullable()
+        public void GeneralCoercer_Coerce_Returns_Null_For_Null_String_When_Type_Is_Nullable()
         {
-            const string input = "";
-
             var coercer = new GeneralCoercerAttribute();
 
-            var result = coercer.CoerceTo<int?>(input, null, null);
+            int? result;
+            var coerced = coercer.Coerce(null, null, null, out result);
 
             Assert.IsNull(result);
+            Assert.IsTrue(coerced);
         }
     }
 }

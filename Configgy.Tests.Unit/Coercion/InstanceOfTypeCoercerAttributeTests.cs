@@ -1,7 +1,8 @@
-﻿using Configgy.Coercion;
+﻿using System;
+using Configgy.Coercion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Configgy.Tests.Unit.Coercion
 {
@@ -10,65 +11,73 @@ namespace Configgy.Tests.Unit.Coercion
     public class InstanceOfTypeCoercerAttributeTests
     {
         [TestMethod]
-        public void CoerceTo_Returns_Instance_Of_Correct_Type_For_Known_Types()
+        public void Coerce_Returns_Instance_Of_Correct_Type_For_Known_Types()
         {
-            var expected = default(int);
-            var value = "System.Int32";
+            const int expected = default(int);
+            const string value = "System.Int32";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            int result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
             Assert.IsInstanceOfType(result, typeof(int));
             Assert.AreEqual(expected, result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Unknown_Types()
+        public void Coerce_Returns_Null_For_Unknown_Types()
         {
-            var value = "System.Int365";
+            const int expected = default(int);
+            const string value = "System.Int365";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            int result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(expected, result);
+            Assert.IsFalse(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Invlaid_Type_Name()
+        public void Coerce_Returns_Null_For_Invlaid_Type_Name()
         {
-            var value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
+            const int expected = default(int);
+            const string value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
+            int result;
+            var coerced = coercer.Coerce(value, null, null, out result);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(expected, result);
+            Assert.IsFalse(coerced);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_For_Class_With_No_Default_Constructor()
+        [ExpectedExceptionAttribute(typeof(MissingMethodException))]
+        public void Coerce_Returns_Null_For_Class_With_No_Default_Constructor()
         {
             var value = typeof(ClassWithNoDefaultConstructor).AssemblyQualifiedName;
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
-
-            Assert.IsNull(result);
+            ClassWithNoDefaultConstructor result;
+            coercer.Coerce(value, null, null, out result);
         }
 
         [TestMethod]
-        public void CoerceTo_Returns_Null_When_Constructor_Throws_Exception()
+        [ExpectedExceptionAttribute(typeof(TargetInvocationException))]
+        public void Coerce_Throws_Exception_When_Constructor_Throws_Exception()
         {
             var value = typeof(ClassWithBrokenConstructor).AssemblyQualifiedName;
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var result = coercer.CoerceTo<Type>(value, null, null);
-
-            Assert.IsNull(result);
+            ClassWithBrokenConstructor result;
+            coercer.Coerce(value, null, null, out result);
         }
     }
 }

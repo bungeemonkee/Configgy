@@ -1,7 +1,7 @@
 ﻿using Configgy.Coercion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Configgy.Tests.Unit.Coercion
 {
@@ -10,7 +10,7 @@ namespace Configgy.Tests.Unit.Coercion
     public class XmlCoercerTests
     {
         [TestMethod]
-        public void XmlCoercer_CoerceTo_Works_With_Array_Of_Int()
+        public void XmlCoercer_Coerce_Works_With_Array_Of_Int()
         {
             const string input = @"
 <ArrayOfint xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -21,17 +21,20 @@ namespace Configgy.Tests.Unit.Coercion
 </ArrayOfint>
 ";
 
-            var expected = new int[] { 1, 4, 78, 222 };
+            var expected = new [] { 1, 4, 78, 222 };
 
             var coercer = new XmlCoercerAttribute();
 
-            var result = coercer.CoerceTo<int[]>(input, null, null) as ICollection;
+            int[] result;
+            var coerced = coercer.Coerce(input, null, null, out result);
 
             CollectionAssert.AreEqual(expected, result);
+            Assert.IsTrue(coerced);
         }
 
         [TestMethod]
-        public void XmlCoercer_CoerceTo_Returns_Null_With_Invalid_Xml()
+        [ExpectedException(typeof(SerializationException))]
+        public void XmlCoercer_Coerce_Throws_Exception_With_Invalid_Xml()
         {
             const string input = @"
 <ArrayOfint xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -44,9 +47,25 @@ namespace Configgy.Tests.Unit.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            var result = coercer.CoerceTo<int[]>(input, null, null);
+            int[] result;
+            var coerced = coercer.Coerce(input, null, null, out result);
 
             Assert.IsNull(result);
+            Assert.IsFalse(coerced);
+        }
+
+        [TestMethod]
+        public void XmlCoercer_Coerce_Returns_Null_With_Null_Xml()
+        {
+            const string input = null;
+
+            var coercer = new XmlCoercerAttribute();
+
+            int[] result;
+            var coerced = coercer.Coerce(input, null, null, out result);
+
+            Assert.IsNull(result);
+            Assert.IsTrue(coerced);
         }
     }
 }

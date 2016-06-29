@@ -67,11 +67,9 @@ namespace Configgy.Source
 
         /// <summary>
         /// Gets a raw value from the sources used to create this aggregate source.
+        /// See <see cref="IValueSource.Get"/>.
         /// </summary>
-        /// <param name="valueName">The name of the value to get.</param>
-        /// <param name="property">The property reference associated with the property, or null if none exists.</param>
-        /// <returns></returns>
-        public string GetRawValue(string valueName, PropertyInfo property)
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
             ISet<Type> sourcesToIgnore = new HashSet<Type>();
             if (property != null)
@@ -83,10 +81,16 @@ namespace Configgy.Source
                     .Where(x => x != null));
             }
 
-            return _sources
-                .Where(x => !sourcesToIgnore.Contains(x.GetType()))
-                .Select(s => s.GetRawValue(valueName, property))
-                .FirstOrDefault(v => v != null);
+            // Get each un-ignored source in turn
+            foreach (var source in _sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
+            {
+                // If a source has the value then return that value
+                if (source.Get(valueName, property, out value)) return true;
+            }
+
+            // No source has the value
+            value = null;
+            return false;
         }
     }
 }

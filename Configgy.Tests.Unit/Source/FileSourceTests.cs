@@ -9,54 +9,62 @@ namespace Configgy.Tests.Unit.Source
     public class FileSourceTests
     {
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_conf_File()
+        public void Get_Returns_Value_From_conf_File()
         {
             const string name = "TestValue1";
-            const string value = "This is a string value.";
+            const string expected = "This is a string value.";
 
             var source = new FileSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_json_File()
+        public void Get_Returns_Value_From_json_File()
         {
             const string name = "TestValue2";
-            const string value = "[ \"string array\" ]";
+            const string expected = "[ \"string array\" ]";
 
             var source = new FileSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Value_From_xml_File()
+        public void Get_Returns_Value_From_xml_File()
         {
             const string name = "TestValue3";
-            const string value = "<element>some xml</element>";
+            const string expected = "<element>some xml</element>";
 
             var source = new FileSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.AreEqual(value, result);
+            Assert.AreEqual(expected, value);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void GetRawValue_Returns_Null_For_File_That_Doesnt_Exist()
+        public void Get_Returns_Null_For_File_That_Doesnt_Exist()
         {
             const string name = "this file doesn't exist";
 
             var source = new FileSource();
 
-            var result = source.GetRawValue(name, null);
+            string value;
+            var result = source.Get(name, null, out value);
 
-            Assert.IsNull(result);
+            Assert.IsNull(value);
+            Assert.IsFalse(result);
         }
     }
 }

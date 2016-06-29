@@ -43,15 +43,16 @@ namespace Configgy.Source
         }
 
         /// <summary>
-        /// Get the raw configuration value from an embedded resource.
+        /// Get the raw configuration value from the source.
         /// </summary>
         /// <param name="valueName">The name of the value to get.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <returns>The raw configuration value or null if there isn't an embedded resources that matches the value name.</returns>
-        public string GetRawValue(string valueName, PropertyInfo property)
+        /// <param name="value">The value found in the source.</param>
+        /// <returns>True if the config value was found in the source, false otherwise.</returns>
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
-            // From all the loaded assemblies get any matching resources and return the first
-            return AppDomain.CurrentDomain
+            // From all the loaded assemblies get any matching resource
+            var resource = AppDomain.CurrentDomain
                 .GetAssemblies()
                 .Where(x => !x.IsDynamic)
                 .Select(x => new
@@ -66,30 +67,21 @@ namespace Configgy.Source
                     Match = ResourceNameExpression.Match(y)
                 })
                 .Where(x => x.Match.Success)
-                .Where(x => x.Match.Groups["name"]?.Value == valueName)
-                .Select(x => GetResourceText(x.Assembly, x.Resource))
-                .FirstOrDefault(x => x != null);
-        }
+                .SingleOrDefault(x => x.Match.Groups["name"]?.Value == valueName);
 
-        /// <summary>
-        /// Get an embedded resource as text.
-        /// </summary>
-        /// <param name="assembly">The assembly containing the resource.</param>
-        /// <param name="name">The name of the resource.</param>
-        /// <returns>The text of the resource or null if there was no such resource or it contained no text.</returns>
-        protected string GetResourceText(Assembly assembly, string name)
-        {
-            try
+            // If there is no matching resource then return null
+            if (resource == null)
             {
-                using (var stream = assembly.GetManifestResourceStream(name))
-                using (var textStream = new StreamReader(stream))
-                {
-                    return textStream.ReadToEnd();
-                }
+                value = null;
+                return false;
             }
-            catch
+
+            // Get the value from the resource
+            using (var stream = resource.Assembly.GetManifestResourceStream(resource.Match.Value))
+            using (var textStream = new StreamReader(stream))
             {
-                return null;
+                value = textStream.ReadToEnd();
+                return true;
             }
         }
     }

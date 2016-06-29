@@ -47,7 +47,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
 
-            validator.Validate<TNumericish>(TypeMaxString, null, null);
+            TNumericish value;
+            validator.Validate(TypeMaxString, null, null, out value);
         }
 
         [TestMethod]
@@ -55,7 +56,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
 
-            validator.Validate<TNumericish>(TypeMinString, null, null);
+            TNumericish value;
+            validator.Validate(TypeMinString, null, null, out value);
         }
 
         [TestMethod]
@@ -63,7 +65,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(TestingMax.ToString(), null, null);
+            TNumericish value;
+            validator.Validate(TestingMax.ToString(), null, null, out value);
         }
 
         [TestMethod]
@@ -71,7 +74,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(TestingMin.ToString(), null, null);
+            TNumericish value;
+            validator.Validate(TestingMin.ToString(), null, null, out value);
         }
 
         [TestMethod]
@@ -79,7 +83,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(WithinTestingRange, null, null);
+            TNumericish value;
+            validator.Validate(WithinTestingRange, null, null, out value);
         }
 
         [TestMethod]
@@ -87,7 +92,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, ValidValues);
 
-            validator.Validate<TNumericish>(AValidValue, null, null);
+            TNumericish value;
+            validator.Validate(AValidValue, null, null, out value);
         }
 
         [TestMethod]
@@ -96,7 +102,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
 
-            validator.Validate<TNumericish>(AboveTypeMax, null, null);
+            TNumericish value;
+            validator.Validate(AboveTypeMax, null, null, out value);
         }
 
         [TestMethod]
@@ -105,7 +112,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
 
-            validator.Validate<TNumericish>(BelowTypeMin, null, null);
+            TNumericish value;
+            validator.Validate(BelowTypeMin, null, null, out value);
         }
 
         [TestMethod]
@@ -114,7 +122,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(AboveTestingMax, null, null);
+            TNumericish value;
+            validator.Validate(AboveTestingMax, null, null, out value);
         }
 
         [TestMethod]
@@ -123,7 +132,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(BelowTestingMin, null, null);
+            TNumericish value;
+            validator.Validate(BelowTestingMin, null, null, out value);
         }
 
         [TestMethod]
@@ -132,7 +142,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, ValidValues);
 
-            validator.Validate<TNumericish>(AnInvalidValue, null, null);
+            TNumericish value;
+            validator.Validate(AnInvalidValue, null, null, out value);
         }
 
         [TestMethod]
@@ -141,7 +152,8 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
 
-            validator.Validate<TNumericish>(UnParseable, null, null);
+            TNumericish value;
+            validator.Validate(UnParseable, null, null, out value);
         }
 
         [TestMethod]
@@ -149,9 +161,11 @@ namespace Configgy.Tests.Unit.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
 
-            var result = validator.Validate<TNumericish>(WithinTestingRange, null, null);
+            TNumericish value;
+            var result = validator.Validate(WithinTestingRange, null, null, out value);
 
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(value);
+            Assert.IsTrue(result);
         }
     }
 }

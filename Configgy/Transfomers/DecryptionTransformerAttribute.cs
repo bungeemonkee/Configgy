@@ -8,9 +8,11 @@ namespace Configgy.Transfomers
     /// </summary>
     public class DecryptionTransformerAttribute : ValueTransformerAttributeBase
     {
-        public override string TransformValue(string value, string valueName, PropertyInfo property)
+        public override string Transform(string value, string valueName, PropertyInfo property)
         {
-            return EncryptionUtility.Decrypt(value);
+            return value == null
+                ? null
+                : EncryptionUtility.Decrypt(value);
         }
     }
 }

@@ -14,13 +14,32 @@ namespace Configgy.Source
         /// </summary>
         /// <param name="valueName">The name of the value to get.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <returns>The raw configuration value or null if there isn't one in this source.</returns>
-        public string GetRawValue(string valueName, PropertyInfo property)
+        /// <param name="value">The value found in the source.</param>
+        /// <returns>True if the config value was found in the source, false otherwise.</returns>
+        public bool Get(string valueName, PropertyInfo property, out string value)
         {
-            return property?.GetCustomAttributes(true)
+            // Get the default value attribute
+            var attribute = property?.GetCustomAttributes(true)
                 .OfType<DefaultValueAttribute>()
-                .Select(a => a.Value as string)
-                .FirstOrDefault(v => v != null);
+                .SingleOrDefault();
+
+            // If there is no attribute return false
+            if (attribute == null)
+            {
+                value = null;
+                return false;
+            }
+
+            // If the value if null handle that explicitly
+            if (attribute.Value == null)
+            {
+                value = null;
+                return true;
+            }
+
+            // Convert the value to a string and return true
+            value = attribute.Value as string ?? attribute.Value.ToString();
+            return true;
         }
     }
 }

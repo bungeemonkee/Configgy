@@ -53,38 +53,47 @@ namespace Configgy.Coercion
         /// <param name="value">The raw string value to be coerced.</param>
         /// <param name="valueName">The name of the value to be coerced.</param>
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <returns>The coerced value or null if the value could not be coerced.</returns>
-        public override object CoerceTo<T>(string value, string valueName, PropertyInfo property)
+        /// <param name="result">The coerced value.</param>
+        /// <returns>True if the value could be coerced, false otherwise.</returns>
+        public override bool Coerce<T>(string value, string valueName, PropertyInfo property, out T result)
         {
             // make sure the requested type is actually correct
-            if (typeof(T) != ArrayType) return null;
+            if (typeof(T) != ArrayType)
+            {
+                result = default(T);
+                return false;
+            }
+
+            // If the string is null then return null
+            if (value == null)
+            {
+                result = default(T);
+                return true;
+            }
 
             // If the string is empty then just return an empty array
-            if (value == string.Empty) return Array.CreateInstance(ItemType, 0);
+            if (value == string.Empty)
+            {
+                result = (T)(object)Array.CreateInstance(ItemType, 0);
+                return true;
+            }
 
             // get the converter for the given item type
             var converter = TypeDescriptor.GetConverter(ItemType);
 
-            try
-            {
-                // get the converted values
-                var values = value.Split(new [] { Separator }, StringSplitOptions.None)
-                    .Select(x => converter.ConvertFromString(x))
-                    .ToArray();
+            // get the converted values
+            var values = value.Split(new[] { Separator }, StringSplitOptions.None)
+                .Select(x => converter.ConvertFromString(x))
+                .ToArray();
 
-                // create the properly typed result array
-                var result = Array.CreateInstance(ItemType, values.Length);
+            // create the properly typed result array
+            result = (T)(object)Array.CreateInstance(ItemType, values.Length);
 
-                // copy the converted values into the typed result array
-                Array.Copy(values, result, values.Length);
+            // copy the converted values into the typed result array
+            Array.Copy(values, (Array)(object)result, values.Length);
 
-                // return the result array
-                return result;
-            }
-            catch
-            {
-                return null;
-            }
+            // return the result array
+            return true;
         }
     }
 }
