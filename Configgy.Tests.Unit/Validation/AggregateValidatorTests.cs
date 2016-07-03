@@ -48,7 +48,7 @@ namespace Configgy.Tests.Unit.Validation
             const string value = "value";
             const string name = "name";
 
-            string result;
+            var result = value;
 
             var validatorMock = new Mock<IValueValidator>();
             validatorMock.Setup(v => v.Validate(value, name, It.IsAny<PropertyInfo>(), out result))
