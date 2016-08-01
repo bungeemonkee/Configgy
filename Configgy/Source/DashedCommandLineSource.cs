@@ -35,6 +35,14 @@ namespace Configgy.Source
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
         public bool Get(string valueName, PropertyInfo property, out string value)
         {
+            // Check for command line name overrides
+            valueName = property
+                .GetCustomAttributes(true)
+                .OfType<CommandLineNameAttribute>()
+                .Select(x => x.CommandLineName)
+                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x))
+            ?? valueName;
+
             // See if the name exists in the dictionary
             if (!_values.ContainsKey(valueName))
             {

@@ -17,10 +17,13 @@ namespace Configgy.Tests.Unit.Source
             const string expected = "Blah";
             var commandLine = new [] { "--Testing=Blah" };
 
+            var propertyMock = new Mock<PropertyInfo>();
+            propertyMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+
             var source = new DashedCommandLineSource(commandLine);
 
             string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(name, propertyMock.Object, out value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -71,10 +74,13 @@ namespace Configgy.Tests.Unit.Source
             const string name = "Testing";
             var commandLine = new [] { "--Banana=Blah" };
 
+            var propertyMock = new Mock<PropertyInfo>();
+            propertyMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+
             var source = new DashedCommandLineSource(commandLine);
 
             string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(name, propertyMock.Object, out value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);
@@ -87,13 +93,39 @@ namespace Configgy.Tests.Unit.Source
             const string expected = "Blah";
             var commandLine = new [] { "--tEstinG=Blah" };
 
+            var propertyMock = new Mock<PropertyInfo>();
+            propertyMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+
             var source = new DashedCommandLineSource(commandLine);
 
             string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(name, propertyMock.Object, out value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Get_Uses_Name_Override_From_CommandLineNameAttribute()
+        {
+            const string name = "Testing";
+            const string nameOverride = "test";
+            const string expected = "1234";
+            var commandLine = new[] { "--test=1234" };
+
+            var attribute = new CommandLineNameAttribute(nameOverride);
+
+            var propertyMock = new Mock<PropertyInfo>();
+            propertyMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { attribute });
+
+            var source = new DashedCommandLineSource(commandLine);
+
+            string value;
+            var result = source.Get(name, propertyMock.Object, out value);
+            
+            propertyMock.VerifyAll();
+            Assert.IsTrue(result);
+            Assert.AreEqual(expected, value);
         }
     }
 }
