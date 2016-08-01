@@ -73,6 +73,7 @@
     <Compile Include="Source\AggregateSource.cs" />
     <Compile Include="Source\PreventSourceAttribute.cs" />
     <Compile Include="Transfomers\AggregateTransformer.cs" />
+    <Compile Include="Transfomers\AbsolutePathTransformerAttribute.cs" />
     <Compile Include="Transfomers\DecryptionTransformerAttribute.cs" />
     <Compile Include="Utilities\EncryptionUtility.cs" />
     <Compile Include="Transfomers\IValueTransformer.cs" />
