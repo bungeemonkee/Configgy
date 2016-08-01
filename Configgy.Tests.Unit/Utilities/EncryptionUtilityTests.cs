@@ -39,7 +39,8 @@ namespace Configgy.Tests.Unit.Utilities
 
             var certificate = EncryptionUtility
                 .FindCertificates(x => !x.HasPrivateKey)
-                .FirstOrDefault();
+                // Make sure there is no other certificate with this public key and a private key as well
+                .FirstOrDefault(x => !EncryptionUtility.FindCertificateByPublicKey(x.GetPublicKey()).HasPrivateKey);
 
             if (certificate == null)
             {
