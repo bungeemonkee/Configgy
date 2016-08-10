@@ -4,7 +4,7 @@ using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Configgy.Tests.Unit.Transformers
+namespace Configgy.Tests.Unit.Transformation
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

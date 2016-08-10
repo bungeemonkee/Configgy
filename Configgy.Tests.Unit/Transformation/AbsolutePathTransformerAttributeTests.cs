@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-namespace Configgy.Tests.Unit.Transformers
+namespace Configgy.Tests.Unit.Transformation
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
