@@ -93,5 +93,20 @@ namespace Configgy.Tests.Unit.Coercion
             Assert.IsTrue(coerced);
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Coerce_Throws_Exception_For_Unconvertible_Type()
+        {
+            const string input = null;
+
+            var coercer = new CsvCoercerAttribute(typeof(DescriptionAttribute));
+
+            DescriptionAttribute[] result;
+            var coerced = coercer.Coerce(input, null, null, out result);
+
+            Assert.IsTrue(coerced);
+            Assert.IsNull(result);
+        }
     }
 }

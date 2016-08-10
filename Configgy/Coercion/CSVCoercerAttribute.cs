@@ -10,6 +10,8 @@ namespace Configgy.Coercion
     /// </summary>
     public class CsvCoercerAttribute : ValueCoercerAttributeBase
     {
+        private readonly TypeConverter _converter;
+
         /// <summary>
         /// The type of the items in the array.
         /// </summary>
@@ -44,6 +46,9 @@ namespace Configgy.Coercion
             ItemType = itemType;
             ArrayType = itemType.MakeArrayType();
             Separator = separator;
+
+            // get the converter for the given item type
+            _converter = TypeDescriptor.GetConverter(ItemType);
         }
 
         /// <summary>
@@ -64,6 +69,12 @@ namespace Configgy.Coercion
                 return false;
             }
 
+            // Make sure the onverter can actually do the conversion
+            if (!_converter.CanConvertFrom(typeof(string)))
+            {
+                throw new InvalidOperationException($"Unable to convert type {ItemType} from string.");
+            }
+
             // If the string is null then return null
             if (value == null)
             {
@@ -78,12 +89,9 @@ namespace Configgy.Coercion
                 return true;
             }
 
-            // get the converter for the given item type
-            var converter = TypeDescriptor.GetConverter(ItemType);
-
             // get the converted values
             var values = value.Split(new[] { Separator }, StringSplitOptions.None)
-                .Select(x => converter.ConvertFromString(x))
+                .Select(x => _converter.ConvertFromString(x))
                 .ToArray();
 
             // create the properly typed result array
