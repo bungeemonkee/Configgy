@@ -84,6 +84,8 @@
     <Compile Include="Source\EmbeddedResourceSourceTests.cs" />
     <Compile Include="Source\FileSourceTests.cs" />
     <Compile Include="TestingEnum.cs" />
+    <Compile Include="Transformation\LowercaseTransformerAttributeTests.cs" />
+    <Compile Include="Transformation\UppercaseTransformerAttributeTests.cs" />
     <Compile Include="Transformation\AbsolutePathTransformerAttributeTests.cs" />
     <Compile Include="Transformation\AggregateTransformerTests.cs" />
     <Compile Include="Utilities\EncryptionUtilityTests.cs" />
