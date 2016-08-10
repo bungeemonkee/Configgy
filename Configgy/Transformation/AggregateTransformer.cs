@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
-namespace Configgy.Transfomers
+namespace Configgy.Transformation
 {
     /// <summary>
     /// A value transformer that applies multiple other value transformers.

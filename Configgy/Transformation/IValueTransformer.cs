@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Configgy.Transfomers
+namespace Configgy.Transformation
 {
     /// <summary>
     /// Defines a value transformer - an object that can take raw string values an perform some trasnformation on them.

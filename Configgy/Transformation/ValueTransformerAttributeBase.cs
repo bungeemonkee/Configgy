@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Configgy.Transfomers
+namespace Configgy.Transformation
 {
     /// <summary>
     /// A base class for any transformer attributes.

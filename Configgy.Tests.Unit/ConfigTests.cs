@@ -8,7 +8,7 @@ using System.Reflection;
 using Configgy.Validation;
 using Configgy.Coercion;
 using Configgy.Exceptions;
-using Configgy.Transfomers;
+using Configgy.Transformation;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Configgy.Tests.Unit

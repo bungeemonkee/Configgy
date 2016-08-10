@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace Configgy.Transfomers
+namespace Configgy.Transformation
 {
     /// <summary>
     /// A value transformer that converts a relative file path to a full file path.

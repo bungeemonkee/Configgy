@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using Configgy.Validation;
 using Configgy.Coercion;
 using System;
-using Configgy.Transfomers;
+using Configgy.Transformation;
 
 namespace Configgy
 {

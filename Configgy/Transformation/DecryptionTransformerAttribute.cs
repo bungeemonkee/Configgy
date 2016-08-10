@@ -1,7 +1,7 @@
 ﻿using Configgy.Utilities;
 using System.Reflection;
 
-namespace Configgy.Transfomers
+namespace Configgy.Transformation
 {
     /// <summary>
     /// A value transformer that takes a base 64 encoded and RSA encrypted string and returns the decrypted string.
