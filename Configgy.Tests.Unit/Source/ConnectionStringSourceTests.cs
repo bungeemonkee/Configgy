@@ -14,7 +14,7 @@ namespace Configgy.Tests.Unit.Source
             const string name = "name";
             const string expected = "value";
 
-            var source = new ConectionStringsSource();
+            var source = new ConnectionStringsSource();
 
             string value;
             var result = source.Get(name, null, out value);
@@ -28,7 +28,7 @@ namespace Configgy.Tests.Unit.Source
         {
             const string name = "kfnnpa";
 
-            var source = new ConectionStringsSource();
+            var source = new ConnectionStringsSource();
 
             string value;
             var result = source.Get(name, null, out value);

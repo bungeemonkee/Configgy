@@ -6,7 +6,7 @@ namespace Configgy.Source
     /// <summary>
     /// An <see cref="IValueSource"/> that gets values from the connectionStrings element of the app/web config file.
     /// </summary>
-    public class ConectionStringsSource : IValueSource
+    public class ConnectionStringsSource : IValueSource
     {
         /// <summary>
         /// Get the raw configuration value from the source.

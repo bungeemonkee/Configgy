@@ -17,7 +17,7 @@ namespace Configgy.Source
         /// <list type="number">
         /// <item><see cref="EnvironmentVariableSource"/></item>
         /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConectionStringsSource"/></item>
+        /// <item><see cref="ConnectionStringsSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
         /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
@@ -26,7 +26,7 @@ namespace Configgy.Source
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
                   new FileSource(),
-                  new ConectionStringsSource(),
+                  new ConnectionStringsSource(),
                   new AppSettingSource(),
                   new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
@@ -39,7 +39,7 @@ namespace Configgy.Source
         /// <item><see cref="DashedCommandLineSource"/> using the given command line.</item>
         /// <item><see cref="EnvironmentVariableSource"/></item>
         /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConectionStringsSource"/></item>
+        /// <item><see cref="ConnectionStringsSource"/></item>
         /// <item><see cref="AppSettingSource"/></item>
         /// <item><see cref="EmbeddedResourceSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
@@ -49,7 +49,7 @@ namespace Configgy.Source
             : this(new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
-                  new ConectionStringsSource(),
+                  new ConnectionStringsSource(),
                   new AppSettingSource(),
                   new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
