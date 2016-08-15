@@ -22,7 +22,7 @@ namespace Configgy.Coercion
         /// <returns>True if the value could be coerced, false otherwise.</returns>
         public abstract bool Coerce<T>(string value, string valueName, PropertyInfo property, out T result);
 
-        protected bool IsNullable<T>()
+        protected static bool IsNullable<T>()
         {
             var type = typeof(T);
             return type.IsClass || (type.IsGenericType && type.GetGenericTypeDefinition() == NullableType);
