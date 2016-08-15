@@ -4,7 +4,7 @@
 
 A simple, powerful, extensible, testable .NET configuration library.
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master)
+[![Build Status](https://ci.appveyor.com/api/projects/status/64w2omp3rf0sa1hx?svg=true)](https://ci.appveyor.com/project/bungeemonkee/configgy) [![Coverage Status](https://coveralls.io/repos/github/bungeemonkee/Configgy/badge.svg?branch=master)](https://coveralls.io/github/bungeemonkee/Configgy?branch=master) [![NuGet Version](https://img.shields.io/nuget/v/Configgy.svg?maxAge=3600)](https://www.nuget.org/packages/Configgy)
 
 ## Documentation
 
