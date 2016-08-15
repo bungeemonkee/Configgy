@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="sbyte"/>s.
     /// </summary>
-    public class SByteValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<sbyte>
+    public class SByteValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<sbyte>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

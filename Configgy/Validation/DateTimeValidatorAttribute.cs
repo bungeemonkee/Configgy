@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="DateTime"/>s.
     /// </summary>
-    public class DateTimeValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<DateTime>
+    public class DateTimeValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<DateTime>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

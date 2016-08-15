@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="decimal"/>s.
     /// </summary>
-    public class DecimalValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<decimal>
+    public class DecimalValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<decimal>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

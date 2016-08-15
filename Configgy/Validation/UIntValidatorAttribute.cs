@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="uint"/>s.
     /// </summary>
-    public class UIntValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<uint>
+    public class UIntValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<uint>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

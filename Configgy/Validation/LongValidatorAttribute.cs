@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="long"/>s.
     /// </summary>
-    public class LongValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<long>
+    public class LongValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<long>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

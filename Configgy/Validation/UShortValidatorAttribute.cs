@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="ushort"/>s.
     /// </summary>
-    public class UShortValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<ushort>
+    public class UShortValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<ushort>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

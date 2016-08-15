@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="char"/>s.
     /// </summary>
-    public class CharValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<char>
+    public class CharValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<char>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

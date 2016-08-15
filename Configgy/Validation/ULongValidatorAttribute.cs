@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="ulong"/>s.
     /// </summary>
-    public class ULongValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<ulong>
+    public class ULongValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<ulong>
     {
         /// <summary>
         /// The minimum value allowed by this validator.

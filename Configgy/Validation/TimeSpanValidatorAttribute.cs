@@ -7,7 +7,7 @@ namespace Configgy.Validation
     /// <summary>
     /// An <see cref="IValueValidator"/> for <see cref="TimeSpan"/>s.
     /// </summary>
-    public class TimeSpanValidatorAttribute : ValueValidatorAtributeBase, INumericishValidator<TimeSpan>
+    public class TimeSpanValidatorAttribute : ValueValidatorAttributeBase, INumericishValidator<TimeSpan>
     {
         /// <summary>
         /// The minimum value allowed by this validator.
