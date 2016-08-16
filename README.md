@@ -24,7 +24,7 @@ Configgy is the last .NET configuration library you'll ever need. It is designed
 
 ## Usage
 
-The simplest usage of Configgy is to simply inherit from `Configgy.Config` and add the configuration properties you want like this:
+The simplest usage of Configgy is to inherit from `Configgy.Config` and add the configuration properties you want like this:
 
 ```csharp
 
@@ -92,7 +92,7 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 
 ## Bugs And Feature Requests
 
-Any TODO items, feature requests, bugs, etc. will be tracked as GitHub isues here:
+Any TODO items, feature requests, bugs, etc. will be tracked as GitHub issues here:
 [https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+](https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+)
 
 ## Thanks
