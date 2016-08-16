@@ -29,4 +29,4 @@ using System.Reflection;
 
 // This version number will roughly follow semantic versioning : http://semver.org
 // The first three numbers will always match the first the numbers of the version above.
-[assembly: AssemblyInformationalVersion("2.0.3.0")]
+[assembly: AssemblyInformationalVersion("2.0.3")]
