@@ -39,6 +39,10 @@
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Configgy">
+      <HintPath>..\Configgy\bin\$(Configuration)\net45\Configgy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.XML" />
@@ -125,13 +129,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Configgy\Configgy.csproj">
-      <Project>{1833c0d9-5794-4563-88bc-ea544e6fc2cf}</Project>
-      <Name>Configgy</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Resources\Settings\Test_Value_4_Embedded.conf" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Settings\Test_Value_4_Embedded.conf" />
+    <ProjectReference Include="..\Configgy\Configgy.xproj">
+      <Project>{f4ab5c8c-e2da-4ba8-9207-00b1463e0612}</Project>
+      <Name>Configgy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

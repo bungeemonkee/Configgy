@@ -25,7 +25,7 @@ namespace Configgy.Coercion
         protected static bool IsNullable<T>()
         {
             var type = typeof(T);
-            return type.IsClass || (type.IsGenericType && type.GetGenericTypeDefinition() == NullableType);
+            return type.GetTypeInfo().IsClass || (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == NullableType);
         }
     }
 }

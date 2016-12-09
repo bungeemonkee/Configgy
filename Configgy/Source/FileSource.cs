@@ -35,9 +35,15 @@ namespace Configgy.Source
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
         public bool Get(string valueName, PropertyInfo property, out string value)
         {
+#if NETSTANDARD1_3
+            var baseDirectory = Directory.GetCurrentDirectory();
+#else
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
             foreach (var extension in _fileExtensions)
             {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, valueName + extension);
+                var path = Path.Combine(baseDirectory, valueName + extension);
                 try
                 {
                     value = File.ReadAllText(path);

@@ -60,7 +60,11 @@ namespace Configgy.Utilities
             }
 
             // Find the private key for this certificate
+#if NETSTANDARD1_3
+            var rsa = certificate.GetRSAPrivateKey();
+#else
             var rsa = certificate.PrivateKey as RSACryptoServiceProvider;
+#endif
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA private key.");
@@ -77,8 +81,13 @@ namespace Configgy.Utilities
             Array.Copy(bytes, ivPosition, aesInitializationVector, 0, aesInitializationVectorEncryptedLength);
 
             // Decrypt the AES key and initialization vector using the RSA key
+#if NETSTANDARD1_3
+            aesKey = rsa.Decrypt(aesKey, RSAEncryptionPadding.Pkcs1);
+            aesInitializationVector = rsa.Decrypt(aesInitializationVector, RSAEncryptionPadding.Pkcs1);
+#else
             aesKey = rsa.Decrypt(aesKey, false);
             aesInitializationVector = rsa.Decrypt(aesInitializationVector, false);
+#endif
 
             // Chop off the bytes that contain the actual value
             var valuePosition = ivPosition + aesInitializationVectorEncryptedLength;
@@ -87,21 +96,22 @@ namespace Configgy.Utilities
             Array.Copy(bytes, valuePosition, valueBytes, 0, valueLength);
 
             // Decrypt the actual value using the aes encryption and return the resulting string
-            using (var aes = new AesManaged
+            using (var aes = Aes.Create())
             {
-                KeySize = 8 * aesKeyLength,
-                BlockSize = 8 * aesBlockSize,
-                Mode = CipherMode.CBC,
-                Key = aesKey,
-                IV = aesInitializationVector
-            })
-            using (var transform = aes.CreateDecryptor())
-            using (var memoryOut = new MemoryStream())
-            using (var memoryIn = new MemoryStream(valueBytes))
-            using (var crypto = new CryptoStream(memoryIn, transform, CryptoStreamMode.Read))
-            {
-                crypto.CopyTo(memoryOut);
-                return Encoding.UTF8.GetString(memoryOut.ToArray());
+                aes.KeySize = 8 * aesKeyLength;
+                aes.BlockSize = 8 * aesBlockSize;
+                aes.Mode = CipherMode.CBC;
+                aes.Key = aesKey;
+                aes.IV = aesInitializationVector;
+
+                using (var transform = aes.CreateDecryptor())
+                using (var memoryOut = new MemoryStream())
+                using (var memoryIn = new MemoryStream(valueBytes))
+                using (var crypto = new CryptoStream(memoryIn, transform, CryptoStreamMode.Read))
+                {
+                    crypto.CopyTo(memoryOut);
+                    return Encoding.UTF8.GetString(memoryOut.ToArray());
+                }
             }
         }
 
@@ -138,7 +148,11 @@ namespace Configgy.Utilities
             const int blockSizeBytes = blockSizeBits / 8;
 
             // Get the RSA key from the certificate
+#if NETSTANDARD1_3
+            var rsa = certificate.GetRSAPublicKey();
+#else
             var rsa = certificate.PublicKey.Key as RSACryptoServiceProvider;
+#endif
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA public key.");
@@ -147,13 +161,12 @@ namespace Configgy.Utilities
             // Get the public key as a byte array
             var publicKey = certificate.GetPublicKey();
 
-            using (var aes = new AesManaged
+            using (var aes = Aes.Create())
             {
-                KeySize = keySizeBits,
-                BlockSize = blockSizeBits,
-                Mode = CipherMode.CBC
-            })
-            {
+                aes.KeySize = keySizeBits;
+                aes.BlockSize = blockSizeBits;
+                aes.Mode = CipherMode.CBC;
+
                 // Generate a cryptographically random initialization vector and key
                 aes.GenerateIV();
                 aes.GenerateKey();
@@ -164,8 +177,13 @@ namespace Configgy.Utilities
                 }
 
                 // Encrypt the AES key and initialization vector
+#if NETSTANDARD1_3
+                var keyBytes = rsa.Encrypt(aes.Key, RSAEncryptionPadding.Pkcs1);
+                var ivBytes = rsa.Encrypt(aes.IV, RSAEncryptionPadding.Pkcs1);
+#else
                 var keyBytes = rsa.Encrypt(aes.Key, false);
                 var ivBytes = rsa.Encrypt(aes.IV, false);
+#endif
 
                 using (var memory = new MemoryStream())
                 {
@@ -197,7 +215,7 @@ namespace Configgy.Utilities
                     }
 
                     // Return the base 64 encoded result
-                    return Convert.ToBase64String(memory.ToArray(), Base64FormattingOptions.InsertLineBreaks);
+                    return Convert.ToBase64String(memory.ToArray());
                 }
             }
         }
@@ -244,7 +262,9 @@ namespace Configgy.Utilities
                             .Where(x => x.NotAfter >= DateTime.Now)
                             .Where(x => x.NotBefore <= DateTime.Now)
                             .Where(predicate)
+#if !NETSTANDARD1_3
                             .Where(x => x.Verify())
+#endif
                             );
                     }
                     catch
@@ -253,7 +273,11 @@ namespace Configgy.Utilities
                     }
                     finally
                     {
+#if NETSTANDARD1_3
+                        source?.Dispose();
+#else
                         source?.Close();
+#endif
                     }
                 }
             }

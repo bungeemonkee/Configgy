@@ -102,8 +102,14 @@ namespace Configgy
         {
             const int defaultWidth = 80;
 
+#if NETSTANDARD1_3
+            const bool interactive = true;
+#else
+            var interactive = Environment.UserInteractive;
+#endif
+
             int width;
-            if (Environment.UserInteractive)
+            if (interactive)
             {
                 try
                 {
@@ -176,7 +182,11 @@ namespace Configgy
                 .ToList();
 
             // Get the executable and add it to the output
+#if NETSTANDARD1_3
+            var executable = (string)null;
+#else
             var executable = Assembly.GetEntryAssembly()?.Location;
+#endif
             if (!string.IsNullOrWhiteSpace(executable))
             {
                 executable = Path.GetFileName(executable);
@@ -190,6 +200,7 @@ namespace Configgy
 
             // Get any help text from the config class itself
             var description = configType
+                .GetTypeInfo()
                 .GetCustomAttributes(true)
                 .OfType<HelpAttribute>()
                 .FirstOrDefault()
@@ -241,10 +252,10 @@ namespace Configgy
             if (type.IsArray) return GetTypeDisplayName(type.GetElementType()) + "[]";
 
             // If the type is an enum include the enum values
-            if (type.IsEnum) return $"{type.Name}({string.Join(",", Enum.GetNames(type))})";
+            if (type.GetTypeInfo().IsEnum) return $"{type.Name}({string.Join(",", Enum.GetNames(type))})";
 
             // Simple type - just return the simple name
-            if (!type.IsGenericType) return type.Name;
+            if (!type.GetTypeInfo().IsGenericType) return type.Name;
 
             // If the type is a nullable then return it with the '?' synytax
             if (type.GetGenericTypeDefinition() == NullableType) return GetTypeDisplayName(type.GetGenericArguments()[0]) + "?";

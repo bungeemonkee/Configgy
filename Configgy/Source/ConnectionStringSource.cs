@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿#if !NETSTANDARD1_3
+using System.Configuration;
 using System.Reflection;
 
 namespace Configgy.Source
@@ -22,3 +23,4 @@ namespace Configgy.Source
         }
     }
 }
+#endif

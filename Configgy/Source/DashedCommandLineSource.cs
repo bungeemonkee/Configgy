@@ -23,7 +23,7 @@ namespace Configgy.Source
             _values = commandLine.Select(c => CommandLineParameterRegex.Match(c))
                 .Where(m => m.Success)
                 .Select(m => m.Groups)
-                .ToDictionary(g => g["name"].Value, g => g["equals"].Value == string.Empty ? null : g["value"].Value, StringComparer.InvariantCultureIgnoreCase);
+                .ToDictionary(g => g["name"].Value, g => g["equals"].Value == string.Empty ? null : g["value"].Value, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>

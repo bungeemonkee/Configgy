@@ -12,6 +12,43 @@ namespace Configgy.Source
     {
         private readonly IValueSource[] _sources;
 
+#if NETSTANDARD1_3
+        /// <summary>
+        /// Creates an AggregateSource that delegates to the following sources in order:
+        /// <list type="number">
+        /// <item><see cref="EnvironmentVariableSource"/></item>
+        /// <item><see cref="FileSource"/></item>
+        /// <item><see cref="EmbeddedResourceSource"/></item>
+        /// <item><see cref="DefaultValueAttributeSource"/></item>
+        /// </list>
+        /// </summary>
+        public AggregateSource()
+            : this(new EnvironmentVariableSource(),
+                  new FileSource(),
+                  new EmbeddedResourceSource(),
+                  new DefaultValueAttributeSource())
+        {
+        }
+
+        /// <summary>
+        /// Creates an AggregateSource using the given command line that delegates to the following sources in order:
+        /// <list type="number">
+        /// <item><see cref="DashedCommandLineSource"/> using the given command line.</item>
+        /// <item><see cref="EnvironmentVariableSource"/></item>
+        /// <item><see cref="FileSource"/></item>
+        /// <item><see cref="EmbeddedResourceSource"/></item>
+        /// <item><see cref="DefaultValueAttributeSource"/></item>
+        /// </list>
+        /// </summary>
+        public AggregateSource(string[] commandLine)
+            : this(new DashedCommandLineSource(commandLine),
+                  new EnvironmentVariableSource(),
+                  new FileSource(),
+                  new EmbeddedResourceSource(),
+                  new DefaultValueAttributeSource())
+        {
+        }
+#else
         /// <summary>
         /// Creates an AggregateSource that delegates to the following sources in order:
         /// <list type="number">
@@ -55,6 +92,7 @@ namespace Configgy.Source
                   new DefaultValueAttributeSource())
         {
         }
+#endif
 
         /// <summary>
         /// Creates an AggregateSource that delegates to the given sources in order.

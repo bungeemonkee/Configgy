@@ -51,9 +51,14 @@ namespace Configgy.Source
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
         public bool Get(string valueName, PropertyInfo property, out string value)
         {
+#if NETSTANDARD1_3
+            var assemblies = new [] { property.DeclaringType.GetTypeInfo().Assembly };
+#else
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+#endif
+
             // From all the loaded assemblies get any matching resource
-            var resource = AppDomain.CurrentDomain
-                .GetAssemblies()
+            var resource = assemblies
                 .Where(x => !x.IsDynamic)
                 .Select(x => new
                 {
