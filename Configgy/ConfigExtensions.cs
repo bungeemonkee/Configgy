@@ -102,41 +102,14 @@ namespace Configgy
         {
             const int defaultWidth = 80;
 
-#if NETSTANDARD1_3
-            const bool interactive = true;
-#else
-            var interactive = Environment.UserInteractive;
-#endif
-
             int width;
-            if (interactive)
+            try
             {
-                try
-                {
-                    width = Console.WindowWidth;
-                }
-                catch
-                {
-                    try
-                    {
-                        width = Console.BufferWidth;
-                    }
-                    catch
-                    {
-                        width = defaultWidth;
-                    }
-                }
+                width = Console.BufferWidth;
             }
-            else
+            catch
             {
-                try
-                {
-                    width = Console.BufferWidth;
-                }
-                catch
-                {
-                    width = defaultWidth;
-                }
+                width = defaultWidth;
             }
 
             return GetCommandLineHelp(config, includeUndocumented, width);
@@ -182,11 +155,7 @@ namespace Configgy
                 .ToList();
 
             // Get the executable and add it to the output
-#if NETSTANDARD1_3
-            var executable = (string)null;
-#else
             var executable = Assembly.GetEntryAssembly()?.Location;
-#endif
             if (!string.IsNullOrWhiteSpace(executable))
             {
                 executable = Path.GetFileName(executable);
@@ -245,8 +214,7 @@ namespace Configgy
         private static string GetTypeDisplayName(Type type)
         {
             // If the type has a simpler name then use that
-            string name;
-            if (SimpleTypeNames.TryGetValue(type, out name)) return name;
+            if (SimpleTypeNames.TryGetValue(type, out string name)) return name;
 
             // If the type is an array make sure to use the simple type name
             if (type.IsArray) return GetTypeDisplayName(type.GetElementType()) + "[]";

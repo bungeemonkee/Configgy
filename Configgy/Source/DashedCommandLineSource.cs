@@ -6,12 +6,20 @@ using System.Text.RegularExpressions;
 
 namespace Configgy.Source
 {
-    public class DashedCommandLineSource : IValueSource
+    public class DashedCommandLineSource : ValueSourceAttributeBase
     {
         private const string CommandLineParameterRegexValue = @"^\-\-(?<name>[a-z][a-z0-9]*)(?<equals>=(?<value>.*))?$";
         private static readonly Regex CommandLineParameterRegex = new Regex(CommandLineParameterRegexValue, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
         private readonly IReadOnlyDictionary<string, string> _values;
+
+        /// <summary>
+        /// Creates a DashedCommandLineSource using the command line from <see cref="Environment.GetCommandLineArgs"/>.
+        /// </summary>
+        public DashedCommandLineSource()
+            : this(Environment.GetCommandLineArgs())
+        {
+        }
 
         /// <summary>
         /// Creates a DashedCommandLineSource with the given command line.
@@ -33,10 +41,10 @@ namespace Configgy.Source
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
         /// <param name="value">The value found in the source.</param>
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public bool Get(string valueName, PropertyInfo property, out string value)
+        public override bool Get(string valueName, PropertyInfo property, out string value)
         {
             // Check for command line name overrides
-            valueName = property
+            valueName = ((ICustomAttributeProvider)property)
                 .GetCustomAttributes(true)
                 .OfType<CommandLineNameAttribute>()
                 .Select(x => x.CommandLineName)

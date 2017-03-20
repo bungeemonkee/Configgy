@@ -1,13 +1,13 @@
-﻿#if !NETSTANDARD1_3
-using System.Configuration;
+﻿using System;
 using System.Reflection;
 
 namespace Configgy.Source
 {
     /// <summary>
-    /// An <see cref="IValueSource"/> that gets values from the appSettings element of the app/web config file.
+    /// A base class for any source attributes.
     /// </summary>
-    public class AppSettingSource : IValueSource
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public abstract class ValueSourceAttributeBase : Attribute, IValueSource
     {
         /// <summary>
         /// Get the raw configuration value from the source.
@@ -16,11 +16,6 @@ namespace Configgy.Source
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
         /// <param name="value">The value found in the source.</param>
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public bool Get(string valueName, PropertyInfo property, out string value)
-        {
-            value = ConfigurationManager.AppSettings[valueName];
-            return value != null;
-        }
+        public abstract bool Get(string valueName, PropertyInfo property, out string value);
     }
 }
-#endif

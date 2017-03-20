@@ -8,17 +8,13 @@ namespace Configgy.Transformation
     /// </summary>
     public class LowercaseTransformerAttribute : ValueTransformerAttributeBase
     {
-#if !NETSTANDARD1_3
         public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
-#endif
 
-        public override string Transform(string value, string valueName, PropertyInfo property)
+        public override string Transform(string value, string valueName, ICustomAttributeProvider property)
         {
-#if NETSTANDARD1_3
-            return value?.ToLower();
-#else
-            return value?.ToLower(Culture);
-#endif
+            return value != null
+                ? Culture.TextInfo.ToLower(value)
+                : null;
         }
     }
 }

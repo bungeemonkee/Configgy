@@ -5,16 +5,16 @@ using System.Diagnostics.CodeAnalysis;
 namespace Configgy.Tests.Unit.Source
 {
     [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class EmbeddedResourceSourceTests
+    //[ExcludeFromCodeCoverage]
+    public class FileSourceTests
     {
         [TestMethod]
-        public void Get_Returns_Value_From_conf_Resource()
+        public void Get_Returns_Value_From_conf_File()
         {
-            const string name = "TestValue1Embedded";
+            const string name = "TestValue1";
             const string expected = "This is a string value.";
 
-            var source = new EmbeddedResourceSource();
+            var source = new FileSource();
 
             string value;
             var result = source.Get(name, null, out value);
@@ -24,12 +24,12 @@ namespace Configgy.Tests.Unit.Source
         }
 
         [TestMethod]
-        public void Get_Returns_Value_From_json_Resource()
+        public void Get_Returns_Value_From_json_File()
         {
-            const string name = "TestValue2Embedded";
+            const string name = "TestValue2";
             const string expected = "[ \"string array\" ]";
 
-            var source = new EmbeddedResourceSource();
+            var source = new FileSource();
 
             string value;
             var result = source.Get(name, null, out value);
@@ -39,12 +39,12 @@ namespace Configgy.Tests.Unit.Source
         }
 
         [TestMethod]
-        public void Get_Returns_Value_From_xml_Resource()
+        public void Get_Returns_Value_From_xml_File()
         {
-            const string name = "TestValue3Embedded";
+            const string name = "TestValue3";
             const string expected = "<element>some xml</element>";
 
-            var source = new EmbeddedResourceSource();
+            var source = new FileSource();
 
             string value;
             var result = source.Get(name, null, out value);
@@ -54,26 +54,11 @@ namespace Configgy.Tests.Unit.Source
         }
 
         [TestMethod]
-        public void Get_Allows_Names_With_Underscores()
+        public void Get_Returns_Null_For_File_That_Doesnt_Exist()
         {
-            const string name = "Test_Value_4_Embedded";
-            const string expected = "Setting!";
+            const string name = "this file doesn't exist";
 
-            var source = new EmbeddedResourceSource();
-
-            string value;
-            var result = source.Get(name, null, out value);
-
-            Assert.AreEqual(expected, value);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void Get_Returns_Null_For_Resources_That_Dont_Exist()
-        {
-            const string name = "NOT ACTUALLY A RESOURCE!!!!!!";
-
-            var source = new EmbeddedResourceSource();
+            var source = new FileSource();
 
             string value;
             var result = source.Get(name, null, out value);

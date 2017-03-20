@@ -45,7 +45,7 @@ namespace Configgy.Validation
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        public bool Validate<T>(string value, string valueName, PropertyInfo property, out T result)
+        public bool Validate<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
         {
             // Set the result to the default value
             result = default(T);
@@ -53,8 +53,7 @@ namespace Configgy.Validation
             // Get the validator for the expected type
             // ...validate based on the type
             // ...and get the result
-            IValueValidator typeValidator;
-            var coerced = _validatorsByType.TryGetValue(typeof(T), out typeValidator) && typeValidator.Validate(value, valueName, property, out result);
+            var coerced = _validatorsByType.TryGetValue(typeof(T), out IValueValidator typeValidator) && typeValidator.Validate(value, valueName, property, out result);
 
             // If there is no property then return
             if (property == null) return coerced;
@@ -67,8 +66,7 @@ namespace Configgy.Validation
             // Use each property attribute validator to validate the value
             foreach (var validator in propertyValidators)
             {
-                T localResult;
-                if (validator.Validate(value, valueName, property, out localResult) && !coerced)
+                if (validator.Validate(value, valueName, property, out T localResult) && !coerced)
                 {
                     result = localResult;
                     coerced = true;

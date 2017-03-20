@@ -22,6 +22,6 @@ namespace Configgy.Validation
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        bool Validate<T>(string value, string valueName, PropertyInfo property, out T result);
+        bool Validate<T>(string value, string valueName, ICustomAttributeProvider property, out T result);
     }
 }

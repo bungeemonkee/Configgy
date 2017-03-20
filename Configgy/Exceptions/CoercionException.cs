@@ -26,7 +26,7 @@ namespace Configgy.Exceptions
         /// <summary>
         /// If there is a property reference associated with this value name this will hold that reference, null otherwise.
         /// </summary>
-        public readonly PropertyInfo Property;
+        public readonly ICustomAttributeProvider Property;
 
         /// <summary>
         /// Create a new CoercionException without an inner exception.
@@ -35,7 +35,7 @@ namespace Configgy.Exceptions
         /// <param name="valueName">The name of the value.</param>
         /// <param name="expectedType">The type the value could not be coerced into.</param>
         /// <param name="property">The property reference associated with the value, or null if the is none.</param>
-        public CoercionException(string value, string valueName, Type expectedType, PropertyInfo property)
+        public CoercionException(string value, string valueName, Type expectedType, ICustomAttributeProvider property)
             : base(GetMessage(value, valueName, expectedType))
         {
         }
@@ -48,7 +48,7 @@ namespace Configgy.Exceptions
         /// <param name="expectedType">The type the value could not be coerced into.</param>
         /// <param name="property">The property reference associated with the value, or null if the is none.</param>
         /// <param name="innerException">The exception that caused the coercion failure.</param>
-        public CoercionException(string value, string valueName, Type expectedType, PropertyInfo property, Exception innerException)
+        public CoercionException(string value, string valueName, Type expectedType, ICustomAttributeProvider property, Exception innerException)
             : base(GetMessage(value, valueName, expectedType), innerException)
         {
         }

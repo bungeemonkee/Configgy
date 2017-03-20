@@ -7,7 +7,7 @@ namespace Configgy.Source
     /// <summary>
     /// An <see cref="IValueSource"/> that gets values from <see cref="DefaultValueAttribute"/> instances on a <see cref="Config"/> property.
     /// </summary>
-    public class DefaultValueAttributeSource : IValueSource
+    public class DefaultValueAttributeSource : ValueSourceAttributeBase
     {
         /// <summary>
         /// Get the raw configuration value from the source.
@@ -16,10 +16,10 @@ namespace Configgy.Source
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
         /// <param name="value">The value found in the source.</param>
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public bool Get(string valueName, PropertyInfo property, out string value)
+        public override bool Get(string valueName, PropertyInfo property, out string value)
         {
             // Get the default value attribute
-            var attribute = property?.GetCustomAttributes(true)
+            var attribute = ((ICustomAttributeProvider)property)?.GetCustomAttributes(true)
                 .OfType<DefaultValueAttribute>()
                 .SingleOrDefault();
 

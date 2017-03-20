@@ -7,7 +7,7 @@ namespace Configgy.Source
     /// <summary>
     /// An <see cref="IValueSource"/> that looks for files with the extension '.config', '.json', or '.xml' in the application base directory and have the same name as the requested value.
     /// </summary>
-    public class FileSource : IValueSource
+    public class FileSource : ValueSourceAttributeBase
     {
         private readonly string[] _fileExtensions;
 
@@ -33,13 +33,9 @@ namespace Configgy.Source
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
         /// <param name="value">The value found in the source.</param>
         /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public bool Get(string valueName, PropertyInfo property, out string value)
+        public override bool Get(string valueName, PropertyInfo property, out string value)
         {
-#if NETSTANDARD1_3
-            var baseDirectory = Directory.GetCurrentDirectory();
-#else
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-#endif
+            var baseDirectory = AppContext.BaseDirectory;
 
             foreach (var extension in _fileExtensions)
             {

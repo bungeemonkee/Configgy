@@ -19,6 +19,6 @@ namespace Configgy.Transformation
         /// <param name="valueName">The name of the value to be transformed.</param>
         /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
         /// <returns>The transformed configuration value.</returns>
-        string Transform(string value, string valueName, PropertyInfo property);
+        string Transform(string value, string valueName, ICustomAttributeProvider property);
     }
 }

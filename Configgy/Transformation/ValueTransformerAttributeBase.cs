@@ -11,6 +11,6 @@ namespace Configgy.Transformation
     {
         public virtual int Order { get; set; }
 
-        public abstract string Transform(string value, string valueName, PropertyInfo property);
+        public abstract string Transform(string value, string valueName, ICustomAttributeProvider property);
     }
 }

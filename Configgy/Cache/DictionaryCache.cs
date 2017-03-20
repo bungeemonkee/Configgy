@@ -36,8 +36,7 @@ namespace Configgy.Cache
         /// <param name="valueName">The name of the value to remove from the cache.</param>
         public void Remove(string valueName)
         {
-            object value;
-            _internal.TryRemove(valueName, out value);
+            _internal.TryRemove(valueName, out object value);
         }
     }
 }

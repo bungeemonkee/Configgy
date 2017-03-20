@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -60,11 +61,7 @@ namespace Configgy.Utilities
             }
 
             // Find the private key for this certificate
-#if NETSTANDARD1_3
-            var rsa = certificate.GetRSAPrivateKey();
-#else
-            var rsa = certificate.PrivateKey as RSACryptoServiceProvider;
-#endif
+            var rsa = certificate.GetRSAPrivateKey() as RSACng;
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA private key.");
@@ -81,13 +78,8 @@ namespace Configgy.Utilities
             Array.Copy(bytes, ivPosition, aesInitializationVector, 0, aesInitializationVectorEncryptedLength);
 
             // Decrypt the AES key and initialization vector using the RSA key
-#if NETSTANDARD1_3
-            aesKey = rsa.Decrypt(aesKey, RSAEncryptionPadding.Pkcs1);
-            aesInitializationVector = rsa.Decrypt(aesInitializationVector, RSAEncryptionPadding.Pkcs1);
-#else
-            aesKey = rsa.Decrypt(aesKey, false);
-            aesInitializationVector = rsa.Decrypt(aesInitializationVector, false);
-#endif
+            aesKey = rsa.Decrypt(aesKey, RSAEncryptionPadding.OaepSHA512);
+            aesInitializationVector = rsa.Decrypt(aesInitializationVector, RSAEncryptionPadding.OaepSHA512);
 
             // Chop off the bytes that contain the actual value
             var valuePosition = ivPosition + aesInitializationVectorEncryptedLength;
@@ -148,11 +140,7 @@ namespace Configgy.Utilities
             const int blockSizeBytes = blockSizeBits / 8;
 
             // Get the RSA key from the certificate
-#if NETSTANDARD1_3
-            var rsa = certificate.GetRSAPublicKey();
-#else
-            var rsa = certificate.PublicKey.Key as RSACryptoServiceProvider;
-#endif
+            var rsa = certificate.GetRSAPublicKey() as RSACng;
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA public key.");
@@ -177,13 +165,8 @@ namespace Configgy.Utilities
                 }
 
                 // Encrypt the AES key and initialization vector
-#if NETSTANDARD1_3
-                var keyBytes = rsa.Encrypt(aes.Key, RSAEncryptionPadding.Pkcs1);
-                var ivBytes = rsa.Encrypt(aes.IV, RSAEncryptionPadding.Pkcs1);
-#else
-                var keyBytes = rsa.Encrypt(aes.Key, false);
-                var ivBytes = rsa.Encrypt(aes.IV, false);
-#endif
+                var keyBytes = rsa.Encrypt(aes.Key, RSAEncryptionPadding.OaepSHA512);
+                var ivBytes = rsa.Encrypt(aes.IV, RSAEncryptionPadding.OaepSHA512);
 
                 using (var memory = new MemoryStream())
                 {
@@ -251,33 +234,24 @@ namespace Configgy.Utilities
             {
                 foreach (var location in locations)
                 {
-                    X509Store source = null;
                     try
                     {
-                        source = new X509Store(store, location);
-                        source.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
-                        certificates.AddRange(source.Certificates
-                            .Cast<X509Certificate2>()
-                            .Where(x => !x.Archived)
-                            .Where(x => x.NotAfter >= DateTime.Now)
-                            .Where(x => x.NotBefore <= DateTime.Now)
-                            .Where(predicate)
-#if !NETSTANDARD1_3
-                            .Where(x => x.Verify())
-#endif
+                        using (var source = new X509Store(store, location))
+                        {
+                            source.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+                            certificates.AddRange(source.Certificates
+                                .Cast<X509Certificate2>()
+                                .Where(x => !x.Archived)
+                                .Where(x => x.NotAfter >= DateTime.Now)
+                                .Where(x => x.NotBefore <= DateTime.Now)
+                                .Where(predicate)
+                                .Where(Verify)
                             );
+                        }
                     }
                     catch
                     {
                         // Just try the next one
-                    }
-                    finally
-                    {
-#if NETSTANDARD1_3
-                        source?.Dispose();
-#else
-                        source?.Close();
-#endif
                     }
                 }
             }
@@ -297,6 +271,15 @@ namespace Configgy.Utilities
             }
 
             return true;
+        }
+
+        private static bool Verify(X509Certificate2 certificate)
+        {
+            using (var chain = new X509Chain())
+            {
+                chain.ChainPolicy.RevocationMode = X509RevocationMode.Offline;
+                return chain.Build(certificate);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Configgy.Coercion
         /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
         /// <param name="result">The coerced value.</param>
         /// <returns>True if the value could be coerced, false otherwise.</returns>
-        public override bool Coerce<T>(string value, string valueName, PropertyInfo property, out T result)
+        public override bool Coerce<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
         {
             // Only try to coerce values into Regex objects
             if (typeof(T) != typeof(Regex))

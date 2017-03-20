@@ -93,12 +93,10 @@ namespace Configgy
         private object ProduceValue<T>(string valueName)
         {
             // get the property reference
-            PropertyInfo property;
-            _properties.TryGetValue(valueName, out property);
+            _properties.TryGetValue(valueName, out PropertyInfo property);
 
             // Get the value from the factory
-            string value;
-            if (!_source.Get(valueName, property, out value))
+            if (!_source.Get(valueName, property, out string value))
             {
                 // Throw an exception informing the user of the missing value
                 throw new MissingValueException(valueName);
@@ -108,8 +106,7 @@ namespace Configgy
             value = _transformer.Transform(value, valueName, property);
 
             // Validate the value
-            T result;
-            var coerced = _validator.Validate(value, valueName, property, out result);
+            var coerced = _validator.Validate(value, valueName, property, out T result);
 
             // Optimization: skip coercion for string values
             var type = typeof(T);

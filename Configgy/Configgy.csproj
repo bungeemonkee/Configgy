@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.5</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Version>2.0.3</Version>
+    <Authors>David Love</Authors>
+    <Company>David Love</Company>
+    <Description>Configgy: Configuration library for .NET</Description>
+    <PackageIconUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/icon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/bungeemonkee/Configgy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/bungeemonkee/Configgy</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>Configgy, config, configuration</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Source\ve-38E1.tmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

@@ -32,7 +32,7 @@ namespace Configgy.Transformation
             _transformers = transformers;
         }
 
-        public string Transform(string value, string valueName, PropertyInfo property)
+        public string Transform(string value, string valueName, ICustomAttributeProvider property)
         {
             var propertyTransformers = property?.GetCustomAttributes(true)
                 .OfType<IValueTransformer>() ?? Enumerable.Empty<IValueTransformer>();

@@ -77,7 +77,7 @@ public class MyDatabaseConfig : IValueSource
         // TODO: Implement this constructor
     }
     
-    public string GetRawValue(string valueName, PropertyInfo property)
+    public string GetRawValue(string valueName, ICustomAttributeProvider property)
     {
         // TODO: Implement getting the config value from the database
     }
