@@ -15,14 +15,25 @@ environment:
     secure: CbB+HqPrseFu6L/FGrJZf4uTUojOk+t0LuSAV6V5zHitbMwHr+yYuqh5ojlyhC1L
 
 before_build:
-- cmd: nuget restore Configgy.sln
+- cmd: _build\restore.bat
+    
+build_script:
+- cmd: _build\build.bat
 
-build:
-  project: Configgy.sln
-  verbosity: minimal
+test_script:
+- cmd: _build\test.bat
 
 after_test:
-- cmd: >-
-    packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[Configgy]* -[Configgy]System.*" -target:"vstest.console.exe" -targetargs:"Configgy.Tests.Unit\bin\%configuration%\Configgy.Tests.Unit.dll" -output:coverage.xml
-    
-    packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
+- cmd: _build\package.bat
+
+artifacts:
+- path: '*.nupkg'
+  name: Nuget Package
+
+deploy:
+- provider: NuGet
+  api_key:
+    secure: P2oh37pn3l7Tp9qTP87aOB0GFxg8WnlFyV8n3p1eqMS5aUVur1Yg3xQ2inbIDOCr
+  skip_symbols: false
+  on:
+    branch: master
