@@ -4,7 +4,7 @@
     <TargetFramework>netstandard1.5</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>2.0.3</Version>
+    <Version>3.0.2-rc1</Version>
     <Authors>David Love</Authors>
     <Company>David Love</Company>
     <Description>Configgy: Configuration library for .NET</Description>
@@ -14,6 +14,8 @@
     <PackageProjectUrl>https://github.com/bungeemonkee/Configgy</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</PackageLicenseUrl>
     <PackageTags>Configgy, config, configuration</PackageTags>
+    <AssemblyVersion>3.0.2.1</AssemblyVersion>
+    <FileVersion>3.0.2.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
