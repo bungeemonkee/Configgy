@@ -185,6 +185,7 @@ ClientBin/
 *.publishsettings
 node_modules/
 orleans.codegen.cs
+coverage.xml
 
 # RIA/Silverlight projects
 Generated_Code/
