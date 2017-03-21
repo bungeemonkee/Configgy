@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
 
 namespace Configgy.Source
 {
@@ -18,14 +17,12 @@ namespace Configgy.Source
         /// <list type="number">
         /// <item><see cref="EnvironmentVariableSource"/></item>
         /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConfigurationRootSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
         /// </list>
         /// </summary>
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
                   new FileSource(),
-                  new ConfigurationRootSource(),
                   new DefaultValueAttributeSource())
         {
         }
@@ -36,7 +33,6 @@ namespace Configgy.Source
         /// <item><see cref="DashedCommandLineSource"/> using the given command line.</item>
         /// <item><see cref="EnvironmentVariableSource"/></item>
         /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConfigurationRootSource"/></item>
         /// <item><see cref="DefaultValueAttributeSource"/></item>
         /// </list>
         /// </summary>
@@ -44,43 +40,6 @@ namespace Configgy.Source
             : this(new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
-                  new ConfigurationRootSource(),
-                  new DefaultValueAttributeSource())
-        {
-        }
-
-        /// <summary>
-        /// Creates an AggregateSource that delegates to the following sources in order:
-        /// <list type="number">
-        /// <item><see cref="EnvironmentVariableSource"/></item>
-        /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConfigurationRootSource"/> using the given <see cref="IConfigurationRoot"/></item>
-        /// <item><see cref="DefaultValueAttributeSource"/></item>
-        /// </list>
-        /// </summary>
-        public AggregateSource(IConfigurationRoot configurationRoot)
-            : this(new EnvironmentVariableSource(),
-                  new FileSource(),
-                  new ConfigurationRootSource(configurationRoot),
-                  new DefaultValueAttributeSource())
-        {
-        }
-
-        /// <summary>
-        /// Creates an AggregateSource using the given command line that delegates to the following sources in order:
-        /// <list type="number">
-        /// <item><see cref="DashedCommandLineSource"/> using the given command line.</item>
-        /// <item><see cref="EnvironmentVariableSource"/></item>
-        /// <item><see cref="FileSource"/></item>
-        /// <item><see cref="ConfigurationRootSource"/> using the given <see cref="IConfigurationRoot"/></item>
-        /// <item><see cref="DefaultValueAttributeSource"/></item>
-        /// </list>
-        /// </summary>
-        public AggregateSource(string[] commandLine, IConfigurationRoot configurationRoot)
-            : this(new DashedCommandLineSource(commandLine),
-                  new EnvironmentVariableSource(),
-                  new FileSource(),
-                  new ConfigurationRootSource(configurationRoot),
                   new DefaultValueAttributeSource())
         {
         }
