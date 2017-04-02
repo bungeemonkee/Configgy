@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Configgy.Coercion
@@ -9,6 +10,12 @@ namespace Configgy.Coercion
     public class AggregateCoercer : IValueCoercer
     {
         private readonly IValueCoercer[] _coercers;
+
+        /// <summary>
+        /// The <see cref="IValueCoercer"/>s used.
+        /// This does not include ones defined as property attributes.
+        /// </summary>
+        public IEnumerable<IValueCoercer> Coercers => _coercers;
 
         /// <summary>
         /// Creates a default aggregate coercer that delegates to the following coercers:

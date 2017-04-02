@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Configgy.Transformation
@@ -9,6 +10,12 @@ namespace Configgy.Transformation
     public class AggregateTransformer : IValueTransformer
     {
         private readonly IValueTransformer[] _transformers;
+
+        /// <summary>
+        /// The <see cref="IValueTransformer"/>s used.
+        /// This does not include ones defined as property attributes.
+        /// </summary>
+        public IEnumerable<IValueTransformer> Transformers => _transformers;
 
         /// <summary>
         /// A simple ordering mechanism used to ensure transformers are chained in the correct sequence.

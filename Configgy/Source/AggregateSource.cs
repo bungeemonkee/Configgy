@@ -13,6 +13,12 @@ namespace Configgy.Source
         private readonly IValueSource[] _sources;
 
         /// <summary>
+        /// The <see cref="IValueSource"/>s used.
+        /// This does not include ones defined as property attributes.
+        /// </summary>
+        public IEnumerable<IValueSource> Sources => _sources;
+
+        /// <summary>
         /// Creates an AggregateSource that delegates to the following sources in order:
         /// <list type="number">
         /// <item><see cref="EnvironmentVariableSource"/></item>

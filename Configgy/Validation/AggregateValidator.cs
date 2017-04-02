@@ -13,6 +13,12 @@ namespace Configgy.Validation
         private readonly IDictionary<Type, IValueValidator> _validatorsByType;
 
         /// <summary>
+        /// The <see cref="IValueValidator"/>s used by the type they are used for.
+        /// This does not include ones defined as property attributes.
+        /// </summary>
+        public IReadOnlyDictionary<Type, IValueValidator> ValidatorsByType => _validatorsByType as IReadOnlyDictionary<Type, IValueValidator>;
+
+        /// <summary>
         /// Creates an AggregateValidator with a default set of type-specific validators.
         /// </summary>
         public AggregateValidator()
