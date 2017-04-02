@@ -19,12 +19,32 @@ namespace Configgy
     {
         private static readonly Type StringType = typeof(string);
 
-        private readonly IValueCache _cache;
-        private readonly IValueSource _source;
-        private readonly IValueTransformer _transformer;
-        private readonly IValueValidator _validator;
-        private readonly IValueCoercer _coercer;
         private readonly IReadOnlyDictionary<string, PropertyInfo> _properties;
+
+        /// <summary>
+        /// The <see cref="IValueCache"/> in use by this configuration.
+        /// </summary>
+        protected IValueCache Cache { get; }
+
+        /// <summary>
+        /// The <see cref="IValueSource"/> in use by this configuration.
+        /// </summary>
+        protected IValueSource Source { get; }
+
+        /// <summary>
+        /// The <see cref="IValueTransformer"/> in use by this configuration.
+        /// </summary>
+        protected IValueTransformer Transformer { get; }
+
+        /// <summary>
+        /// The <see cref="IValueValidator"/> in use by this configuration.
+        /// </summary>
+        protected IValueValidator Validator { get; }
+
+        /// <summary>
+        /// The <see cref="IValueCoercer"/> in use by this configuration.
+        /// </summary>
+        protected IValueCoercer Coercer { get; }
 
         /// <summary>
         /// Create a default Config instance.
@@ -54,11 +74,11 @@ namespace Configgy
         /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
         protected Config(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
         {
-            _cache = cache;
-            _source = source;
-            _transformer = transformer;
-            _validator = validator;
-            _coercer = coercer;
+            Cache = cache;
+            Source = source;
+            Transformer = transformer;
+            Validator = validator;
+            Coercer = coercer;
 
             // Pre-cache all the properties on this instance
             _properties = GetType()
@@ -73,7 +93,7 @@ namespace Configgy
         /// </summary>
         public void ClearCache()
         {
-            _cache.Clear();
+            Cache.Clear();
         }
 
         /// <summary>
@@ -87,7 +107,7 @@ namespace Configgy
         /// <returns>The configuration value.</returns>
         protected T Get<T>([CallerMemberName] string valueName = null)
         {
-            return (T)_cache.Get(valueName, ProduceValue<T>);
+            return (T)Cache.Get(valueName, ProduceValue<T>);
         }
 
         private object ProduceValue<T>(string valueName)
@@ -96,17 +116,17 @@ namespace Configgy
             _properties.TryGetValue(valueName, out PropertyInfo property);
 
             // Get the value from the factory
-            if (!_source.Get(valueName, property, out string value))
+            if (!Source.Get(valueName, property, out string value))
             {
                 // Throw an exception informing the user of the missing value
                 throw new MissingValueException(valueName);
             }
 
             // Transform the value
-            value = _transformer.Transform(value, valueName, property);
+            value = Transformer.Transform(value, valueName, property);
 
             // Validate the value
-            var coerced = _validator.Validate(value, valueName, property, out T result);
+            var coerced = Validator.Validate(value, valueName, property, out T result);
 
             // Optimization: skip coercion for string values
             var type = typeof(T);
@@ -116,7 +136,7 @@ namespace Configgy
             if (coerced) return result;
 
             // Coerce the value
-            if (!_coercer.Coerce(value, valueName, property, out result))
+            if (!Coercer.Coerce(value, valueName, property, out result))
             {
                 // Throw an exception informing the user of the failed coercion
                 throw new CoercionException(value, valueName, type, property);
