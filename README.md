@@ -16,6 +16,7 @@ A simple, powerful, extensible, testable .NET configuration library.
     3. [Transform](Documentation/Pipeline/3-Transform.md)
     4. [Validate](Documentation/Pipeline/4-Validate.md)
     5. [Coerce](Documentation/Pipeline/5-Coerce.md)
+2. [Other Features](Documentation/2-Other.md)
 
 
 ## Description
@@ -59,7 +60,7 @@ The basic design of Configgy boils down to a few key points:
 Here are a bunch of things supported by Configgy out of the box:
 
 * Strongly typed configurations including complex objects
-    * Any value type you can imagine including enums, numerics, DateTime, TimeSpan and strings
+    * Any value type you can imagine including enums, numerics, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), [`TimeSpan`](https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx) and strings
     * JSON for complex objects (preferred)
     * XML for complex objects (not recommended but it works)
 * Configuration sources
@@ -68,12 +69,12 @@ Here are a bunch of things supported by Configgy out of the box:
     * Files (named like the conf value you're looking for)
     * Connection string entries in a web/app config
     * App setting entries in a web/app config
-    * System.ComponentModel.DefaultValueAttribute
+    * [`System.ComponentModel.DefaultValueAttribute`](https://msdn.microsoft.com/en-us/library/system.componentmodel.defaultvalueattribute(v=vs.110).aspx)
 * Value transformers
     * Convert encrypted strings (RSA encrypted then base-64 encoded) into plaintext.
 * Validation
-    * Automatic validation for all numeric types, DateTime, TimeSpan
-    * Validation of any numeric, DateTime, or TimeSpan configuration properties by min/max or valid value arrays
+    * Automatic validation for all numeric types, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), TimeSpan
+    * Validation of any numeric, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), or [`TimeSpan`](https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx) configuration properties by min/max or valid value arrays
     * Validation of any configuration property by regular expression
 * Caching
     * In-memory caching of post-coercion values to reduce reflection by default and make most config value lookups lightning fast
@@ -87,13 +88,13 @@ Here are a bunch of things that are really easy to do because of the Configgy de
 * Pull your configuration values from any database, web service or other source you can imagine.
 * Add your own validators to prevent/allow only certain enum values, strings, or complex object values.
 * Write your own value source to change the command line configuration option syntax if you don't like the kick-ass one I came up with.
-* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of `System.Runtime.Caching.MemoryCache`.
+* Cache your config values to somewhere besides memory, maybe Redis or MemCached, or an instance of [`System.Runtime.Caching.MemoryCache`](https://msdn.microsoft.com/en-us/library/system.runtime.caching.memorycache(v=vs.110).aspx).
 * Coerce values into the wrong types to annoy your coworkers!
 
 ## Bugs And Feature Requests
 
 Any TODO items, feature requests, bugs, etc. will be tracked as GitHub issues here:
-[https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+](https://github.com/bungeemonkee/Configgy/issues?utf8=%E2%9C%93&q=is%3Aopen+)
+[https://github.com/bungeemonkee/Configgy/issues](https://github.com/bungeemonkee/Configgy/issues)
 
 ## Thanks
 

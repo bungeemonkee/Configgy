@@ -8,6 +8,7 @@
     3. [Transform](Pipeline/3-Transform.md)
     4. [Validate](Pipeline/4-Validate.md)
     5. [Coerce](Pipeline/5-Coerce.md)
+2. [Other Features](2-Other.md)
 
 ## Overview
 

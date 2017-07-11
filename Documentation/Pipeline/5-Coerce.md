@@ -8,6 +8,7 @@
     3. [Transform](3-Transform.md)
     4. [Validate](4-Validate.md)
     5. [Coerce](5-Coerce.md)
+2. [Other Features](../2-Other.md)
 
 ## Pipeline - Coerce
 
@@ -17,8 +18,8 @@ The interface for all coercers is `Configgy.Coercion.IValueCoercer`.
 
 The default coercer is `Configgy.Coercion.AggregateCoerver`. This coercer uses three coercers by default:
 
-1. One can create instances of `System.Text.RegularExpressions.Regex` (by parsing the string using the regular Regex constructor)
-2. One can create instances of `System.Type` (by looking up a type using a raw string value representing the type name)
+1. One can create instances of [`System.Text.RegularExpressions.Regex`](https://msdn.microsoft.com/en-us/library/system.text.regularexpressions.regex(v=vs.110).aspx) (by parsing the string using the regular Regex constructor)
+2. One can create instances of [`System.Type`](https://msdn.microsoft.com/en-us/library/system.type(v=vs.110).aspx) (by looking up a type using a raw string value representing the type name)
 3. The other can parse all primitive types and nearly every other type built into .NET by using the [`TypeConverter`](https://msdn.microsoft.com/en-us/library/system.componentmodel.typeconverter%28v=vs.110%29.aspx) instances provided by [`TypeDescriptor.GetConverter()`](https://msdn.microsoft.com/en-us/library/w202c8fy%28v=vs.110%29.aspx). In order to allow this coercer to successfully parse any custom types you can [implement a custom `TypeDescriptor`](https://msdn.microsoft.com/en-us/library/ms171819.aspx?f=255&MSPPError=-2147217396) for that type.
 
 ## CSV Properties
@@ -27,4 +28,4 @@ For properties that are simple arrays of objects there is a coercer that can par
 
 ## Json/Xml Properties
 
-For properties that are complex objects Configgy provides coercers that can take raw values in either json or xml and deserialize complex objects from them. __Json is highly recommended over xml__ due to the facts that json is simpler, more compact, and the `System.Runtime.Serialization.DataContractSerializer` class which is used internally has many (often undocumented) idiosyncrasies.
+For properties that are complex objects Configgy provides coercers that can take raw values in either json or xml and deserialize complex objects from them. __Json is highly recommended over xml__ due to the facts that json is simpler and more compact, and the [`System.Runtime.Serialization.DataContractSerializer`](https://msdn.microsoft.com/en-us/library/system.runtime.serialization.datacontractserializer(v=vs.110).aspx) class which is used internally has many (often undocumented) idiosyncrasies.

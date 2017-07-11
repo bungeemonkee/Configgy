@@ -8,6 +8,7 @@
     3. [Transform](3-Transform.md)
     4. [Validate](4-Validate.md)
     5. [Coerce](5-Coerce.md)
+2. [Other Features](../2-Other.md)
 
 ## Pipeline - Source
 
@@ -24,6 +25,8 @@ The default source is an instance of `Configgy.Source.AggregateSource` which use
 5. App settings (in an app/web config)
 6. Embedded resources
 7. Default value attributes
+
+These sources (or others) can be excluded from consideration on a per-property basis using by applying `Configgy.PreventSourceAttribute` to the property. This source takes a [`System.Type`](https://msdn.microsoft.com/en-us/library/system.type(v=vs.110).aspx) reference which will be ignored by `Configgy.Source.AggregateSource` when considering potential values sources. This property can be applied multiple times to ignore multiple sources. This is useful to prevent sensitive values (which must come from a secure environment) from being retrieved accidentally from a command line or config file.
 
 ### Command Line
 
@@ -65,4 +68,4 @@ Embedded resources can be used to contain configuration information in much the 
 
 ### Default Value Attributes
 
-Instances of `System.ComponentModel.DefaultValueAttribute` may be placed on configuration properties to give them a default value if no other value is provided.
+Instances of [`System.ComponentModel.DefaultValueAttribute`](https://msdn.microsoft.com/en-us/library/system.componentmodel.defaultvalueattribute(v=vs.110).aspx) may be placed on configuration properties to give them a default value if no other value is provided.
