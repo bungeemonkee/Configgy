@@ -61,7 +61,7 @@ namespace Configgy.Utilities
             }
 
             // Find the private key for this certificate
-            var rsa = certificate.GetRSAPrivateKey() as RSACng;
+            var rsa = certificate.GetRSAPrivateKey();
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA private key.");
@@ -140,7 +140,7 @@ namespace Configgy.Utilities
             const int blockSizeBytes = blockSizeBits / 8;
 
             // Get the RSA key from the certificate
-            var rsa = certificate.GetRSAPublicKey() as RSACng;
+            var rsa = certificate.GetRSAPublicKey();
             if (rsa == null)
             {
                 throw new InvalidOperationException("Certificate does not contain an RSA public key.");
