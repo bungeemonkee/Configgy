@@ -3,28 +3,35 @@ init:
 
 version: '{branch}-{build}'
 
+image: Visual Studio 2017
+
 skip_tags: true
 
 configuration: Release
 platform: Any CPU
 
-shallow_clone: true
+shallow_clone: false
 
 environment:
   COVERALLS_REPO_TOKEN:
     secure: CbB+HqPrseFu6L/FGrJZf4uTUojOk+t0LuSAV6V5zHitbMwHr+yYuqh5ojlyhC1L
 
 before_build:
-- cmd: _build\restore.bat
+- cmd: >-
+    git submodule update --init --recursive
     
+    _build\version.bat
+    
+    _build\restore.bat Configgy
+
 build_script:
-- cmd: _build\build.bat
+- cmd: _build\build.bat Configgy
 
 test_script:
-- cmd: _build\test.bat
+- cmd: _build\test.bat Configgy
 
 after_test:
-- cmd: _build\package.bat
+- cmd: _build\package.bat Configgy netcoreapp2.0
 
 artifacts:
 - path: '*.nupkg'
