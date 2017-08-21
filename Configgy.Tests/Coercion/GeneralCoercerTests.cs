@@ -1,12 +1,12 @@
-﻿using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class GeneralCoercerTests
     {
         [TestMethod]

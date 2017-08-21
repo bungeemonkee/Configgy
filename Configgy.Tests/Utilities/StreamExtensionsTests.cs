@@ -6,10 +6,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Utilities;
 
-namespace Configgy.Tests.Unit.Utilities
+namespace Configgy.Tests.Utilities
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class StreamExtensionsTests
     {
         [TestMethod]
@@ -50,9 +50,7 @@ namespace Configgy.Tests.Unit.Utilities
             if (x.Count != y.Count) return false;
 
             for (var i = 0; i < x.Count; ++i)
-            {
                 if (x[i] != y[i]) return false;
-            }
 
             return true;
         }

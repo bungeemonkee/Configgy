@@ -1,14 +1,13 @@
-﻿using Configgy.Source;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System;
+using Configgy.Source;
 
-namespace Configgy.Tests.Unit.Source
+namespace Configgy.Tests.Source
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class AggregateSourceTests
     {
         [TestMethod]
@@ -17,7 +16,7 @@ namespace Configgy.Tests.Unit.Source
             const string name = "some value";
             const string expected = "1";
             var value = expected;
-            
+
             var sourceMock1 = new Mock<IValueSource>();
             sourceMock1.Setup(c => c.Get(name, null, out value))
                 .Returns(true);
@@ -70,7 +69,7 @@ namespace Configgy.Tests.Unit.Source
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
             attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { preventSourceAttribute });
+                .Returns(() => new object[] {preventSourceAttribute});
 
             var sourceStub = new ValueSourceStub();
 

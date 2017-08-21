@@ -1,12 +1,12 @@
-﻿using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class XmlCoercerTests
     {
         [TestMethod]
@@ -21,7 +21,7 @@ namespace Configgy.Tests.Unit.Coercion
 </ArrayOfint>
 ";
 
-            var expected = new [] { 1, 4, 78, 222 };
+            var expected = new[] {1, 4, 78, 222};
 
             var coercer = new XmlCoercerAttribute();
 

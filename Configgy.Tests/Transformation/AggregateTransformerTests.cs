@@ -1,14 +1,14 @@
-﻿using Configgy.Transformation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Configgy.Transformation;
 
-namespace Configgy.Tests.Unit.Transformation
+namespace Configgy.Tests.Transformation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class AggregateTransformerTests
     {
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Configgy.Tests.Unit.Transformation
 
             var ICustomAttributeProviderMock = new Mock<ICustomAttributeProvider>();
             ICustomAttributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { transformerMock1Attribute.Object });
+                .Returns(() => new object[] {transformerMock1Attribute.Object});
 
             var transformer = new AggregateTransformer(transformerMock2.Object);
 

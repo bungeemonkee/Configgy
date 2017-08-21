@@ -1,15 +1,14 @@
-﻿using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System;
-using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class AggregateCoercerTests
     {
         [TestMethod]
@@ -32,7 +31,9 @@ namespace Configgy.Tests.Unit.Coercion
             var coerced = coercer.Coerce(value, name, null, out result);
 
             coercerMock1.Verify(c => c.Coerce(value, name, null, out result), Times.Once);
-            coercerMock2.Verify(c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out result), Times.Never);
+            coercerMock2.Verify(
+                c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out result),
+                Times.Never);
             Assert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
         }
@@ -72,7 +73,7 @@ namespace Configgy.Tests.Unit.Coercion
             const int expected = 1;
             var result = expected;
             var invalidResult = 0;
-            
+
             var coercerMock1Attribute = new Mock<Attribute>();
             var coercerMock1 = coercerMock1Attribute.As<IValueCoercer>();
             coercerMock1.Setup(c => c.Coerce(value, name, It.IsAny<PropertyInfo>(), out result))
@@ -83,15 +84,17 @@ namespace Configgy.Tests.Unit.Coercion
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
             attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() =>  new object[] { coercerMock1Attribute.Object });
-            
+                .Returns(() => new object[] {coercerMock1Attribute.Object});
+
             var coercer = new AggregateCoercer(coercerMock2.Object);
 
             var coerced = coercer.Coerce(value, name, propertyInfoMock.Object, out result);
 
             attributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
             coercerMock1.Verify(c => c.Coerce(value, name, propertyInfoMock.Object, out result), Times.Once);
-            coercerMock2.Verify(c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out invalidResult), Times.Never);
+            coercerMock2.Verify(
+                c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out invalidResult),
+                Times.Never);
             Assert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
         }
@@ -106,7 +109,7 @@ namespace Configgy.Tests.Unit.Coercion
 
             string result;
             var coerced = coercer.Coerce(value, name, null, out result);
-            
+
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
         }

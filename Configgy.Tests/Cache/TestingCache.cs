@@ -2,12 +2,12 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Configgy.Tests.Unit.Cache
+namespace Configgy.Tests.Cache
 {
     /// <summary>
-    /// A testing cache implementation that doesn't actually cache anything
+    ///     A testing cache implementation that doesn't actually cache anything
     /// </summary>
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class TestingCache : IValueCache
     {
         public void Clear()

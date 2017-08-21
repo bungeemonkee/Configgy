@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Utilities;
+using System.Linq;
 
-namespace Configgy.Tests.Unit.Utilities
+namespace Configgy.Tests.Utilities
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class EncryptionUtilityTests
     {
         [TestMethod]
@@ -20,9 +20,7 @@ namespace Configgy.Tests.Unit.Utilities
                 .FirstOrDefault();
 
             if (certificate == null)
-            {
                 Assert.Inconclusive("Unable to find a certificate suitable to preform the test.");
-            }
 
             var encrypted = EncryptionUtility.Encrypt(value, certificate);
 
@@ -43,9 +41,7 @@ namespace Configgy.Tests.Unit.Utilities
                 .FirstOrDefault(x => !EncryptionUtility.FindCertificateByPublicKey(x.GetPublicKey()).HasPrivateKey);
 
             if (certificate == null)
-            {
                 Assert.Inconclusive("Unable to find a certificate suitable to preform the test.");
-            }
 
             var encrypted = EncryptionUtility.Encrypt(value, certificate);
 

@@ -1,15 +1,15 @@
-﻿using Configgy.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Configgy.Validation;
 
-namespace Configgy.Tests.Unit.Validation
+namespace Configgy.Tests.Validation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class AggregateValidatorTests
     {
         [TestMethod]
@@ -57,14 +57,15 @@ namespace Configgy.Tests.Unit.Validation
 
             var ICustomAttributeProviderMock = new Mock<ICustomAttributeProvider>();
             ICustomAttributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { validatorMockAttribute.Object });
+                .Returns(() => new object[] {validatorMockAttribute.Object});
 
             var validator = new AggregateValidator(new Dictionary<Type, IValueValidator>());
 
             var coerced = validator.Validate(value, name, ICustomAttributeProviderMock.Object, out result);
 
             ICustomAttributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
-            validatorMock.Verify(v => v.Validate(value, name, ICustomAttributeProviderMock.Object, out result), Times.Once);
+            validatorMock.Verify(v => v.Validate(value, name, ICustomAttributeProviderMock.Object, out result),
+                Times.Once);
             Assert.AreEqual(value, result);
             Assert.IsTrue(coerced);
         }

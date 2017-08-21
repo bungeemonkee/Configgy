@@ -1,15 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
+using Configgy.Source;
 
-namespace Configgy.Tests.Unit.Source
+namespace Configgy.Tests.Source
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class DefaultValueAttributeValueSourceTests
     {
         [TestMethod]
@@ -36,7 +35,7 @@ namespace Configgy.Tests.Unit.Source
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
             attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { defaultValueAttributeMock.Object });
+                .Returns(() => new object[] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
@@ -62,7 +61,7 @@ namespace Configgy.Tests.Unit.Source
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
             attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { defaultValueAttributeMock.Object });
+                .Returns(() => new object[] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 

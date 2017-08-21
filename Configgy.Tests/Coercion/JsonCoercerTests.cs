@@ -1,20 +1,20 @@
-﻿using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class JsonCoercerTests
     {
         [TestMethod]
         public void JsonCoercer_Coerce_Works_With_Array_Of_Int()
         {
             const string input = "[1,4,78,222]";
-            var expected = new [] { 1, 4, 78, 222 };
+            var expected = new[] {1, 4, 78, 222};
 
             var coercer = new JsonCoercerAttribute();
 

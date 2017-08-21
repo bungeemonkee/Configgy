@@ -1,13 +1,13 @@
 ﻿using System;
-using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class InstanceOfTypeCoercerAttributeTests
     {
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Configgy.Tests.Unit.Coercion
         }
 
         [TestMethod]
-        [ExpectedExceptionAttribute(typeof(MissingMethodException))]
+        [ExpectedException(typeof(MissingMethodException))]
         public void Coerce_Returns_Null_For_Class_With_No_Default_Constructor()
         {
             var value = typeof(ClassWithNoDefaultConstructor).AssemblyQualifiedName;
@@ -69,7 +69,7 @@ namespace Configgy.Tests.Unit.Coercion
         }
 
         [TestMethod]
-        [ExpectedExceptionAttribute(typeof(TargetInvocationException))]
+        [ExpectedException(typeof(TargetInvocationException))]
         public void Coerce_Throws_Exception_When_Constructor_Throws_Exception()
         {
             var value = typeof(ClassWithBrokenConstructor).AssemblyQualifiedName;

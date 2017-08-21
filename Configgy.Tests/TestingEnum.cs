@@ -1,5 +1,4 @@
-﻿
-namespace Configgy.Tests.Unit
+﻿namespace Configgy.Tests
 {
     public enum TestingEnum
     {

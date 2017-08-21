@@ -1,12 +1,12 @@
-﻿using Configgy.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Validation;
 
-namespace Configgy.Tests.Unit.Validation
+namespace Configgy.Tests.Validation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class RegexValidatorTests
     {
         [TestMethod]

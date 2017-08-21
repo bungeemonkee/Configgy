@@ -1,11 +1,11 @@
-﻿using Configgy.Source;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
+using Configgy.Source;
 
-namespace Configgy.Tests.Unit.Source
+namespace Configgy.Tests.Source
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class FileSourceTests
     {
         [TestMethod]
@@ -27,7 +27,7 @@ namespace Configgy.Tests.Unit.Source
         public void Get_Returns_Value_From_json_File()
         {
             const string name = "TestValue2";
-            const string expected = "[ \"string array\" ]";
+            const string expected = "[\"string array\"]";
 
             var source = new FileSource();
 

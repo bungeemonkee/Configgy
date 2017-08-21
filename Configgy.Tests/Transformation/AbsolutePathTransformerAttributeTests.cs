@@ -1,12 +1,12 @@
-﻿using Configgy.Transformation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Transformation;
 
-namespace Configgy.Tests.Unit.Transformation
+namespace Configgy.Tests.Transformation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class AbsolutePathTransformerAttributeTests
     {
         [TestMethod]

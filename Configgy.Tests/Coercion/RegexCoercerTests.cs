@@ -1,13 +1,13 @@
-﻿using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class RegexCoercerTests
     {
         [TestMethod]

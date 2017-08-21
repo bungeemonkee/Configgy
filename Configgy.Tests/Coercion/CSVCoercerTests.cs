@@ -1,19 +1,19 @@
 ﻿using System;
-using Configgy.Coercion;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class CsvCoercerTests
     {
         [TestMethod]
         public void Coerce_Works_With_Array_Of_Int()
         {
             const string input = "1,4,78,222";
-            var expected = new [] { 1, 4, 78, 222 };
+            var expected = new[] {1, 4, 78, 222};
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
@@ -28,7 +28,7 @@ namespace Configgy.Tests.Unit.Coercion
         public void Coerce_Works_With_Custom_Separator()
         {
             const string input = "1 | 4 | 78 | 222";
-            var expected = new int[] { 1, 4, 78, 222 };
+            var expected = new[] {1, 4, 78, 222};
 
             var coercer = new CsvCoercerAttribute(typeof(int), " | ");
 

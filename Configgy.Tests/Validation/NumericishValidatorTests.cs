@@ -1,12 +1,12 @@
-﻿using Configgy.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Configgy.Validation;
 
-namespace Configgy.Tests.Unit.Validation
+namespace Configgy.Tests.Validation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public abstract class NumericishValidatorTests<TValidator, TNumericish>
         where TValidator : INumericishValidator<TNumericish>
     {
@@ -24,23 +24,12 @@ namespace Configgy.Tests.Unit.Validation
         protected abstract string AnInvalidValue { get; }
         protected abstract string UnParseable { get; }
 
-        protected virtual string TypeMaxString
-        {
-            get
-            {
-                return TypeMax.ToString();
-            }
-        }
+        protected virtual string TypeMaxString => TypeMax.ToString();
 
-        protected virtual string TypeMinString
-        {
-            get
-            {
-                return TypeMin.ToString();
-            }
-        }
+        protected virtual string TypeMinString => TypeMin.ToString();
 
-        protected abstract INumericishValidator<TNumericish> MakeValidator(TNumericish min, TNumericish max, TNumericish[] validValues);
+        protected abstract INumericishValidator<TNumericish> MakeValidator(TNumericish min, TNumericish max,
+            TNumericish[] validValues);
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_TypeMax()

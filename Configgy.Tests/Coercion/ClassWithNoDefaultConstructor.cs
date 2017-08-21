@@ -1,9 +1,8 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class ClassWithNoDefaultConstructor
     {
         public readonly int Value;

@@ -1,14 +1,13 @@
-﻿using Configgy.Source;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
+using Configgy.Source;
 
-namespace Configgy.Tests.Unit.Source
+namespace Configgy.Tests.Source
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class DashedCommandLineSourceTests
     {
         [TestMethod]
@@ -16,7 +15,7 @@ namespace Configgy.Tests.Unit.Source
         {
             const string name = "Testing";
             const string expected = "Blah";
-            var commandLine = new [] { "--Testing=Blah" };
+            var commandLine = new[] {"--Testing=Blah"};
 
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
@@ -36,7 +35,7 @@ namespace Configgy.Tests.Unit.Source
         {
             const string name = "Testing";
             const string expected = "True";
-            var commandLine = new [] { "--Testing" };
+            var commandLine = new[] {"--Testing"};
 
             var propertyInfoMock = new Mock<PropertyInfo>();
             propertyInfoMock.SetupGet(x => x.PropertyType).Returns(typeof(bool));
@@ -54,7 +53,7 @@ namespace Configgy.Tests.Unit.Source
         public void Get_Returns_Null_For_Non_Booean_With_No_Value()
         {
             const string name = "Testing";
-            var commandLine = new [] { "--Testing" };
+            var commandLine = new[] {"--Testing"};
 
             var propertyMock = new Mock<PropertyInfo>();
             propertyMock.SetupGet(x => x.PropertyType).Returns(typeof(string));
@@ -72,7 +71,7 @@ namespace Configgy.Tests.Unit.Source
         public void Get_Ignores_Unknown_Options()
         {
             const string name = "Testing";
-            var commandLine = new [] { "--Banana=Blah" };
+            var commandLine = new[] {"--Banana=Blah"};
 
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
@@ -92,7 +91,7 @@ namespace Configgy.Tests.Unit.Source
         {
             const string name = "Testing";
             const string expected = "Blah";
-            var commandLine = new [] { "--tEstinG=Blah" };
+            var commandLine = new[] {"--tEstinG=Blah"};
 
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
@@ -113,13 +112,13 @@ namespace Configgy.Tests.Unit.Source
             const string name = "Testing";
             const string nameOverride = "test";
             const string expected = "1234";
-            var commandLine = new[] { "--test=1234" };
+            var commandLine = new[] {"--test=1234"};
 
             var attribute = new CommandLineNameAttribute(nameOverride);
 
             var propertyInfoMock = new Mock<PropertyInfo>();
             var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { attribute });
+            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] {attribute});
 
             var source = new DashedCommandLineSource(commandLine);
 

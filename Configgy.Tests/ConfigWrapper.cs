@@ -5,17 +5,14 @@ using Configgy.Transformation;
 using Configgy.Validation;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Configgy.Tests.Unit
+namespace Configgy.Tests
 {
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class ConfigWrapper<T> : Config
     {
         public const string ThePropertyName = nameof(TheProperty);
 
-        public T TheProperty { get { return Get<T>(); } }
-
         public ConfigWrapper()
-            : base()
         {
         }
 
@@ -24,10 +21,13 @@ namespace Configgy.Tests.Unit
         {
         }
 
-        public ConfigWrapper(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
+        public ConfigWrapper(IValueCache cache, IValueSource source, IValueTransformer transformer,
+            IValueValidator validator, IValueCoercer coercer)
             : base(cache, source, transformer, validator, coercer)
         {
         }
+
+        public T TheProperty => Get<T>();
 
         public T Get_Wrapper(string valueName)
         {

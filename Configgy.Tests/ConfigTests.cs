@@ -1,20 +1,20 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Configgy.Cache;
-using Moq;
-using Configgy.Tests.Unit.Cache;
-using Configgy.Source;
-using System.Reflection;
-using Configgy.Validation;
-using Configgy.Coercion;
-using Configgy.Exceptions;
-using Configgy.Transformation;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Configgy.Tests.Cache;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Configgy.Exceptions;
+using Configgy.Source;
+using Configgy.Cache;
+using Configgy.Validation;
+using Configgy.Transformation;
+using Configgy.Coercion;
 
-namespace Configgy.Tests.Unit
+namespace Configgy.Tests
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class ConfigTests
     {
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Configgy.Tests.Unit
         [TestMethod]
         public void Constructor_With_String_Array_Works()
         {
-            var args = new[] { "argument1", "argument2" };
+            var args = new[] {"argument1", "argument2"};
 
             var config = new ConfigWrapper<object>(args);
 
@@ -67,7 +67,8 @@ namespace Configgy.Tests.Unit
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_TranmsformValue_Validator_Validate_And_Coercer_Coerce_When_Callback_Invoked()
+        public void
+            Get_Calls_Source_Get_Transformer_TranmsformValue_Validator_Validate_And_Coercer_Coerce_When_Callback_Invoked()
         {
             const string name = "__value__";
 
@@ -91,7 +92,8 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, null, out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
+                coercerMock.Object);
 
             var result = config.Get_Wrapper(name);
 
@@ -103,7 +105,8 @@ namespace Configgy.Tests.Unit
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_But_Not_Coercer_Coerce_When_Callback_Invoked_And_Validator_Validate_Returns_A_Value()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_But_Not_Coercer_Coerce_When_Callback_Invoked_And_Validator_Validate_Returns_A_Value()
         {
             const string name = "__value__";
 
@@ -127,19 +130,23 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, null, out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
+                coercerMock.Object);
 
             var result = config.Get_Wrapper(name);
 
             sourceMock.Verify(s => s.Get(name, null, out expectedRaw), Times.Once);
             transformerMock.Verify(x => x.Transform(expectedRaw, name, null), Times.Once);
             validatorMock.Verify(v => v.Validate(expectedRaw, name, null, out expectedValue), Times.Once);
-            coercerMock.Verify(c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expectedValue), Times.Never);
+            coercerMock.Verify(
+                c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Never);
             Assert.AreEqual(expectedValue, result);
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_But_Skips_Coercer_Coerce_When_Callback_Invoked_For_String()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_But_Skips_Coercer_Coerce_When_Callback_Invoked_For_String()
         {
             const string name = "__value__";
 
@@ -160,19 +167,23 @@ namespace Configgy.Tests.Unit
 
             var coercerMock = new Mock<IValueCoercer>();
 
-            var config = new ConfigWrapper<string>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<string>(cache, sourceMock.Object, transformerMock.Object,
+                validatorMock.Object, coercerMock.Object);
 
             var result = config.Get_Wrapper(name);
 
             sourceMock.Verify(s => s.Get(name, null, out expected), Times.Once);
             transformerMock.Verify(x => x.Transform(expected, name, null), Times.Once);
             validatorMock.Verify(v => v.Validate(expected, name, null, out expected), Times.Once);
-            coercerMock.Verify(c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expected), Times.Never);
+            coercerMock.Verify(
+                c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expected),
+                Times.Never);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_When_Callback_Invoked_Via_Property()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_When_Callback_Invoked_Via_Property()
         {
             const string name = ConfigWrapper<int>.ThePropertyName;
 
@@ -196,19 +207,23 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
+                coercerMock.Object);
 
             var result = config.TheProperty;
 
             sourceMock.Verify(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw), Times.Once);
             transformerMock.Verify(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
-            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Once);
-            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Once);
+            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Once);
+            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Once);
             Assert.AreEqual(expectedValue, result);
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Once_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Once_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation()
         {
             const string name = ConfigWrapper<object>.ThePropertyName;
 
@@ -232,21 +247,25 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object,
+                validatorMock.Object, coercerMock.Object);
 
             var result1 = config.TheProperty;
             var result2 = config.TheProperty;
 
             sourceMock.Verify(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw), Times.Once);
             transformerMock.Verify(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
-            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Once);
-            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Once);
+            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Once);
+            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Once);
             Assert.AreEqual(expectedValue, result1);
             Assert.AreSame(result1, result2);
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Cache_Is_Cleared_In_Between()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Cache_Is_Cleared_In_Between()
         {
             const string name = ConfigWrapper<object>.ThePropertyName;
 
@@ -270,7 +289,8 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object,
+                validatorMock.Object, coercerMock.Object);
 
             var result1 = config.TheProperty;
             cache.Clear();
@@ -278,14 +298,17 @@ namespace Configgy.Tests.Unit
 
             sourceMock.Verify(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw), Times.Exactly(2));
             transformerMock.Verify(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
-            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Exactly(2));
-            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Exactly(2));
+            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Exactly(2));
+            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Exactly(2));
             Assert.AreEqual(expectedValue, result1);
             Assert.AreSame(result1, result2);
         }
 
         [TestMethod]
-        public void Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Property_Is_Removed_From_The_Cache_In_Between()
+        public void
+            Get_Calls_Source_Get_Transformer_Transform_Validator_Validate_And_Coercer_Coerce_Twice_Each_When_Callback_Invoked_Via_Property_Twice_When_Using_A_Real_Cache_Implementation_And_The_Property_Is_Removed_From_The_Cache_In_Between()
         {
             const string name = ConfigWrapper<object>.ThePropertyName;
 
@@ -309,7 +332,8 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<object>(cache, sourceMock.Object, transformerMock.Object,
+                validatorMock.Object, coercerMock.Object);
 
             var result1 = config.TheProperty;
             cache.Remove(name);
@@ -317,8 +341,10 @@ namespace Configgy.Tests.Unit
 
             sourceMock.Verify(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw), Times.Exactly(2));
             transformerMock.Verify(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Exactly(2));
-            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Exactly(2));
-            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue), Times.Exactly(2));
+            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Exactly(2));
+            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
+                Times.Exactly(2));
             Assert.AreEqual(expectedValue, result1);
             Assert.AreSame(result1, result2);
         }
@@ -367,7 +393,8 @@ namespace Configgy.Tests.Unit
             coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
                 .Returns(false);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
+                coercerMock.Object);
 
             config.Get_Wrapper(name);
         }

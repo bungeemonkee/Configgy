@@ -1,11 +1,11 @@
-﻿using Configgy.Transformation;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
+using Configgy.Transformation;
 
-namespace Configgy.Tests.Unit.Transformation
+namespace Configgy.Tests.Transformation
 {
     [TestClass]
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class UppercaseTransformerAttributeTests
     {
         [TestMethod]

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Configgy.Tests.Unit.Coercion
+namespace Configgy.Tests.Coercion
 {
-    //[ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage]
     public class ClassWithBrokenConstructor
     {
         public ClassWithBrokenConstructor()
