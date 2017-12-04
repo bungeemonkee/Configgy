@@ -44,8 +44,8 @@ namespace Configgy.Source
         public override bool Get(string valueName, PropertyInfo property, out string value)
         {
             // Check for command line name overrides
-            valueName = ((ICustomAttributeProvider)property)
-                .GetCustomAttributes(true)
+            valueName = property
+                ?.GetCustomAttributes(true)
                 .OfType<CommandLineNameAttribute>()
                 .Select(x => x.CommandLineName)
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x))
@@ -62,7 +62,7 @@ namespace Configgy.Source
             value = _values[valueName];
 
             // If the name is in the dictionary but contains no value and it is a boolean property then we assume it is true
-            if (value == null && property.PropertyType == typeof(bool)) value = "True";
+            if (value == null && property?.PropertyType == typeof(bool)) value = "True";
 
             // Return the value
             return value != null;
