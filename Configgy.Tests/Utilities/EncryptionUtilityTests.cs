@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Utilities;
@@ -53,10 +54,23 @@ namespace Configgy.Tests.Utilities
 
         private static bool HasPrivateKey(X509Certificate2 certificate)
         {
+            var testData = new byte[]
+            {
+                1,2,3,4,5,6,7,8,9,0
+            };
+
             try
             {
                 var key = certificate.GetRSAPrivateKey();
-                return key != null;
+                if (key == null)
+                    return false;
+
+                var encrypted = key.Encrypt(testData, RSAEncryptionPadding.OaepSHA256);
+                var decrypted = key.Decrypt(encrypted, RSAEncryptionPadding.OaepSHA256);
+
+                CollectionAssert.AreEqual(testData, decrypted);
+
+                return true;
             }
             catch
             {
