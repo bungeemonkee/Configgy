@@ -103,17 +103,23 @@ namespace Configgy
         /// <param name="valueName">
         ///     The name of the configuration value to get.
         ///     This will automatically be the name of the calling method or property and will be populated by the compiler.
+        ///     The may be given an explicit value if the property name and setting name do not match.
+        /// </param>
+        /// <param name="propertyName">
+        ///     The name of the configuration value to get.
+        ///     This will automatically be the name of the calling method or property and will be populated by the compiler.
+        ///     Do not pass a value to this paramater so that the compiler default (the property name) is preserved.
         /// </param>
         /// <returns>The configuration value.</returns>
-        protected T Get<T>([CallerMemberName] string valueName = null)
+        protected T Get<T>([CallerMemberName] string valueName = null, [CallerMemberName] string propertyName = null)
         {
-            return (T)Cache.Get(valueName, ProduceValue<T>);
+            return (T)Cache.Get(valueName, x => ProduceValue<T>(x, propertyName));
         }
 
-        private object ProduceValue<T>(string valueName)
+        private object ProduceValue<T>(string valueName, string propertyName)
         {
             // get the property reference
-            _properties.TryGetValue(valueName, out PropertyInfo property);
+            _properties.TryGetValue(propertyName, out PropertyInfo property);
 
             // Get the value from the factory
             if (!Source.Get(valueName, property, out string value))
