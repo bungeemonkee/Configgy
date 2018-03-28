@@ -80,5 +80,49 @@ namespace Configgy.Tests.Source
             Assert.IsFalse(result);
             attributeProviderMock.VerifyAll();
         }
+
+        [TestMethod]
+        public void Get_Handles_Null_Property_Argument()
+        {
+            const string name = "some value";
+            var expected = "value";
+            string value;
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(c => c.Get(name, null, out expected))
+                .Returns(true);
+
+            var source = new AggregateSource(sourceMock.Object);
+
+            var result = source.Get(name, null, out value);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(expected, value);
+        }
+
+        [TestMethod]
+        public void Get_Returns_Value_From_Source_As_Attribute()
+        {
+            const string name = "some value";
+            var expected = "value";
+            string value;
+
+            var sourceMock = new Mock<IValueSource>();
+            sourceMock.Setup(c => c.Get(name, It.IsAny<PropertyInfo>(), out expected))
+                .Returns(true);
+            
+            var propertyInfoMock = new Mock<PropertyInfo>();
+            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
+            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
+                .Returns(() => new object[] { sourceMock.Object });
+
+            var source = new AggregateSource();
+
+            var result = source.Get(name, propertyInfoMock.Object, out value);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(expected, value);
+            attributeProviderMock.VerifyAll();
+        }
     }
 }
