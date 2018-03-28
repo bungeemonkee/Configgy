@@ -75,8 +75,18 @@ namespace Configgy.Source
                     .Where(x => x != null));
             }
 
+            // Include sources specified as attributes if there are any
+            var sources = (IEnumerable<IValueSource>)_sources;
+            if (property != null)
+            {
+                sources = ((ICustomAttributeProvider)property)
+                    .GetCustomAttributes(true)
+                    .OfType<IValueSource>()
+                    .Concat(_sources);
+            }
+
             // Get each un-ignored source in turn
-            foreach (var source in _sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
+            foreach (var source in sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
             {
                 // If a source has the value then return that value
                 if (source.Get(valueName, property, out value)) return true;
