@@ -11,7 +11,7 @@ namespace Configgy.Source
     /// </summary>
     public class EmbeddedResourceSource : ValueSourceAttributeBase
     {
-        private const string DefaultExpression = @"(?:[a-zA-Z_][a-zA-Z0-9_]*\.)+Resources\.Settings\.(?<name>[a-zA-Z0-9_][a-zA-Z0-9_]*)(?:(?:\.conf)|(?:\.json)|(?:\.xml))";
+        private const string DefaultExpression = @"(?:[a-zA-Z_][a-zA-Z0-9_]*\.)+Resources\.Settings\.(?<name>[a-zA-Z0-9_][a-zA-Z0-9_]*)(?:(?:\.conf)|(?:\.config)|(?:\.txt)|(?:\.json)|(?:\.xml))";
 
         /// <summary>
         /// The expression used to determine if any embedded resource matches the 

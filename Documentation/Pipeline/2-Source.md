@@ -64,7 +64,7 @@ Just as configuration strings from config files may be used any settings in the 
 
 ### Embedded Resources
 
-Embedded resources can be used to contain configuration information in much the same way as the files above. Any embedded resource with a file extension of '.conf', '.json', or '.xml' will be used as as raw source for any configuration property matching the file name. Embedded resources must also be in a namespace (which the compiler determines form the folder it is in) of 'Resources.Settings' or they will not be considered. So for a setting called 'MaxThingCount' an embedded resource in the folder '[ProjectFolder]/Resources/Settings/MaxThingCount.config' would be a potential raw value.
+Embedded resources can be used to contain configuration information in much the same way as the files above. Any embedded resource with a file extension of '.conf', '.config', '.txt', '.json', or '.xml' will be used as as raw source for any configuration property matching the file name. Embedded resources must also be in a namespace (which the compiler determines form the folder it is in) of 'Resources.Settings' or they will not be considered. So for a setting called 'MaxThingCount' an embedded resource in the folder '[ProjectFolder]/Resources/Settings/MaxThingCount.config' would be a potential raw value.
 
 ### Default Value Attributes
 
