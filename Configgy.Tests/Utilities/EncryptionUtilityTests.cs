@@ -32,7 +32,7 @@ namespace Configgy.Tests.Utilities
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void Encrypt_With_No_Private_Key_Then_Decrypt_Throws_InvalidOperationException()
         {
             var value = "This is some text that should be encrypted then decrypted and still come out the same.";

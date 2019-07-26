@@ -123,5 +123,51 @@ namespace Configgy.Tests
 
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void Populate_Does_Nothing_If_No_Properties()
+        {
+            var providerMock = new Mock<IConfigProvider>(MockBehavior.Strict);
+            
+            var config = new object();
+            config.Populate(providerMock.Object);
+        }
+
+        [TestMethod]
+        public void Populate_Sets_Properties_From_ConfigProvider()
+        {
+            const int intValue = 2;
+            const string stringValue = "Alabamama";
+            
+            var providerMock = new Mock<IConfigProvider>(MockBehavior.Strict);
+            providerMock.Setup(x => x.Get(nameof(TestWriteableConfig.Integer), It.IsAny<PropertyInfo>(), typeof(int)))
+                .Returns(intValue);
+            providerMock.Setup(x => x.Get(nameof(TestWriteableConfig.String), It.IsAny<PropertyInfo>(), typeof(string)))
+                .Returns(stringValue);
+            
+            var config = new TestWriteableConfig();
+            config.Populate(providerMock.Object);
+            
+            Assert.AreEqual(intValue, config.Integer);
+            Assert.AreEqual(stringValue, config.String);
+            providerMock.VerifyAll();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ConfigPopulationException))]
+        public void Populate_Handles_Exceptions()
+        {
+            const int intValue = 2;
+            const string stringValue = "Alabamama";
+            
+            var providerMock = new Mock<IConfigProvider>(MockBehavior.Strict);
+            providerMock.Setup(x => x.Get(nameof(TestWriteableConfig.Integer), It.IsAny<PropertyInfo>(), typeof(int)))
+                .Throws(new Exception("Whoopsie!"));
+            providerMock.Setup(x => x.Get(nameof(TestWriteableConfig.String), It.IsAny<PropertyInfo>(), typeof(string)))
+                .Returns(stringValue);
+            
+            var config = new TestWriteableConfig();
+            config.Populate(providerMock.Object);
+        }
     }
 }

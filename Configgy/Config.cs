@@ -17,40 +17,48 @@ namespace Configgy
     /// </summary>
     public abstract class Config
     {
-        private static readonly Type StringType = typeof(string);
-
         private readonly IReadOnlyDictionary<string, PropertyInfo> _properties;
 
         /// <summary>
         /// The <see cref="IValueCache"/> in use by this configuration.
         /// </summary>
-        protected IValueCache Cache { get; }
+        [Obsolete("This property will likely be removed in the next major version.", false)]
+        protected IValueCache Cache => Provider.Cache;
 
         /// <summary>
         /// The <see cref="IValueSource"/> in use by this configuration.
         /// </summary>
-        protected IValueSource Source { get; }
+        [Obsolete("This property will likely be removed in the next major version.", false)]
+        protected IValueSource Source => Provider.Source;
 
         /// <summary>
         /// The <see cref="IValueTransformer"/> in use by this configuration.
         /// </summary>
-        protected IValueTransformer Transformer { get; }
+        [Obsolete("This property will likely be removed in the next major version.", false)]
+        protected IValueTransformer Transformer => Provider.Transformer;
 
         /// <summary>
         /// The <see cref="IValueValidator"/> in use by this configuration.
         /// </summary>
-        protected IValueValidator Validator { get; }
+        [Obsolete("This property will likely be removed in the next major version.", false)]
+        protected IValueValidator Validator => Provider.Validator;
 
         /// <summary>
         /// The <see cref="IValueCoercer"/> in use by this configuration.
         /// </summary>
-        protected IValueCoercer Coercer { get; }
+        [Obsolete("This property will likely be removed in the next major version.", false)]
+        protected IValueCoercer Coercer => Provider.Coercer;
+        
+        /// <summary>
+        /// The <see cref="IConfigProvider"/> in use by this configuration.
+        /// </summary>
+        protected IConfigProvider Provider { get; }
 
         /// <summary>
         /// Create a default Config instance.
         /// </summary>
         protected Config()
-            : this(new DictionaryCache(), new AggregateSource(), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer())
+            : this(new ConfigProvider(new DictionaryCache(), new AggregateSource(), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer()))
         {
         }
 
@@ -59,7 +67,7 @@ namespace Configgy
         /// </summary>
         /// <param name="commandLine">The command line to parse configuration values from.</param>
         protected Config(string[] commandLine)
-            : this(new DictionaryCache(), new AggregateSource(commandLine), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer())
+            : this(new ConfigProvider(new DictionaryCache(), new AggregateSource(commandLine), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer()))
         {
         }
 
@@ -72,25 +80,29 @@ namespace Configgy
         /// <param name="transformer">The <see cref="IValueTransformer"/> instance to be used by this Config instance.</param>
         /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
         /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
+        [Obsolete("This constructor will likely be removed in the next major version.", false)]
         protected Config(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
+            : this(new ConfigProvider(cache, source, transformer, validator, coercer))
         {
-            Cache = cache;
-            Source = source;
-            Transformer = transformer;
-            Validator = validator;
-            Coercer = coercer;
+        }
+
+        /// <summary>
+        /// Create a Config instance using the given <see cref="IConfigProvider"/>.
+        /// </summary>
+        protected Config(IConfigProvider provider)
+        {
+            Provider = provider;
 
             // Pre-cache all the properties on this instance
             _properties = GetType()
-                .GetMembers(BindingFlags.Instance | BindingFlags.Public)
-                .OfType<PropertyInfo>()
-                .Where(p => p.CanRead)
+                .GetProperties()
                 .ToDictionary(p => p.Name);
         }
 
         /// <summary>
         /// Clear all cached configuration values.
         /// </summary>
+        [Obsolete("This method will likely be removed in the next major version.", false)]
         public void ClearCache()
         {
             Cache.Clear();
@@ -106,50 +118,19 @@ namespace Configgy
         ///     The may be given an explicit value if the property name and setting name do not match.
         /// </param>
         /// <param name="propertyName">
-        ///     The name of the configuration value to get.
+        ///     The name of the property on the configuration object.
         ///     This will automatically be the name of the calling method or property and will be populated by the compiler.
         ///     Do not pass a value to this paramater so that the compiler default (the property name) is preserved.
         /// </param>
         /// <returns>The configuration value.</returns>
         protected T Get<T>([CallerMemberName] string valueName = null, [CallerMemberName] string propertyName = null)
         {
-            return (T)Cache.Get(valueName, x => ProduceValue<T>(x, propertyName));
-        }
-
-        private object ProduceValue<T>(string valueName, string propertyName)
-        {
-            // get the property reference
-            _properties.TryGetValue(propertyName, out PropertyInfo property);
-
-            // Get the value from the factory
-            if (!Source.Get(valueName, property, out string value))
+            if (propertyName == null || !_properties.TryGetValue(propertyName, out var property))
             {
-                // Throw an exception informing the user of the missing value
-                throw new MissingValueException(valueName);
+                property = null;
             }
 
-            // Transform the value
-            value = Transformer.Transform(value, valueName, property);
-
-            // Validate the value
-            var coerced = Validator.Validate(value, valueName, property, out T result);
-
-            // Optimization: skip coercion for string values
-            var type = typeof(T);
-            if (type == StringType) return value;
-
-            // Optimization: if the validator did the coercion the just return that value
-            if (coerced) return result;
-
-            // Coerce the value
-            if (!Coercer.Coerce(value, valueName, property, out result))
-            {
-                // Throw an exception informing the user of the failed coercion
-                throw new CoercionException(value, valueName, type, property);
-            }
-
-            // Return the result
-            return result;
+            return Provider.Get<T>(valueName, property);
         }
     }
 }

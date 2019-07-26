@@ -54,7 +54,7 @@ namespace Configgy.Tests.Coercion
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void Coerce_Throws_Exception_With_Invalid_Values()
         {
             const string input = "1,4,78,abcdefg";

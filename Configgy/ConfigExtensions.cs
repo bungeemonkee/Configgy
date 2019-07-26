@@ -42,6 +42,7 @@ namespace Configgy
         /// Works by dynamically invoking every public readable property on this instance.
         /// This will aggregate and re-throw any exceptions encountered within a single exception derived from AggregateException.
         /// If this completed successfully all configuration values will also be cached as a result.
+        /// Since <see cref="Populate"/> works in a similar way there is no need to call this after <see cref="Populate"/>.
         /// </remarks>
         /// <exception cref="ConfigValidationException">Thrown when there are one or more validation errors with properties.</exception>
         public static void Validate(this Config config)
@@ -49,10 +50,7 @@ namespace Configgy
             // get all the public readable properties on this configuration type
             var properties = config
                 .GetType()
-                .GetMembers(BindingFlags.Public | BindingFlags.Instance)
-                .OfType<PropertyInfo>()
-                .Where(p => p.CanRead)
-                .ToList();
+                .GetProperties(false);
 
             // if there are no properties to verify then return
             if (properties.Count == 0) return;
@@ -79,6 +77,54 @@ namespace Configgy
             {
                 // re-throw the exceptions
                 throw new ConfigValidationException(exceptions);
+            }
+        }
+
+        /// <summary>
+        /// Validates every configuration property. 
+        /// </summary>
+        /// <remarks>
+        /// Works by dynamically invoking every public readable property on this instance.
+        /// This will aggregate and re-throw any exceptions encountered within a single exception derived from AggregateException.
+        /// If this completed successfully all configuration values will also be cached as a result.
+        /// Since <see cref="Populate"/> works in a similar way there is no need to call this after <see cref="Populate"/>.
+        /// </remarks>
+        /// <exception cref="ConfigValidationException">Thrown when there are one or more validation errors with properties.</exception>
+        public static void Populate(this object config, IConfigProvider provider)
+        {
+            // get all the public readable and writeable properties on this configuration type
+            var properties = config
+                .GetType()
+                .GetProperties(true);
+
+            // if there are no properties to verify then return
+            if (properties.Count == 0) return;
+
+            var exceptions = new Dictionary<string, Exception>();
+
+            // go through each property
+            foreach (var prop in properties)
+            {
+                try
+                {
+                    // get the value for the property
+                    var value = provider.Get(prop.Name, prop, prop.PropertyType);
+                    
+                    // get the value on the property
+                    prop.SetValue(config, value);
+                }
+                catch (Exception e)
+                {
+                    // catch any exceptions
+                    exceptions.Add(prop.Name, e);
+                }
+            }
+
+            // if there were exceptions...
+            if (exceptions.Count > 0)
+            {
+                // re-throw the exceptions
+                throw new ConfigPopulationException(exceptions);
             }
         }
 
