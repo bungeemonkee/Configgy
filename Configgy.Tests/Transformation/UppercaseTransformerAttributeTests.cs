@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Transformation;
 
@@ -27,6 +28,23 @@ namespace Configgy.Tests.Transformation
             const string expected = "BLAH BLAH";
 
             var transformer = new UppercaseTransformerAttribute();
+
+            var result = transformer.Transform(value, null, null);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Transform_Returns_Lowercase_With_Explicit_Culture()
+        {
+            const string value = "blah blah";
+            const string expected = "BLAH BLAH";
+            var culture = CultureInfo.InvariantCulture;
+
+            var transformer = new UppercaseTransformerAttribute
+            {
+                Culture = culture
+            };
 
             var result = transformer.Transform(value, null, null);
 

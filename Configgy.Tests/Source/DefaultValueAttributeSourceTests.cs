@@ -48,6 +48,30 @@ namespace Configgy.Tests.Source
         }
 
         [TestMethod]
+        public void Get_Returns_Explicit_Null_From_DefaultValueAttribute()
+        {
+            const string name = "name";
+
+            var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
+            defaultValueAttributeMock.SetupGet(d => d.Value)
+                .Returns((string)null);
+
+            var propertyInfoMock = new Mock<PropertyInfo>();
+            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
+            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
+                .Returns(() => new object[] {defaultValueAttributeMock.Object});
+
+            var source = new DefaultValueAttributeSource();
+
+            var result = source.Get(name, propertyInfoMock.Object, out string value);
+
+            Assert.IsNull(value);
+            Assert.IsTrue(result);
+            defaultValueAttributeMock.VerifyGet(d => d.Value, Times.AtLeastOnce);
+            attributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+        }
+
+        [TestMethod]
         public void Get_Returns_Value_From_DefaultValueAttribute_Converted_To_String()
         {
             const string name = "name";

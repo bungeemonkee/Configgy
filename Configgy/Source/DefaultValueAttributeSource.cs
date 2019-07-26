@@ -30,7 +30,7 @@ namespace Configgy.Source
                 return false;
             }
 
-            // If the value if null handle that explicitly
+            // If the value is null handle that explicitly
             if (attribute.Value == null)
             {
                 value = null;
