@@ -141,7 +141,6 @@ namespace Configgy
         {
             var getPrototype = GetType()
                 .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                .OfType<MethodInfo>()
                 .Where(x => x.Name == nameof(Get))
                 .Single(m => m.IsGenericMethodDefinition);
             
