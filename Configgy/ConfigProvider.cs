@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Configgy.Cache;
@@ -19,6 +20,7 @@ namespace Configgy
     {
         private static readonly Type StringType = typeof(string);
 
+        private readonly IDictionary<string, IList<object>> _attributeCache;
         private readonly ConcurrentDictionary<Type, Func<string, PropertyInfo, object>> _getCache;
         
         /// <summary>
@@ -80,7 +82,25 @@ namespace Configgy
             Validator = validator;
             Coercer = coercer;
             
+            _attributeCache = new Dictionary<string, IList<object>>();
             _getCache = new ConcurrentDictionary<Type, Func<string, PropertyInfo, object>>();
+        }
+
+        /// <inheritdoc cref="IConfigProvider.AddAttribute"/>
+        public void AddAttribute(string valueName, object attribute)
+        {
+            if (_attributeCache.TryGetValue(valueName, out var attributes))
+            {
+                attributes.Add(attribute);
+            }
+            else
+            {
+                attributes = new List<object>
+                {
+                    attribute
+                };
+                _attributeCache.Add(valueName, attributes);
+            }
         }
         
         /// <summary>
@@ -132,8 +152,8 @@ namespace Configgy
         
         private object ProduceValue<T>(string valueName, PropertyInfo property)
         {
-            // TODO: Implement saving attributes (to be used here) by value name
-            var prop = new ConfigProperty(valueName, typeof(T), property, null);
+            _attributeCache.TryGetValue(valueName, out var attributes);
+            var prop = new ConfigProperty(valueName, typeof(T), property, attributes);
             
             // Get the value from the factory
             if (!Source.Get(prop, out var value))

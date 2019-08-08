@@ -40,6 +40,13 @@ namespace Configgy
         IValueCoercer Coercer { get; }
 
         /// <summary>
+        /// Adds an attribute for a given value name.
+        /// </summary>
+        /// <param name="valueName">The value name to add the attribute to.</param>
+        /// <param name="attribute">The attribute to add.</param>
+        void AddAttribute(string valueName, object attribute);
+
+        /// <summary>
         /// Get a configuration value.
         /// </summary>
         /// <typeparam name="T">The type of the expected configuration value.</typeparam>

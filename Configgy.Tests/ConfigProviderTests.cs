@@ -47,5 +47,32 @@ namespace Configgy.Tests
             Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();
         }
+
+        [TestMethod]
+        public void Attribute_Added_To_ConfigProvider_Is_Used()
+        {
+            const string valueName = "value name";
+            var valueResult = "value result";
+            var expectedResult = "actual result";
+
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock.Setup(x => x.Get(It.IsNotNull<IConfigProperty>(), out valueResult))
+                .Returns(true);
+
+            var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());
+
+            var attributeMock = new Mock<IValueTransformer>(MockBehavior.Strict);
+            attributeMock.Setup(x => x.Transform(It.IsNotNull<IConfigProperty>(), valueResult))
+                .Returns(expectedResult);
+            attributeMock.Setup(x => x.Order)
+                .Returns(0);
+            
+            config.AddAttribute(valueName, attributeMock.Object);
+            
+            var result = config.Get(valueName, null, typeof(string));
+            
+            Assert.AreEqual(expectedResult, result);
+            sourceMock.VerifyAll();
+        }
     }
 }
