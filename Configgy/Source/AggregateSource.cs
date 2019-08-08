@@ -28,8 +28,8 @@ namespace Configgy.Source
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
                   new FileSource(),
-                  // TODO: Insert ConfigurationRootSource here
-                  // TODO: Insert EmbeddedResourceSource here
+                  new ConfigurationRootSource(),
+                  new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
         }
@@ -47,14 +47,14 @@ namespace Configgy.Source
             : this(new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
-                  // TODO: Insert ConfigurationRootSource here
-                  // TODO: Insert EmbeddedResourceSource here
+                  new ConfigurationRootSource(),
+                  new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
         }
 
         /// <summary>
-        /// Creates an AggregateSource that delegates to the given sources in order.
+        /// Creates an AggregateSource that delegatews to the given sources in order.
         /// </summary>
         /// <param name="sources"></param>
         public AggregateSource(params IValueSource[] sources)

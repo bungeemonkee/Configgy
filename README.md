@@ -72,8 +72,10 @@ Here are a bunch of things supported by Configgy out of the box:
     * Command line switches (trust me this bit is swanky)
     * Environment variables
     * Files (named like the conf value you're looking for)
+    * Net Core appsettings.json files
     * Connection string entries in a web/app config
     * App setting entries in a web/app config
+    * Embedded resources (just like the files above but embedded in the app)
     * [`System.ComponentModel.DefaultValueAttribute`](https://msdn.microsoft.com/en-us/library/system.componentmodel.defaultvalueattribute(v=vs.110).aspx)
 * Value transformers
     * Convert encrypted strings (RSA encrypted then base-64 encoded) into plaintext.
