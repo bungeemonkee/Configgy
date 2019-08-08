@@ -239,3 +239,6 @@ _Pvt_Extensions
 # Rider (JetBrains DotNet Development Tool)
 .idea
 
+# OSX Nonsense
+.DS_Store
+
