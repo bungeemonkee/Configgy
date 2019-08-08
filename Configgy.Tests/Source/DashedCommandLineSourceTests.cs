@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Configgy.Source;
 
 namespace Configgy.Tests.Source
@@ -11,58 +9,51 @@ namespace Configgy.Tests.Source
     public class DashedCommandLineSourceTests
     {
         [TestMethod]
-        public void Get_Incudes_Defined_Values()
+        public void Get_Includes_Defined_Values()
         {
             const string name = "Testing";
             const string expected = "Blah";
             var commandLine = new[] {"--Testing=Blah"};
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
-            attributeProviderMock.VerifyAll();
         }
 
         [TestMethod]
-        public void Get_Assumes_True_For_Booean_With_No_Value()
+        public void Get_Assumes_True_For_Boolean_With_No_Value()
         {
             const string name = "Testing";
             const string expected = "True";
             var commandLine = new[] {"--Testing"};
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            propertyInfoMock.SetupGet(x => x.PropertyType).Returns(typeof(bool));
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(bool), null, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
-            propertyInfoMock.VerifyGet(x => x.PropertyType);
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void Get_Returns_Null_For_Non_Booean_With_No_Value()
+        public void Get_Returns_Null_For_Non_Boolean_With_No_Value()
         {
             const string name = "Testing";
             var commandLine = new[] {"--Testing"};
-
-            var propertyMock = new Mock<PropertyInfo>();
-            propertyMock.SetupGet(x => x.PropertyType).Returns(typeof(string));
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyMock.Object, out string value);
-
-            propertyMock.VerifyGet(x => x.PropertyType);
+            var result = source.Get(property, out var value);
+            
             Assert.IsNull(value);
             Assert.IsFalse(result);
         }
@@ -72,18 +63,15 @@ namespace Configgy.Tests.Source
         {
             const string name = "Testing";
             var commandLine = new[] {"--Banana=Blah"};
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);
-            attributeProviderMock.VerifyAll();
         }
 
         [TestMethod]
@@ -92,18 +80,15 @@ namespace Configgy.Tests.Source
             const string name = "Testing";
             const string expected = "Blah";
             var commandLine = new[] {"--tEstinG=Blah"};
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] { });
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
-            attributeProviderMock.VerifyAll();
         }
 
         [TestMethod]
@@ -115,18 +100,15 @@ namespace Configgy.Tests.Source
             var commandLine = new[] {"--test=1234"};
 
             var attribute = new CommandLineNameAttribute(nameOverride);
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(x => x.GetCustomAttributes(true)).Returns(new object[] {attribute});
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {attribute});
 
             var source = new DashedCommandLineSource(commandLine);
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsTrue(result);
             Assert.AreEqual(expected, value);
-            attributeProviderMock.VerifyAll();
         }
     }
 }

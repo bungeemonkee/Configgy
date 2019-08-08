@@ -35,54 +35,60 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Allows_TypeMax()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(TypeMaxString, null, null, out value);
+            validator.Validate(property, TypeMaxString, out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_TypeMin()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(TypeMinString, null, null, out value);
+            validator.Validate(property, TypeMinString, out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_TestingMax()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(TestingMax.ToString(), null, null, out value);
+            validator.Validate(property, TestingMax.ToString(), out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_TestingMin()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(TestingMin.ToString(), null, null, out value);
+            validator.Validate(property, TestingMin.ToString(), out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_WithinTestingRange()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(WithinTestingRange, null, null, out value);
+            validator.Validate(property, WithinTestingRange, out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_AValidValue()
         {
             var validator = MakeValidator(TypeMin, TypeMax, ValidValues);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(AValidValue, null, null, out value);
+            validator.Validate(property, AValidValue, out TNumericish value);
         }
 
         [TestMethod]
@@ -90,9 +96,10 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_AboveTypeMax()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(AboveTypeMax, null, null, out value);
+            validator.Validate(property, AboveTypeMax, out TNumericish value);
         }
 
         [TestMethod]
@@ -100,9 +107,10 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_BelowTypeMin()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(BelowTypeMin, null, null, out value);
+            validator.Validate(property, BelowTypeMin, out TNumericish value);
         }
 
         [TestMethod]
@@ -110,9 +118,10 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_AboveTestingMax()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(AboveTestingMax, null, null, out value);
+            validator.Validate(property, AboveTestingMax, out TNumericish value);
         }
 
         [TestMethod]
@@ -120,9 +129,10 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_BelowTestingMin()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(BelowTestingMin, null, null, out value);
+            validator.Validate(property, BelowTestingMin, out TNumericish value);
         }
 
         [TestMethod]
@@ -130,9 +140,10 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_AnInvalidValue()
         {
             var validator = MakeValidator(TestingMin, TestingMax, ValidValues);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(AnInvalidValue, null, null, out value);
+            validator.Validate(property, AnInvalidValue, out TNumericish value);
         }
 
         [TestMethod]
@@ -140,18 +151,20 @@ namespace Configgy.Tests.Validation
         public void NumericishValidator_Validate_Throws_Exception_For_UnParseable()
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            validator.Validate(UnParseable, null, null, out value);
+            validator.Validate(property, UnParseable, out TNumericish value);
         }
 
         [TestMethod]
         public void NumericishValidator_Validate_Returns_Value_For_Valid_Values()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
 
-            TNumericish value;
-            var result = validator.Validate(WithinTestingRange, null, null, out value);
+            var result = validator.Validate(property, WithinTestingRange, out TNumericish value);
 
             Assert.IsNotNull(value);
             Assert.IsTrue(result);

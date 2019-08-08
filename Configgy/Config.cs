@@ -1,14 +1,7 @@
-﻿using Configgy.Cache;
-using Configgy.Source;
-using Configgy.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Configgy.Validation;
-using Configgy.Coercion;
-using System;
-using Configgy.Transformation;
 
 namespace Configgy
 {
@@ -20,71 +13,9 @@ namespace Configgy
         private readonly IReadOnlyDictionary<string, PropertyInfo> _properties;
 
         /// <summary>
-        /// The <see cref="IValueCache"/> in use by this configuration.
-        /// </summary>
-        [Obsolete("This property will likely be removed in the next major version.", false)]
-        protected IValueCache Cache => Provider.Cache;
-
-        /// <summary>
-        /// The <see cref="IValueSource"/> in use by this configuration.
-        /// </summary>
-        [Obsolete("This property will likely be removed in the next major version.", false)]
-        protected IValueSource Source => Provider.Source;
-
-        /// <summary>
-        /// The <see cref="IValueTransformer"/> in use by this configuration.
-        /// </summary>
-        [Obsolete("This property will likely be removed in the next major version.", false)]
-        protected IValueTransformer Transformer => Provider.Transformer;
-
-        /// <summary>
-        /// The <see cref="IValueValidator"/> in use by this configuration.
-        /// </summary>
-        [Obsolete("This property will likely be removed in the next major version.", false)]
-        protected IValueValidator Validator => Provider.Validator;
-
-        /// <summary>
-        /// The <see cref="IValueCoercer"/> in use by this configuration.
-        /// </summary>
-        [Obsolete("This property will likely be removed in the next major version.", false)]
-        protected IValueCoercer Coercer => Provider.Coercer;
-        
-        /// <summary>
         /// The <see cref="IConfigProvider"/> in use by this configuration.
         /// </summary>
-        protected IConfigProvider Provider { get; }
-
-        /// <summary>
-        /// Create a default Config instance.
-        /// </summary>
-        protected Config()
-            : this(new ConfigProvider(new DictionaryCache(), new AggregateSource(), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer()))
-        {
-        }
-
-        /// <summary>
-        /// Create a default Config instance and include parameters from a command line.
-        /// </summary>
-        /// <param name="commandLine">The command line to parse configuration values from.</param>
-        protected Config(string[] commandLine)
-            : this(new ConfigProvider(new DictionaryCache(), new AggregateSource(commandLine), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer()))
-        {
-        }
-
-        /// <summary>
-        /// Create a totally customized Config instance.
-        /// Generally you will not need this constructor.
-        /// </summary>
-        /// <param name="cache">The <see cref="IValueCache"/> instance to be used by this Config instance.</param>
-        /// <param name="source">The <see cref="IValueSource"/> instance to be used by this Config instance.</param>
-        /// <param name="transformer">The <see cref="IValueTransformer"/> instance to be used by this Config instance.</param>
-        /// <param name="validator">The <see cref="IValueValidator"/> instance to be used by this Config instance.</param>
-        /// <param name="coercer">The <see cref="IValueCoercer"/> instance to be used by this Config instance.</param>
-        [Obsolete("This constructor will likely be removed in the next major version.", false)]
-        protected Config(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
-            : this(new ConfigProvider(cache, source, transformer, validator, coercer))
-        {
-        }
+        public IConfigProvider Provider { get; }
 
         /// <summary>
         /// Create a Config instance using the given <see cref="IConfigProvider"/>.
@@ -97,15 +28,6 @@ namespace Configgy
             _properties = GetType()
                 .GetProperties()
                 .ToDictionary(p => p.Name);
-        }
-
-        /// <summary>
-        /// Clear all cached configuration values.
-        /// </summary>
-        [Obsolete("This method will likely be removed in the next major version.", false)]
-        public void ClearCache()
-        {
-            Cache.Clear();
         }
 
         /// <summary>

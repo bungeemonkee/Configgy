@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Configgy.Source
@@ -28,7 +27,8 @@ namespace Configgy.Source
         /// </summary>
         public EmbeddedResourceSource()
             : this(DefaultExpression)
-        { }
+        {
+        }
 
         /// <summary>
         /// Creates a new EmbeddedResourceSource instance with a specific expression to match resource names.
@@ -42,14 +42,8 @@ namespace Configgy.Source
             ResourceNameExpression = new Regex(resourceNameExpression);
         }
 
-        /// <summary>
-        /// Get the raw configuration value from the source.
-        /// </summary>
-        /// <param name="valueName">The name of the value to get.</param>
-        /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <param name="value">The value found in the source.</param>
-        /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public override bool Get(string valueName, PropertyInfo property, out string value)
+        /// <inheritdoc cref="IValueSource.Get"/>
+        public override bool Get(IConfigProperty property, out string value)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -68,7 +62,7 @@ namespace Configgy.Source
                     Match = ResourceNameExpression.Match(y)
                 })
                 .Where(x => x.Match.Success)
-                .SingleOrDefault(x => x.Match.Groups["name"]?.Value == valueName);
+                .SingleOrDefault(x => x.Match.Groups["name"]?.Value == property.ValueName);
 
             // If there is no matching resource then return null
             if (resource == null)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Configgy.Source;
 using Microsoft.Extensions.Configuration;
 
 namespace Configgy.Source
@@ -44,17 +42,13 @@ namespace Configgy.Source
             ConfigurationRoot = configurationRoot;
         }
 
-        /// <summary>
-        /// Get the raw configuration value from the source.
-        /// </summary>
-        /// <param name="valueName">The name of the value to get.</param>
-        /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <param name="value">The value found in the source.</param>
-        /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public override bool Get(string valueName, PropertyInfo property, out string value)
+        /// <inheritdoc cref="IValueSource.Get"/>
+        public override bool Get(IConfigProperty property, out string value)
         {
             // Get the prefix (if there is one)
-            var prefix = (property as ICustomAttributeProvider)?.GetCustomAttributes(true).OfType<ConfigurationRootPrefixAttribute>().SingleOrDefault();
+            var prefix = property.Attributes
+                .OfType<ConfigurationRootPrefixAttribute>()
+                .SingleOrDefault();
 
             // The initial section is the root configuration
             var section = ConfigurationRoot as IConfiguration;
@@ -73,7 +67,7 @@ namespace Configgy.Source
             }
 
             // Get the value from the current 
-            value = section[valueName];
+            value = section[property.ValueName];
             return value != null;
         }
     }

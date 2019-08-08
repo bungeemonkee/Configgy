@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Reflection;
 
 namespace Configgy.Transformation
 {
@@ -8,9 +7,13 @@ namespace Configgy.Transformation
     /// </summary>
     public class LowercaseTransformerAttribute : ValueTransformerAttributeBase
     {
+        /// <summary>
+        /// The <see cref="CultureInfo"/> used when changing the string.
+        /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
 
-        public override string Transform(string value, string valueName, ICustomAttributeProvider property)
+        /// <inheritdoc cref="IValueTransformer.Transform"/>
+        public override string Transform(IConfigProperty property, string value)
         {
             return value != null
                 ? Culture.TextInfo.ToLower(value)

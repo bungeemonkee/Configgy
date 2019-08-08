@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 
 namespace Configgy.Coercion
 {
@@ -51,21 +50,13 @@ namespace Configgy.Coercion
             _converter = TypeDescriptor.GetConverter(ItemType);
         }
 
-        /// <summary>
-        /// Coerce the raw string value into the expected result type.
-        /// </summary>
-        /// <typeparam name="T">The expected result type after coercion.</typeparam>
-        /// <param name="value">The raw string value to be coerced.</param>
-        /// <param name="valueName">The name of the value to be coerced.</param>
-        /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <param name="result">The coerced value.</param>
-        /// <returns>True if the value could be coerced, false otherwise.</returns>
-        public override bool Coerce<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
+        /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
+        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
         {
             // make sure the requested type is actually correct
             if (typeof(T) != ArrayType)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
 
@@ -78,7 +69,7 @@ namespace Configgy.Coercion
             // If the string is null then return null
             if (value == null)
             {
-                result = default(T);
+                result = default;
                 return true;
             }
 

@@ -17,8 +17,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            Type result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out Type result);
 
             Assert.AreSame(expected, result);
             Assert.IsTrue(coerced);
@@ -31,8 +30,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            Type result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out Type result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -45,8 +43,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            Type result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out Type result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -55,13 +52,12 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void Coerce_Returns_Null_For_Types_That_Arent_Type()
         {
-            const int expected = default(int);
+            const int expected = default;
             const string value = "System.Int32";
 
             var coercer = new TypeCoercerAttribute();
 
-            int result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);

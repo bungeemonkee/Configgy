@@ -40,19 +40,6 @@ namespace Configgy
         IValueCoercer Coercer { get; }
 
         /// <summary>
-        /// Clear all cached configuration values.
-        /// </summary>
-        void ClearCache();
-
-        /// <summary>
-        /// Clear a single value from the cache by name.
-        /// <param name="valueName">
-        ///     The name of the value to remove from the cache.
-        /// </param>
-        /// </summary>
-        void ClearCache(string valueName);
-
-        /// <summary>
         /// Get a configuration value.
         /// </summary>
         /// <typeparam name="T">The type of the expected configuration value.</typeparam>

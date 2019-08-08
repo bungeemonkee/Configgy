@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace Configgy.Source
 {
@@ -26,20 +25,14 @@ namespace Configgy.Source
             _fileExtensions = fileExtensions ?? new string[0];
         }
 
-        /// <summary>
-        /// Get the raw configuration value from the source.
-        /// </summary>
-        /// <param name="valueName">The name of the value to get.</param>
-        /// <param name="property">If there is a property on the <see cref="Config"/> instance that matches the requested value name then this will contain the reference to that property.</param>
-        /// <param name="value">The value found in the source.</param>
-        /// <returns>True if the config value was found in the source, false otherwise.</returns>
-        public override bool Get(string valueName, PropertyInfo property, out string value)
+        /// <inheritdoc cref="IValueSource.Get"/>
+        public override bool Get(IConfigProperty property, out string value)
         {
             var baseDirectory = AppContext.BaseDirectory;
 
             foreach (var extension in _fileExtensions)
             {
-                var path = Path.Combine(baseDirectory, valueName + extension);
+                var path = Path.Combine(baseDirectory, property.ValueName + extension);
                 try
                 {
                     value = File.ReadAllText(path);

@@ -13,17 +13,17 @@ namespace Configgy.Tests
         public const string ThePropertyName = nameof(TheProperty);
 
         public ConfigWrapper()
+            : base(new ConfigProvider())
         {
         }
 
         public ConfigWrapper(string[] commandLine)
-            : base(commandLine)
+            : base(new ConfigProvider(commandLine))
         {
         }
 
-        public ConfigWrapper(IValueCache cache, IValueSource source, IValueTransformer transformer,
-            IValueValidator validator, IValueCoercer coercer)
-            : base(cache, source, transformer, validator, coercer)
+        public ConfigWrapper(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
+            : base(new ConfigProvider(cache, source, transformer, validator, coercer))
         {
         }
 

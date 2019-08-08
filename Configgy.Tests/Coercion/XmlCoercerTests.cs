@@ -25,8 +25,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             CollectionAssert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
@@ -47,8 +46,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -61,8 +59,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsNull(result);
             Assert.IsTrue(coerced);

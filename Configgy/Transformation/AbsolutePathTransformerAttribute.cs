@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
 
 namespace Configgy.Transformation
 {
@@ -8,7 +7,8 @@ namespace Configgy.Transformation
     /// </summary>
     public class AbsolutePathTransformerAttribute : ValueTransformerAttributeBase
     {
-        public override string Transform(string value, string valueName, ICustomAttributeProvider property)
+        /// <inheritdoc cref="IValueTransformer.Transform"/>
+        public override string Transform(IConfigProperty property, string value)
         {
             return value == null
                 ? null

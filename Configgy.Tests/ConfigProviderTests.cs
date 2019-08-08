@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Configgy.Cache;
 using Configgy.Coercion;
 using Configgy.Source;
@@ -13,30 +12,6 @@ namespace Configgy.Tests
     [TestClass]
     public class ConfigProviderTests
     {
-        [TestMethod]
-        public void ClearCache_Calls_Cache_Clear()
-        {
-            var cacheMock = new Mock<IValueCache>();
-
-            var config = new ConfigProvider(cacheMock.Object, null, null, null, null);
-
-            config.ClearCache();
-
-            cacheMock.Verify(c => c.Clear(), Times.Once);
-        }
-        
-        [TestMethod]
-        public void ClearCache_With_Value_Calls_Cache_Clear_With_Value()
-        {
-            var cacheMock = new Mock<IValueCache>();
-
-            var config = new ConfigProvider(cacheMock.Object, null, null, null, null);
-
-            config.ClearCache("something");
-
-            cacheMock.Verify(c => c.Remove("something"), Times.Once);
-        }
-
         [TestMethod]
         public void Get_Untyped_Gets_Value_From_Cache()
         {
@@ -62,7 +37,7 @@ namespace Configgy.Tests
             var valueResult = "value result";
 
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
-            sourceMock.Setup(x => x.Get(valueName, It.IsAny<PropertyInfo>(), out valueResult))
+            sourceMock.Setup(x => x.Get(It.IsNotNull<IConfigProperty>(), out valueResult))
                 .Returns(true);
 
             var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());

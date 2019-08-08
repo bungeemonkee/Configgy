@@ -17,8 +17,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new RegexCoercerAttribute();
 
-            Regex result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out Regex result);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(coerced);
@@ -32,20 +31,18 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new RegexCoercerAttribute();
 
-            Regex result;
-            coercer.Coerce(value, null, null, out result);
+            coercer.Coerce(null, value, out Regex result);
         }
 
         [TestMethod]
         public void Coerce_Returns_Null_For_Types_Other_Than_Regex()
         {
-            const int expected = default(int);
+            const int expected = default;
             const string value = ".*";
 
             var coercer = new RegexCoercerAttribute();
 
-            int result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);

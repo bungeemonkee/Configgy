@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Configgy.Source
 {
@@ -29,6 +28,8 @@ namespace Configgy.Source
         public AggregateSource()
             : this(new EnvironmentVariableSource(),
                   new FileSource(),
+                  // TODO: Insert ConfigurationRootSource here
+                  // TODO: Insert EmbeddedResourceSource here
                   new DefaultValueAttributeSource())
         {
         }
@@ -46,6 +47,8 @@ namespace Configgy.Source
             : this(new DashedCommandLineSource(commandLine),
                   new EnvironmentVariableSource(),
                   new FileSource(),
+                  // TODO: Insert ConfigurationRootSource here
+                  // TODO: Insert EmbeddedResourceSource here
                   new DefaultValueAttributeSource())
         {
         }
@@ -59,17 +62,13 @@ namespace Configgy.Source
             _sources = sources;
         }
 
-        /// <summary>
-        /// Gets a raw value from the sources used to create this aggregate source.
-        /// See <see cref="IValueSource.Get"/>.
-        /// </summary>
-        public override bool Get(string valueName, PropertyInfo property, out string value)
+        /// <inheritdoc cref="IValueSource.Get"/>
+        public override bool Get(IConfigProperty property, out string value)
         {
             ISet<Type> sourcesToIgnore = new HashSet<Type>();
             if (property != null)
             {
-                sourcesToIgnore.UnionWith(((ICustomAttributeProvider)property)
-                    .GetCustomAttributes(true)
+                sourcesToIgnore.UnionWith(property.Attributes
                     .OfType<PreventSourceAttribute>()
                     .Select(x => x.SourceType)
                     .Where(x => x != null));
@@ -79,8 +78,7 @@ namespace Configgy.Source
             var sources = (IEnumerable<IValueSource>)_sources;
             if (property != null)
             {
-                sources = ((ICustomAttributeProvider)property)
-                    .GetCustomAttributes(true)
+                sources = property.Attributes
                     .OfType<IValueSource>()
                     .Concat(_sources);
             }
@@ -89,7 +87,7 @@ namespace Configgy.Source
             foreach (var source in sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
             {
                 // If a source has the value then return that value
-                if (source.Get(valueName, property, out value)) return true;
+                if (source.Get(property, out value)) return true;
             }
 
             // No source has the value

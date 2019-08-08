@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Transformation;
@@ -16,25 +15,27 @@ namespace Configgy.Tests.Transformation
         {
             const string name = "some value";
             const string value = "1";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
-            var transformerMock1 = new Mock<IValueTransformer>();
-            transformerMock1.Setup(x => x.Transform(value, name, null))
+            var transformerMock1 = new Mock<IValueTransformer>(MockBehavior.Strict);
+            transformerMock1.Setup(x => x.Transform(property, value))
                 .Returns(value);
             transformerMock1.Setup(x => x.Order)
                 .Returns(20);
 
-            var transformerMock2 = new Mock<IValueTransformer>();
-            transformerMock2.Setup(x => x.Transform(value, name, null))
+            var transformerMock2 = new Mock<IValueTransformer>(MockBehavior.Strict);
+            transformerMock2.Setup(x => x.Transform(property, value))
                 .Returns(value);
             transformerMock2.Setup(x => x.Order)
                 .Returns(10);
 
             var transformer = new AggregateTransformer(transformerMock1.Object, transformerMock2.Object);
 
-            var result = transformer.Transform(value, name, null);
+            var result = transformer.Transform(property, value);
 
-            transformerMock1.Verify(x => x.Transform(value, name, null), Times.Once);
-            transformerMock1.Verify(x => x.Transform(value, name, null), Times.Once);
+            transformerMock1.VerifyAll();
+            transformerMock1.VerifyAll();
             Assert.AreEqual(value, result);
         }
 
@@ -44,30 +45,30 @@ namespace Configgy.Tests.Transformation
             const string name = "name";
             const string value = "1";
 
-            var transformerMock1Attribute = new Mock<Attribute>();
+            var transformerMock1Attribute = new Mock<Attribute>(MockBehavior.Strict);
+            transformerMock1Attribute.Setup(x => x.GetHashCode())
+                .Returns(0);
             var transformerMock1 = transformerMock1Attribute.As<IValueTransformer>();
-            transformerMock1.Setup(x => x.Transform(value, name, It.IsAny<ICustomAttributeProvider>()))
+
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {transformerMock1Attribute.Object});
+
+            transformerMock1.Setup(x => x.Transform(property, value))
                 .Returns(value);
             transformerMock1.Setup(x => x.Order)
                 .Returns(20);
 
-            var transformerMock2 = new Mock<IValueTransformer>();
-            transformerMock2.Setup(x => x.Transform(value, name, It.IsAny<ICustomAttributeProvider>()))
+            var transformerMock2 = new Mock<IValueTransformer>(MockBehavior.Strict);
+            transformerMock2.Setup(x => x.Transform(property, value))
                 .Returns(value);
             transformerMock2.Setup(x => x.Order)
                 .Returns(10);
 
-            var ICustomAttributeProviderMock = new Mock<ICustomAttributeProvider>();
-            ICustomAttributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] {transformerMock1Attribute.Object});
-
             var transformer = new AggregateTransformer(transformerMock2.Object);
 
-            var result = transformer.Transform(value, name, ICustomAttributeProviderMock.Object);
+            var result = transformer.Transform(property, value);
 
-            ICustomAttributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
-            transformerMock1.Verify(x => x.Transform(value, name, It.IsAny<ICustomAttributeProvider>()), Times.Once);
-            transformerMock2.Verify(x => x.Transform(value, name, It.IsAny<ICustomAttributeProvider>()), Times.Once);
+            transformerMock1.VerifyAll();
+            transformerMock2.VerifyAll();
             Assert.AreEqual(value, result);
         }
     }

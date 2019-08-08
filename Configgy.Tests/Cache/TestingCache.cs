@@ -10,7 +10,7 @@ namespace Configgy.Tests.Cache
     [ExcludeFromCodeCoverage]
     public class TestingCache : IValueCache
     {
-        public void Clear()
+        public void Add(string valueName, object value)
         {
             // Nothing to do
         }
@@ -18,6 +18,11 @@ namespace Configgy.Tests.Cache
         public object Get(string valueName, Func<string, object> valueCallback)
         {
             return valueCallback(valueName);
+        }
+
+        public void Remove()
+        {
+            // Nothing to do
         }
 
         public void Remove(string valueName)

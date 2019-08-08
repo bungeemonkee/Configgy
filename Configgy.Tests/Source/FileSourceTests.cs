@@ -13,11 +13,12 @@ namespace Configgy.Tests.Source
         {
             const string name = "TestValue1";
             const string expected = "This is a string value.";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new FileSource();
 
-            string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out string value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -28,11 +29,12 @@ namespace Configgy.Tests.Source
         {
             const string name = "TestValue2";
             const string expected = "[\"string array\"]";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new FileSource();
 
-            string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out string value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -43,11 +45,12 @@ namespace Configgy.Tests.Source
         {
             const string name = "TestValue3";
             const string expected = "<element>some xml</element>";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new FileSource();
 
-            string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out string value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -57,11 +60,12 @@ namespace Configgy.Tests.Source
         public void Get_Returns_Null_For_File_That_Doesnt_Exist()
         {
             const string name = "this file doesn't exist";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new FileSource();
 
-            string value;
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out string value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);

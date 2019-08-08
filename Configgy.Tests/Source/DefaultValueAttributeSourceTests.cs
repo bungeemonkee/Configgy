@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Source;
@@ -12,11 +11,13 @@ namespace Configgy.Tests.Source
     public class DefaultValueAttributeValueSourceTests
     {
         [TestMethod]
-        public void Get_Returns_Null_When_No_ICustomAttributeProvider()
+        public void Get_Returns_Null_When_No_Attributes()
         {
             var source = new DefaultValueAttributeSource();
+            
+            IConfigProperty property = new ConfigProperty("something", typeof(string), null, null);
 
-            var result = source.Get("something", null, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);
@@ -31,20 +32,16 @@ namespace Configgy.Tests.Source
             var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
             defaultValueAttributeMock.SetupGet(d => d.Value)
                 .Returns(expected);
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] {defaultValueAttributeMock.Object});
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
-            defaultValueAttributeMock.VerifyGet(d => d.Value, Times.AtLeastOnce);
-            attributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+            defaultValueAttributeMock.VerifyAll();
         }
 
         [TestMethod]
@@ -55,20 +52,16 @@ namespace Configgy.Tests.Source
             var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
             defaultValueAttributeMock.SetupGet(d => d.Value)
                 .Returns((string)null);
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] {defaultValueAttributeMock.Object});
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsNull(value);
             Assert.IsTrue(result);
-            defaultValueAttributeMock.VerifyGet(d => d.Value, Times.AtLeastOnce);
-            attributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+            defaultValueAttributeMock.VerifyAll();
         }
 
         [TestMethod]
@@ -81,20 +74,16 @@ namespace Configgy.Tests.Source
             var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
             defaultValueAttributeMock.SetupGet(d => d.Value)
                 .Returns(expected);
-
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] {defaultValueAttributeMock.Object});
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
-            var result = source.Get(name, propertyInfoMock.Object, out string value);
+            var result = source.Get(property, out string value);
 
             Assert.AreEqual(expectedConverted, value);
             Assert.IsTrue(result);
-            defaultValueAttributeMock.VerifyGet(d => d.Value, Times.AtLeastOnce);
-            attributeProviderMock.Verify(p => p.GetCustomAttributes(true), Times.Once);
+            defaultValueAttributeMock.VerifyAll();
         }
     }
 }

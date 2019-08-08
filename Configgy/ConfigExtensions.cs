@@ -260,7 +260,7 @@ namespace Configgy
         private static string GetTypeDisplayName(Type type)
         {
             // If the type has a simpler name then use that
-            if (SimpleTypeNames.TryGetValue(type, out string name)) return name;
+            if (SimpleTypeNames.TryGetValue(type, out var name)) return name;
 
             // If the type is an array make sure to use the simple type name
             if (type.IsArray) return GetTypeDisplayName(type.GetElementType()) + "[]";

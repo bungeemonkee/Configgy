@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Configgy.Coercion
 {
@@ -11,21 +10,13 @@ namespace Configgy.Coercion
     /// </remarks>
     public class TypeCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
-        /// <summary>
-        /// Coerce the raw string value into the expected result type.
-        /// </summary>
-        /// <typeparam name="T">The expected result type after coercion.</typeparam>
-        /// <param name="value">The raw string value to be coerced.</param>
-        /// <param name="valueName">The name of the value to be coerced.</param>
-        /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <param name="result">The coerced value.</param>
-        /// <returns>True if the value could be coerced, false otherwise.</returns>
-        public override bool Coerce<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
+        /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
+        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
         {
             // Only try to coerce values into Type objects
             if (typeof(T) != typeof(Type))
             {
-                result = default(T);
+                result = default;
                 return false;
             }
 
@@ -35,7 +26,7 @@ namespace Configgy.Coercion
             // Unable to get the type
             if (type == null)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
 

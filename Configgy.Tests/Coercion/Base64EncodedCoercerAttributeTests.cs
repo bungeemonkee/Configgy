@@ -24,7 +24,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new Base64EncodedCoercerAttribute();
 
-            var success = coercer.Coerce<byte[]>(base64, null, null, out var dataOut);
+            var success = coercer.Coerce<byte[]>(null, base64, out var dataOut);
 
             Assert.IsTrue(success);
             CollectionAssert.AreEquivalent(dataIn, dataOut);

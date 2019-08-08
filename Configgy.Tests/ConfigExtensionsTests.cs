@@ -26,64 +26,47 @@ namespace Configgy.Tests
             var cache = new TestingCache();
 
             var sourceMock = new Mock<IValueSource>();
-            sourceMock.Setup(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw))
+            sourceMock.Setup(s => s.Get(It.IsNotNull<IConfigProperty>(), out expectedRaw))
                 .Returns(true);
 
             var transformerMock = new Mock<IValueTransformer>();
-            transformerMock.Setup(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()))
+            transformerMock.Setup(x => x.Transform(It.IsNotNull<IConfigProperty>(), expectedRaw))
                 .Returns(expectedRaw);
 
             var validatorMock = new Mock<IValueValidator>();
-            validatorMock.Setup(s => s.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
+            validatorMock.Setup(s => s.Validate(It.IsNotNull<IConfigProperty>(), expectedRaw, out expectedValue))
                 .Returns(false);
 
             var coercerMock = new Mock<IValueCoercer>();
-            coercerMock.Setup(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
+            coercerMock.Setup(c => c.Coerce(It.IsNotNull<IConfigProperty>(), expectedRaw, out expectedValue))
                 .Returns(true);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
-                coercerMock.Object);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
             config.Validate();
 
-            sourceMock.Verify(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw), Times.Once);
-            transformerMock.Verify(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()), Times.Once);
-            validatorMock.Verify(v => v.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
-                Times.Once);
-            coercerMock.Verify(c => c.Coerce(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue),
-                Times.Once);
+            sourceMock.VerifyAll();
+            transformerMock.VerifyAll();
+            validatorMock.VerifyAll();
+            coercerMock.VerifyAll();
         }
 
         [TestMethod]
         public void Validate_Calls_Nothing_With_No_Properties()
         {
-            string expectedRaw;
-            int expectedValue;
-
             var cache = new TestingCache();
 
-            var sourceMock = new Mock<IValueSource>();
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
 
-            var transformerMock = new Mock<IValueTransformer>();
+            var transformerMock = new Mock<IValueTransformer>(MockBehavior.Strict);
 
-            var validatorMock = new Mock<IValueValidator>();
+            var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
 
-            var coercerMock = new Mock<IValueCoercer>();
+            var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
 
-            var config = new ConfigWrapperWithNoProperties(cache, sourceMock.Object, transformerMock.Object,
-                validatorMock.Object, coercerMock.Object);
+            var config = new ConfigWrapperWithNoProperties(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
             config.Validate();
-
-            sourceMock.Verify(s => s.Get(It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expectedRaw), Times.Never);
-            transformerMock.Verify(x => x.Transform(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>()),
-                Times.Never);
-            validatorMock.Verify(
-                v => v.Validate(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expectedValue),
-                Times.Never);
-            coercerMock.Verify(
-                c => c.Coerce(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<PropertyInfo>(), out expectedValue),
-                Times.Never);
         }
 
         [TestMethod]
@@ -95,21 +78,22 @@ namespace Configgy.Tests
             var expectedRaw = "blorb";
             int expectedValue;
             var cache = new TestingCache();
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(int), null, null);
 
             var sourceMock = new Mock<IValueSource>();
-            sourceMock.Setup(s => s.Get(name, It.IsAny<PropertyInfo>(), out expectedRaw))
+            sourceMock.Setup(s => s.Get(property, out expectedRaw))
                 .Returns(true);
 
             var transformerMock = new Mock<IValueTransformer>();
-            transformerMock.Setup(x => x.Transform(expectedRaw, name, It.IsAny<PropertyInfo>()))
+            transformerMock.Setup(x => x.Transform(property, expectedRaw))
                 .Returns(expectedRaw);
 
             var validatorMock = new Mock<IValueValidator>();
-            validatorMock.Setup(s => s.Validate(expectedRaw, name, It.IsAny<PropertyInfo>(), out expectedValue))
-                .Callback(() => { throw new Exception(); });
+            validatorMock.Setup(s => s.Validate(property, expectedRaw, out expectedValue))
+                .Callback(() => throw new Exception());
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object,
-                null);
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, null);
 
             config.Validate();
         }

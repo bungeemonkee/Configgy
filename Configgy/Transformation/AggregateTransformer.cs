@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Configgy.Transformation
 {
@@ -39,15 +38,16 @@ namespace Configgy.Transformation
             _transformers = transformers;
         }
 
-        public string Transform(string value, string valueName, ICustomAttributeProvider property)
+        /// <inheritdoc cref="IValueTransformer.Transform"/>
+        public string Transform(IConfigProperty property, string value)
         {
-            var propertyTransformers = property?.GetCustomAttributes(true)
-                .OfType<IValueTransformer>() ?? Enumerable.Empty<IValueTransformer>();
+            var propertyTransformers = property.Attributes
+                .OfType<IValueTransformer>();
 
             return propertyTransformers
                 .Union(_transformers)
                 .OrderBy(x => x.Order)
-                .Aggregate(value, (x, y) => y.Transform(x, valueName, property));
+                .Aggregate(value, (x, y) => y.Transform(property, x));
         }
     }
 }

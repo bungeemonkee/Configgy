@@ -28,8 +28,10 @@ namespace Configgy.Tests.Source
         public void Get_Returns_Value_From_Environment()
         {
             var source = new EnvironmentVariableSource();
+            
+            IConfigProperty property = new ConfigProperty(Name, typeof(string), null, null);
 
-            var result = source.Get(Name, null, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(Value, value);
             Assert.IsTrue(result);
@@ -39,10 +41,12 @@ namespace Configgy.Tests.Source
         public void Get_Returns_Null_When_No_Matching_Environment_Variable()
         {
             const string name = " garbage string: P(*TO(*HFJJJFS#@(**&&^$%#*&()FDGO*^FDC VBNJUYT";
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
 
             var source = new EnvironmentVariableSource();
 
-            var result = source.Get(name, null, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);

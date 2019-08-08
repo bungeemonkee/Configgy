@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Source;
@@ -17,18 +16,19 @@ namespace Configgy.Tests.Source
             const string expected = "1";
             var value = expected;
 
-            var sourceMock1 = new Mock<IValueSource>();
-            sourceMock1.Setup(c => c.Get(name, null, out value))
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);            
+            
+            var sourceMock1 = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock1.Setup(c => c.Get(property, out value))
                 .Returns(true);
 
-            var sourceMock2 = new Mock<IValueSource>();
+            var sourceMock2 = new Mock<IValueSource>(MockBehavior.Strict);
 
             var source = new AggregateSource(sourceMock1.Object, sourceMock2.Object);
 
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out value);
 
-            sourceMock1.Verify(c => c.Get(name, null, out value), Times.Once);
-            sourceMock2.Verify(c => c.Get(It.IsAny<string>(), It.IsAny<PropertyInfo>(), out value), Times.Never);
+            sourceMock1.VerifyAll();
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
         }
@@ -40,20 +40,22 @@ namespace Configgy.Tests.Source
             const string expected = "1";
             var value = expected;
 
-            var sourceMock1 = new Mock<IValueSource>();
-            sourceMock1.Setup(c => c.Get(name, null, out value))
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);     
+
+            var sourceMock1 = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock1.Setup(c => c.Get(property, out value))
                 .Returns(false);
 
-            var sourceMock2 = new Mock<IValueSource>();
-            sourceMock2.Setup(c => c.Get(name, null, out value))
+            var sourceMock2 = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock2.Setup(c => c.Get(property, out value))
                 .Returns(true);
 
             var source = new AggregateSource(sourceMock1.Object, sourceMock2.Object);
 
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out value);
 
-            sourceMock1.Verify(c => c.Get(name, null, out value), Times.Once);
-            sourceMock2.Verify(c => c.Get(name, null, out value), Times.Once);
+            sourceMock1.VerifyAll();
+            sourceMock2.VerifyAll();
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
         }
@@ -62,23 +64,18 @@ namespace Configgy.Tests.Source
         public void Get_Ignores_Source_In_PreventSourceAttribute()
         {
             const string name = "some value";
-            string value;
 
             var preventSourceAttribute = new PreventSourceAttribute(typeof(ValueSourceStub));
 
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] {preventSourceAttribute});
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new []{preventSourceAttribute});
 
             var sourceStub = new ValueSourceStub();
 
             var source = new AggregateSource(sourceStub);
 
-            var result = source.Get(name, propertyInfoMock.Object, out value);
+            var result = source.Get(property, out var value);
 
             Assert.IsFalse(result);
-            attributeProviderMock.VerifyAll();
         }
 
         [TestMethod]
@@ -86,15 +83,16 @@ namespace Configgy.Tests.Source
         {
             const string name = "some value";
             var expected = "value";
-            string value;
 
-            var sourceMock = new Mock<IValueSource>();
-            sourceMock.Setup(c => c.Get(name, null, out expected))
+            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);     
+
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock.Setup(c => c.Get(property, out expected))
                 .Returns(true);
 
             var source = new AggregateSource(sourceMock.Object);
 
-            var result = source.Get(name, null, out value);
+            var result = source.Get(property, out var value);
 
             Assert.IsTrue(result);
             Assert.AreEqual(expected, value);
@@ -105,24 +103,22 @@ namespace Configgy.Tests.Source
         {
             const string name = "some value";
             var expected = "value";
-            string value;
 
-            var sourceMock = new Mock<IValueSource>();
-            sourceMock.Setup(c => c.Get(name, It.IsAny<PropertyInfo>(), out expected))
+            ConfigProperty property = null;   
+
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock.Setup(c => c.Get(It.Is<ConfigProperty>(x => x == property), out expected))
                 .Returns(true);
             
-            var propertyInfoMock = new Mock<PropertyInfo>();
-            var attributeProviderMock = propertyInfoMock.As<ICustomAttributeProvider>();
-            attributeProviderMock.Setup(p => p.GetCustomAttributes(true))
-                .Returns(() => new object[] { sourceMock.Object });
+            property = new ConfigProperty(name, typeof(string), null, new [] {sourceMock.Object});
 
             var source = new AggregateSource();
 
-            var result = source.Get(name, propertyInfoMock.Object, out value);
+            var result = source.Get(property, out var value);
 
             Assert.IsTrue(result);
             Assert.AreEqual(expected, value);
-            attributeProviderMock.VerifyAll();
+            sourceMock.VerifyAll();
         }
     }
 }

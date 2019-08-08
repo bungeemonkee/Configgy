@@ -11,11 +11,13 @@ namespace Configgy.Cache
         private readonly ConcurrentDictionary<string, object> _internal = new ConcurrentDictionary<string, object>();
 
         /// <summary>
-        /// Remove all values from the cache.
+        /// Add a value to the cache. If it already exists it will be overridden.
         /// </summary>
-        public void Clear()
+        /// <param name="valueName">The name of the value to add to the cache.</param>
+        /// <param name="value">The value to add to the cache.</param>
+        public void Add(string valueName, object value)
         {
-            _internal.Clear();
+            _internal.AddOrUpdate(valueName, value, (s, o) => value);
         }
 
         /// <summary>
@@ -31,12 +33,20 @@ namespace Configgy.Cache
         }
 
         /// <summary>
+        /// Remove all values from the cache.
+        /// </summary>
+        public void Remove()
+        {
+            _internal.Clear();
+        }
+
+        /// <summary>
         /// Remove a value from the cache.
         /// </summary>
         /// <param name="valueName">The name of the value to remove from the cache.</param>
         public void Remove(string valueName)
         {
-            _internal.TryRemove(valueName, out object value);
+            _internal.TryRemove(valueName, out var value);
         }
     }
 }

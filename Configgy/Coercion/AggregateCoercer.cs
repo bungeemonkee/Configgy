@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Configgy.Coercion
 {
@@ -39,26 +38,19 @@ namespace Configgy.Coercion
             _coercers = coercers;
         }
 
-        /// <summary>
-        /// Coerce the raw string value into the expected result type.
-        /// </summary>
-        /// <typeparam name="T">The expected result type after coercion.</typeparam>
-        /// <param name="value">The raw string value to be coerced.</param>
-        /// <param name="valueName">The name of the value to be coerced.</param>
-        /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <param name="result">The coerced value.</param>
-        /// <returns>True if the value could be coerced, false otherwise.</returns>
-        public bool Coerce<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
+        
+        /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
+        public bool Coerce<T>(IConfigProperty property, string value, out T result)
         {
-            var propertyCoercers = property?.GetCustomAttributes(true)
-                .OfType<IValueCoercer>() ?? Enumerable.Empty<IValueCoercer>();
+            var propertyCoercers = property.Attributes
+                .OfType<IValueCoercer>();
 
-            foreach (var coercer in propertyCoercers.Union(_coercers))
+            foreach (var coercer in propertyCoercers.Concat(_coercers))
             {
-                if (coercer.Coerce(value, valueName, property, out result)) return true;
+                if (coercer.Coerce(property, value, out result)) return true;
             }
 
-            result = default(T);
+            result = default;
             return false;
         }
     }

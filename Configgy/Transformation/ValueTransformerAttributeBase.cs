@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Configgy.Transformation
 {
@@ -9,8 +8,12 @@ namespace Configgy.Transformation
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public abstract class ValueTransformerAttributeBase : Attribute, IValueTransformer
     {
+        /// <summary>
+        /// The order in which the transformers are applied.
+        /// </summary>
         public virtual int Order { get; set; }
 
-        public abstract string Transform(string value, string valueName, ICustomAttributeProvider property);
+        /// <inheritdoc cref="IValueTransformer.Transform"/>
+        public abstract string Transform(IConfigProperty property, string value);
     }
 }

@@ -13,10 +13,12 @@ namespace Configgy.Tests.Transformation
         public void Transform_Returns_Null_For_Null_Values()
         {
             const string value = null;
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 
-            var result = transformer.Transform(value, null, null);
+            var result = transformer.Transform(property, null);
 
             Assert.IsNull(result);
         }
@@ -26,10 +28,12 @@ namespace Configgy.Tests.Transformation
         {
             const string value = "test.text";
             var expected = Path.GetFullPath(value);
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 
-            var result = transformer.Transform(value, null, null);
+            var result = transformer.Transform(property, value);
 
             Assert.AreEqual(expected, result);
         }

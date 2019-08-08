@@ -18,8 +18,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new JsonCoercerAttribute();
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             CollectionAssert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
@@ -38,8 +37,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new JsonCoercerAttribute();
 
-            Dictionary<string, string> result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out Dictionary<string, string> result);
 
             CollectionAssert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
@@ -53,8 +51,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new JsonCoercerAttribute();
 
-            Dictionary<string, string> result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out Dictionary<string, string> result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -67,8 +64,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new JsonCoercerAttribute();
 
-            Dictionary<string, string> result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out Dictionary<string, string> result);
 
             Assert.IsNull(result);
             Assert.IsTrue(coerced);

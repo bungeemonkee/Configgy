@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Configgy.Validation
+﻿namespace Configgy.Validation
 {
     /// <summary>
     /// Defines a value validator.
@@ -13,8 +11,7 @@ namespace Configgy.Validation
         /// </summary>
         /// <typeparam name="T">The type the value is expected to be coerced into.</typeparam>
         /// <param name="value">The raw string value.</param>
-        /// <param name="valueName">The name of the value.</param>
-        /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
+        /// <param name="property">The <see cref="IConfigProperty"/> for this value.</param>
         /// <param name="result">If the validator did the coercion it should set this to the result.</param>
         /// <returns>
         ///     True if the validator performed coercion as a side effect, false otherwise.
@@ -22,6 +19,6 @@ namespace Configgy.Validation
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        bool Validate<T>(string value, string valueName, ICustomAttributeProvider property, out T result);
+        bool Validate<T>(IConfigProperty property, string value, out T result);
     }
 }

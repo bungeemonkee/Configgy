@@ -13,13 +13,12 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void Coerce_Returns_Instance_Of_Correct_Type_For_Known_Types()
         {
-            const int expected = default(int);
+            const int expected = default;
             const string value = "System.Int32";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            int result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out int result);
 
             Assert.IsInstanceOfType(result, typeof(int));
             Assert.AreEqual(expected, result);
@@ -29,13 +28,12 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void Coerce_Returns_Null_For_Unknown_Types()
         {
-            const int expected = default(int);
+            const int expected = default;
             const string value = "System.Int365";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            int result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);
@@ -44,13 +42,12 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void Coerce_Returns_Null_For_Invlaid_Type_Name()
         {
-            const int expected = default(int);
+            const int expected = default;
             const string value = "000 Banana Kerfuffle Ogre !@#$%^&*()_+";
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            int result;
-            var coerced = coercer.Coerce(value, null, null, out result);
+            var coerced = coercer.Coerce(null, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);
@@ -64,8 +61,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            ClassWithNoDefaultConstructor result;
-            coercer.Coerce(value, null, null, out result);
+            coercer.Coerce(null, value, out ClassWithNoDefaultConstructor _);
         }
 
         [TestMethod]
@@ -76,8 +72,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            ClassWithBrokenConstructor result;
-            coercer.Coerce(value, null, null, out result);
+            coercer.Coerce(null, value, out ClassWithBrokenConstructor _);
         }
     }
 }

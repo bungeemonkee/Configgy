@@ -10,9 +10,8 @@ namespace Configgy.Tests
     [ExcludeFromCodeCoverage]
     public class ConfigWrapperWithNoProperties : Config
     {
-        public ConfigWrapperWithNoProperties(IValueCache cache, IValueSource source, IValueTransformer transformer,
-            IValueValidator validator, IValueCoercer coercer)
-            : base(cache, source, transformer, validator, coercer)
+        public ConfigWrapperWithNoProperties(IValueCache cache, IValueSource source, IValueTransformer transformer, IValueValidator validator, IValueCoercer coercer)
+            : base(new ConfigProvider(cache, source, transformer, validator, coercer))
         {
         }
 

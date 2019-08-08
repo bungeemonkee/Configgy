@@ -17,8 +17,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsTrue(coerced);
             CollectionAssert.AreEqual(expected, result);
@@ -32,8 +31,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int), " | ");
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsTrue(coerced);
             CollectionAssert.AreEqual(expected, result);
@@ -46,8 +44,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            long[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out long[] result);
 
             Assert.IsFalse(coerced);
             Assert.IsNull(result);
@@ -61,8 +58,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            int[] result;
-            coercer.Coerce(input, null, null, out result);
+            coercer.Coerce(null, input, out int[] _);
         }
 
         [TestMethod]
@@ -72,8 +68,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(int[]));
@@ -87,8 +82,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            int[] result;
-            var coerced = coercer.Coerce(input, null, null, out result);
+            var coerced = coercer.Coerce(null, input, out int[] result);
 
             Assert.IsTrue(coerced);
             Assert.IsNull(result);
@@ -102,7 +96,7 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(DescriptionAttribute));
 
-            var coerced = coercer.Coerce(input, null, null, out DescriptionAttribute[] result);
+            var coerced = coercer.Coerce(null, input, out DescriptionAttribute[] result);
 
             Assert.IsTrue(coerced);
             Assert.IsNull(result);

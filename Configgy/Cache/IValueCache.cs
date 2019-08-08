@@ -8,6 +8,13 @@ namespace Configgy.Cache
     public interface IValueCache
     {
         /// <summary>
+        /// Add a value to the cache. If it already exists it will be overridden.
+        /// </summary>
+        /// <param name="valueName">The name of the value to add to the cache.</param>
+        /// <param name="value">The value to add to the cache.</param>
+        void Add(string valueName, object value);
+        
+        /// <summary>
         /// Gets a value from the cache.
         /// Produces the value using the callback if no value exists.
         /// </summary>
@@ -17,14 +24,14 @@ namespace Configgy.Cache
         object Get(string valueName, Func<string, object> valueCallback);
 
         /// <summary>
+        /// Remove all values from the cache.
+        /// </summary>
+        void Remove();
+
+        /// <summary>
         /// Remove a value from the cache.
         /// </summary>
         /// <param name="valueName">The name of the value to remove from the cache.</param>
         void Remove(string valueName);
-
-        /// <summary>
-        /// Remove all values from the cache.
-        /// </summary>
-        void Clear();
     }
 }

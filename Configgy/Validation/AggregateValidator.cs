@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Configgy.Validation
 {
@@ -36,43 +35,28 @@ namespace Configgy.Validation
             _validatorsByType = validatorsByType;
         }
 
-        /// <summary>
-        /// Validate a potential value.
-        /// This method must throw an exception if the value is invalid.
-        /// </summary>
-        /// <typeparam name="T">The type the value is expected to be coerced into.</typeparam>
-        /// <param name="value">The raw string value.</param>
-        /// <param name="valueName">The name of the value.</param>
-        /// <param name="property">If this value is directly associated with a property on a <see cref="Config"/> instance this is the reference to that property.</param>
-        /// <param name="result">If the validator did the coercion it should set this to the result.</param>
-        /// <returns>
-        ///     True if the validator performed coercion as a side effect, false otherwise.
-        ///     Any return value (true or false) indicates successful validation.
-        ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
-        /// </returns>
-        /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        public bool Validate<T>(string value, string valueName, ICustomAttributeProvider property, out T result)
+        /// <inheritdoc cref="IValueValidator.Validate{T}"/>
+        public bool Validate<T>(IConfigProperty property, string value, out T result)
         {
             // Set the result to the default value
-            result = default(T);
+            result = default;
 
             // Get the validator for the expected type
             // ...validate based on the type
             // ...and get the result
-            var coerced = _validatorsByType.TryGetValue(typeof(T), out IValueValidator typeValidator) && typeValidator.Validate(value, valueName, property, out result);
+            var coerced = _validatorsByType.TryGetValue(typeof(T), out var typeValidator) && typeValidator.Validate(property, value, out result);
 
             // If there is no property then return
             if (property == null) return coerced;
 
             // Get any validators from the property attributes
-            var propertyValidators = property
-                .GetCustomAttributes(true)
+            var propertyValidators = property.Attributes
                 .OfType<IValueValidator>();
 
             // Use each property attribute validator to validate the value
             foreach (var validator in propertyValidators)
             {
-                if (validator.Validate(value, valueName, property, out T localResult) && !coerced)
+                if (validator.Validate(property, value, out T localResult) && !coerced)
                 {
                     result = localResult;
                     coerced = true;

@@ -13,10 +13,12 @@ namespace Configgy.Tests.Transformation
         public void Transform_Returns_Null_For_Null_Values()
         {
             const string value = null;
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
 
             var transformer = new LowercaseTransformerAttribute();
 
-            var result = transformer.Transform(value, null, null);
+            var result = transformer.Transform(property, null);
 
             Assert.IsNull(result);
         }
@@ -26,10 +28,12 @@ namespace Configgy.Tests.Transformation
         {
             const string value = "BLAH BLAH";
             const string expected = "blah blah";
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
 
             var transformer = new LowercaseTransformerAttribute();
 
-            var result = transformer.Transform(value, null, null);
+            var result = transformer.Transform(property, value);
 
             Assert.AreEqual(expected, result);
         }
@@ -40,13 +44,15 @@ namespace Configgy.Tests.Transformation
             const string value = "BLAH BLAH";
             const string expected = "blah blah";
             var culture = CultureInfo.InvariantCulture;
+            
+            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
 
             var transformer = new LowercaseTransformerAttribute
             {
                 Culture = culture
             };
 
-            var result = transformer.Transform(value, null, null);
+            var result = transformer.Transform(property, value);
 
             Assert.AreEqual(expected, result);
         }

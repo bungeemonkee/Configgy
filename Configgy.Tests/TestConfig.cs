@@ -1,8 +1,4 @@
-﻿using Configgy.Cache;
-using Configgy.Coercion;
-using Configgy.Source;
-using Configgy.Transformation;
-using Configgy.Validation;
+﻿using Configgy.Source;
 
 namespace Configgy.Tests
 {
@@ -17,7 +13,8 @@ namespace Configgy.Tests
         public string Setting03 => Get<string>();
 
         public TestConfig()
-            : base(new DictionaryCache(), new ConfigurationRootSource(), new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer())
-        { }
+            : base(new ConfigProvider())
+        {
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Configgy
     {
         private static readonly Type StringType = typeof(string);
 
-        private readonly ConcurrentDictionary<Type, Func<string, PropertyInfo, object>> getCache;
+        private readonly ConcurrentDictionary<Type, Func<string, PropertyInfo, object>> _getCache;
         
         /// <summary>
         /// The <see cref="IValueCache"/> in use by this configuration.
@@ -80,26 +80,7 @@ namespace Configgy
             Validator = validator;
             Coercer = coercer;
             
-            getCache = new ConcurrentDictionary<Type, Func<string, PropertyInfo, object>>();
-        }
-
-        /// <summary>
-        /// Clear all cached configuration values.
-        /// </summary>
-        public void ClearCache()
-        {
-            Cache.Clear();
-        }
-
-        /// <summary>
-        /// Clear a single value from the cache by name.
-        /// <param name="valueName">
-        ///     The name of the value to remove from the cache.
-        /// </param>
-        /// </summary>
-        public void ClearCache(string valueName)
-        {
-            Cache.Remove(valueName);
+            _getCache = new ConcurrentDictionary<Type, Func<string, PropertyInfo, object>>();
         }
         
         /// <summary>
@@ -133,7 +114,7 @@ namespace Configgy
         /// <returns>The configuration value.</returns>
         public object Get(string valueName, PropertyInfo property, Type valueType)
         {
-            var function = getCache.GetOrAdd(valueType, GetGet);
+            var function = _getCache.GetOrAdd(valueType, GetGet);
             return function(valueName, property);
         }
         
@@ -151,18 +132,21 @@ namespace Configgy
         
         private object ProduceValue<T>(string valueName, PropertyInfo property)
         {
+            // TODO: Implement saving attributes (to be used here) by value name
+            var prop = new ConfigProperty(valueName, typeof(T), property, null);
+            
             // Get the value from the factory
-            if (!Source.Get(valueName, property, out var value))
+            if (!Source.Get(prop, out var value))
             {
                 // Throw an exception informing the user of the missing value
                 throw new MissingValueException(valueName);
             }
 
             // Transform the value
-            value = Transformer.Transform(value, valueName, property);
+            value = Transformer.Transform(prop, value);
 
             // Validate the value
-            var coerced = Validator.Validate(value, valueName, property, out T result);
+            var coerced = Validator.Validate(prop, value, out T result);
 
             // Optimization: skip coercion for string values
             var type = typeof(T);
@@ -172,7 +156,7 @@ namespace Configgy
             if (coerced) return result;
 
             // Coerce the value
-            if (!Coercer.Coerce(value, valueName, property, out result))
+            if (!Coercer.Coerce(prop, value, out result))
             {
                 // Throw an exception informing the user of the failed coercion
                 throw new CoercionException(value, valueName, type, property);
