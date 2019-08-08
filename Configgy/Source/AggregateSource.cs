@@ -29,6 +29,8 @@ namespace Configgy.Source
             : this(new EnvironmentVariableSource(),
                   new FileSource(),
                   new ConfigurationRootSource(),
+                  new ConnectionStringsSource(),
+                  new AppSettingSource(),
                   new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
@@ -48,6 +50,8 @@ namespace Configgy.Source
                   new EnvironmentVariableSource(),
                   new FileSource(),
                   new ConfigurationRootSource(),
+                  new ConnectionStringsSource(),
+                  new AppSettingSource(),
                   new EmbeddedResourceSource(),
                   new DefaultValueAttributeSource())
         {
