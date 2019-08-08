@@ -74,5 +74,41 @@ namespace Configgy.Tests
             Assert.AreEqual(expectedResult, result);
             sourceMock.VerifyAll();
         }
+
+        [TestMethod]
+        public void Multiple_Attributes_Added_To_ConfigProvider_Are_Used()
+        {
+            const string valueName = "value name";
+            var valueResult = "value result";
+            var expectedResult1 = "actual result the first";
+            var expectedResult2 = "actual result the second";
+
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock.Setup(x => x.Get(It.IsNotNull<IConfigProperty>(), out valueResult))
+                .Returns(true);
+
+            var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());
+
+            var attributeMock1 = new Mock<IValueTransformer>(MockBehavior.Strict);
+            attributeMock1.Setup(x => x.Transform(It.IsNotNull<IConfigProperty>(), valueResult))
+                .Returns(expectedResult1);
+            attributeMock1.Setup(x => x.Order)
+                .Returns(0);
+            
+
+            var attributeMock2 = new Mock<IValueTransformer>(MockBehavior.Strict);
+            attributeMock2.Setup(x => x.Transform(It.IsNotNull<IConfigProperty>(), expectedResult1))
+                .Returns(expectedResult2);
+            attributeMock2.Setup(x => x.Order)
+                .Returns(0);
+            
+            config.AddAttribute(valueName, attributeMock1.Object);
+            config.AddAttribute(valueName, attributeMock2.Object);
+            
+            var result = config.Get(valueName, null, typeof(string));
+            
+            Assert.AreEqual(expectedResult2, result);
+            sourceMock.VerifyAll();
+        }
     }
 }

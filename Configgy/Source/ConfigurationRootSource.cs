@@ -59,10 +59,6 @@ namespace Configgy.Source
                 foreach (var p in prefix.Prefixes)
                 {
                     section = section.GetSection(p);
-                    if (section != null) continue;
-
-                    value = null;
-                    return false;
                 }
             }
 

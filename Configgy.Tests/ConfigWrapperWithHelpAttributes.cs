@@ -1,4 +1,5 @@
-﻿using Configgy.Coercion;
+﻿using System.Collections.Generic;
+using Configgy.Coercion;
 using Configgy.Source;
 using System.Diagnostics.CodeAnalysis;
 
@@ -37,5 +38,7 @@ namespace Configgy.Tests
 
         [Help("Some enum value that means something.")]
         public TestingEnum EnumSetting => Get<TestingEnum>();
+
+        public IList<decimal> Decimals => Get<IList<decimal>>();
     }
 }
