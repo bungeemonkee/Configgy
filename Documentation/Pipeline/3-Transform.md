@@ -9,6 +9,7 @@
     4. [Validate](4-Validate.md)
     5. [Coerce](5-Coerce.md)
 2. [Other Features](../2-Other.md)
+3. [Advanced Usage](../3-Advanced.md)
 
 ## Pipeline - Transform
 
@@ -21,3 +22,5 @@ The default transformer is `Configgy.Transformers.AggregateTransformer`. By defa
 ### A Note Of Explanation
 
 The primary use case for this behavior is implemented in `Configgy.Transformers.DecryptionTransformerAttribute`. This class allows values to be stored in the value source as base-64 encoded, RSA encrypted, UTF-8 strings. The transformer will decode and decrypt the results and return the original string. In this way secure information can safely be stored in any configuration source and still accessed easily (and cached, and validated, and coerced) using Configgy but only accessed on any machine which contains the appropriate certificate for the necessary decryption.
+
+This could also be used to do things like cleanup malformed XML or JSON input before trying to deserialize it, convert strings to upper or lower case, etc.

@@ -17,6 +17,7 @@ A simple, powerful, extensible, testable .NET configuration library.
     4. [Validate](Documentation/Pipeline/4-Validate.md)
     5. [Coerce](Documentation/Pipeline/5-Coerce.md)
 2. [Other Features](Documentation/2-Other.md)
+3. [Advanced Usage](Documentation/3-Advanced.md)
 
 
 ## Description
@@ -64,7 +65,7 @@ The basic design of Configgy boils down to a few key points:
 
 Here are a bunch of things supported by Configgy out of the box:
 
-* Strongly typed configurations including complex objects
+* Strongly typed configuration properties including complex objects
     * Any value type you can imagine including enums, numerics, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), [`TimeSpan`](https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx) and strings
     * JSON for complex objects (preferred)
     * XML for complex objects (not recommended but it works)
@@ -79,6 +80,8 @@ Here are a bunch of things supported by Configgy out of the box:
     * [`System.ComponentModel.DefaultValueAttribute`](https://msdn.microsoft.com/en-us/library/system.componentmodel.defaultvalueattribute(v=vs.110).aspx)
 * Value transformers
     * Convert encrypted strings (RSA encrypted then base-64 encoded) into plaintext.
+    * Convert relative paths to absolute ones
+    * Convert strings to upper or lower case
 * Validation
     * Automatic validation for all numeric types, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), TimeSpan
     * Validation of any numeric, [`DateTime`](https://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx), or [`TimeSpan`](https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx) configuration properties by min/max or valid value arrays
@@ -86,6 +89,8 @@ Here are a bunch of things supported by Configgy out of the box:
 * Caching
     * In-memory caching of post-coercion values to reduce reflection by default and make most config value lookups lightning fast
 * Optional preemptive validation - know that a config value is bad when your app starts up (or any other time you choose) instead of hours or days later when you get some inscrutable null reference exception or an unexplained int.Parse error.
+* Populate any configuration object even ones provided by thridparty libraries using the same `Configgy.ConfigProvider` instance - so just configure it once
+* Dependency Injection - an interface for everything and everything has an interface. You can assemble an entire `Configgy.ConfigProvider` instance with DI if you wish
 
 ## Extensibility
 

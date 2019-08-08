@@ -1,14 +1,158 @@
-# Documentation
+# Configgy
 
 [README](../README.md)
 
-1. [Introduction](Introduction.md)
-2. [Command Line Values](CommandLine.md)
-3. [Custom Sources Including Databases](CustomSources.md)
-4. [Validators and Coercers](ValidatorsAndCoercers.md)
-5. [Dependency Injection](DependencyInjection.md)
+1. [Overview](1-Overview.md)
+    1. [Cache](Pipeline/1-Cache.md)
+    2. [Source](Pipeline/2-Source.md)
+    3. [Transform](Pipeline/3-Transform.md)
+    4. [Validate](Pipeline/4-Validate.md)
+    5. [Coerce](Pipeline/5-Coerce.md)
+2. [Other Features](2-Other.md)
+3. [Advanced Usage](3-Advanced.md)
 
-## Dependency Injection
+## Advanced Usage
+
+Since Configgy is built as a series of distinct components it is easy to customize the behavior of any part of the [Pipeline](1-Overview.md)
+
+### Custom Sources
+
+Configgy is designed so custom sources can be added easily. To do this you'll need to implement [`IValueSource`](../Configgy/Source/IValueSource.cs) and add it to the sources in your config class. That would look something like this:
+
+```csharp
+
+using System;
+using Configgy;
+using Configgy.Cache;
+using Configgy.Coercion;
+using Configgy.Source;
+using Configgy.Validation;
+
+public class MyConfig: Config, IMyConfig
+{
+
+    public int MaxThingCount { get { return Get<int>(); } }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
+    
+    public MyConfig(string[] commandLine)
+        : base (
+            new DictionaryCache(),
+            new AggregateSource(
+              new CommandLineSource(commandLine),
+              new EnvironmentVariableSource(),
+              new MyCustomSource(),
+              new DefaultValueAttributeSource()
+            ),
+            new AggregateValidator(),
+            new AggregateCoercer()
+        )
+    {
+    }
+}
+
+```
+
+### Databases
+
+Databases (or webservices, or cache services, etc.) as configuration sources are where this gets a little tricky. That's because with databases you generally need some configuration info to connect to them. Which has the potential to introduce a circular dependency when dealing with getting the configuration from the database. So we need to bootstrap an initial configuration before building the full configuration.
+
+We'll need a simple interface for our bootstrap configuration. This will only contain the config values we need to connect to the database like so:
+
+```csharp
+
+public interface IMyBootstrapConfig
+{
+    string DatabaseConectionString { get; }
+}
+
+
+```
+We need to implement out database configuration source:
+
+```csharp
+
+public class MyDatabaseConfig : IValueSource
+{
+    public MyDatabaseConfig(IMyBootstrapConfig bootstrapConfig)
+    {
+        // TODO: Implement this constructor
+    }
+    
+    public string GetRawValue(string valueName, ICustomAttributeProvider property)
+    {
+        // TODO: Implement getting the config value from the database
+    }
+}
+
+
+```
+
+
+We'll also need an interface for our full config object. This will inherit from our bootstrap config like this:
+
+```csharp
+
+public interface IMyConfig : IMyBootstrapConfig
+{
+    int MaxThingCount { get; }       
+    DateTime WhenToShutdown { get; }
+}
+
+
+```
+
+Now our config object will implement the main config interface. But we're going to have two constructors, one that builds the boostrap config and one that takes the bootstrap config and uses it to build the full config with database support. It'll look like this:
+
+```csharp
+
+public class MyConfig: IMyConfig
+{
+
+    public int MaxThingCount { get { return Get<int>(); } }        
+    public string DatabaseConectionString { get { return Get<string>(); } }        
+    public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
+    
+    public MyConfig()
+    {
+    }
+    
+    public MyConfig(IMyBootstrapConfig bootstrapConfig)
+        : base (
+            new DictionaryCache(),
+            new AggregateSource(
+              new EnvironmentVariableSource(),
+              new MyDatabaseConfig(bootstrapConfig),
+              new DefaultValueAttributeSource()
+            ),
+            new AggregateValidator(),
+            new AggregateCoercer()
+        )
+    {
+    }
+}
+
+
+```
+
+Now our program will have to build the bootstrap configuration then use that to build the full configuration. We only want to validate the full configuration though. It would look like this: (Again, command line support has been excluded to simplify the example.)
+
+
+```csharp
+
+public void Main(string[] args)
+{
+    var bootstrap = new MyConfig();
+    var config = new MyConfig(bootstrap);
+    config.Validate();
+    
+    var logic = new MyLogicClass(config);
+    logic.DoSomething();
+}
+
+```
+
+### Dependency Injection
 
 The design of Configgy works naturally with dependency injection. This is especially true if you use an interface to define your configuration properties, which is highly recommended. (For the purposes of this example I'm assuming you're using [Autofac](http://docs.autofac.org/en/stable/getting-started/index.html) - a popular IoC container but the principles here will work with any half-decent IoC library.) First you'll have your configuration interface:
 
@@ -62,7 +206,7 @@ public IContainer GetContainer()
 Be careful to make sure the config instance is bound as a singleton or you'll get no benefit from the value caching. In the case of AutoFac that is accomplished with the call to `SingleInstance()`;
 
 
-### Advanced 1: Multiple Configuration Interfaces
+### Dependency Injection and Multiple Configuration Interfaces
 
 One of the great things about this approach is that you can have a single config object that implements multiple configuration interfaces form separate services or objects used by your code. This could be useful if you need to connect to multiple different databases or web services or simply want to isolate the configuration of multiple areas of your application. This approach, combined with dependency injection might look something like this:
 
@@ -133,9 +277,9 @@ public IContainer GetContainer()
 
 Again, we're careful to bind our configuration object as a singleton, but using this approach that same singleton can provide configuration values to discrete areas of our code without having to provide them configuration values they neither need nor should even know exist.
 
-### Advanced 2: Dependency Injection and Database Configuration Sources
+### Dependency Injection and Database Configuration Sources
 
-Using dependency injection can simplify the database-as-configuration-source issue covered in the advanced section of [Custom Sources Including Databases](CustomSources.md). It will allow us to encapsulate the logic to do the bootstrapping into a single self-contained function.
+Using dependency injection can simplify the database-as-configuration-source issue covered above. It will allow us to encapsulate the logic to do the bootstrapping into a single self-contained function.
 
 We'll still need need a simple interface for our bootstrap configuration:
 
@@ -202,8 +346,6 @@ public class MyConfig: IMyConfig, IMyBootstrapConfig
             new AggregateSource(
               new EnvironmentVariableSource(),
               new MyDatabaseConfig(bootstrapConfig),
-              new ConectionStringsSource(),
-              new AppSettingSource(),
               new DefaultValueAttributeSource()
             ),
             new AggregateValidator(),

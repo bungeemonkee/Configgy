@@ -9,6 +9,7 @@
     4. [Validate](Pipeline/4-Validate.md)
     5. [Coerce](Pipeline/5-Coerce.md)
 2. [Other Features](2-Other.md)
+3. [Advanced Usage](3-Advanced.md)
 
 ## Other Features
 

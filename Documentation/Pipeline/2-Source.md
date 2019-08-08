@@ -9,6 +9,7 @@
     4. [Validate](4-Validate.md)
     5. [Coerce](5-Coerce.md)
 2. [Other Features](../2-Other.md)
+3. [Advanced Usage](../3-Advanced.md)
 
 ## Pipeline - Source
 
@@ -21,10 +22,11 @@ The default source is an instance of `Configgy.Source.AggregateSource` which use
 1. Command line (if a command line is provided in the constructor)
 2. Environment variables
 3. Files
-4. Connection strings (in an app/web config)
-5. App settings (in an app/web config)
-6. Embedded resources
-7. Default value attributes
+4. Net Core appsettings.json files
+5. Connection strings (in an app/web config)
+6. App settings (in an app/web config)
+7. Embedded resources
+8. Default value attributes
 
 These sources (or others) can be excluded from consideration on a per-property basis using by applying `Configgy.PreventSourceAttribute` to the property. This source takes a [`System.Type`](https://msdn.microsoft.com/en-us/library/system.type(v=vs.110).aspx) reference which will be ignored by `Configgy.Source.AggregateSource` when considering potential values sources. This property can be applied multiple times to ignore multiple sources. This is useful to prevent sensitive values (which must come from a secure environment) from being retrieved accidentally from a command line or config file.
 
@@ -46,6 +48,8 @@ For example: `MyProgram.exe /config:MaxThingCount=25`.
 
 This way you could have a default value of 50 for MaxThingCount in the app.config, a value configured in the environment of 15, and still override both of those values on the command line.
 
+If you'd like the command line variable name to be different than that of the actual property name decorate the property with an instance of `Configgy.Source.CommandLineNameAttribute` like this `[CommandLineNmae("some_other_name")]` note that the double dashes are not included in the substitute name.
+
 ### Environment Variables
 
 Environment variables as a config source are generally easy except that after you set the variable you may need to restart the application for the change to take effect. If your application is running inside another service (such as a web application running inside IIS) you may even need to restart the computer itself for the new variable to propagate all the way into your process.
@@ -53,6 +57,10 @@ Environment variables as a config source are generally easy except that after yo
 ### Files
 
 To use separate files for each config value simply create a text file with the same name as the config value and one of the following extensions: '.conf', '.json', '.xml'. Note that the file extension does not change the coercer that is used. So a configuration file with a '.json' extension may still contain xml that is parsed using the xml coercer if that coercer attribute is applied to the configuration property.
+
+### Net Core appsettings.json Files
+
+These work almost exactly like the default setup from the new Net Core MVC project template. The files are searched for in the current directory. If there is a file named appsettings.<environment>.json it will override settings in app.json. In this case <environment> will be the value of the ASPNETCORE_ENVIRONMENT environment variable, or if that is not found the ENVIRONMENT environment variable.
 
 ### Connection Strings
 
