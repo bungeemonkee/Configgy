@@ -3,13 +3,13 @@
 namespace Configgy.Source
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class CommandLineNameAttribute : Attribute
+    public class AlternateNameAttribute : Attribute
     {
-        public string CommandLineName { get; }
+        public string AlternateName { get; }
 
-        public CommandLineNameAttribute(string commandLineName)
+        public AlternateNameAttribute(string alternateName)
         {
-            CommandLineName = commandLineName;
+            AlternateName = alternateName;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Configgy.Source;
 
 namespace Configgy
 {
@@ -22,13 +23,17 @@ namespace Configgy
 
         public ConfigProperty(string valueName, Type valueType, PropertyInfo property, IEnumerable<object> additionalAttributes)
         {
-            ValueName = valueName;
             PropertyName = property?.Name;
             ValueType = valueType;
 
             Attributes = (additionalAttributes ?? Enumerable.Empty<object>())
                 .Union(property?.GetCustomAttributes(true) ?? Enumerable.Empty<object>())
                 .ToArray();
+
+            ValueName = Attributes.OfType<AlternateNameAttribute>()
+                .FirstOrDefault()
+                ?.AlternateName
+                ?? valueName;
         }
     }
 }

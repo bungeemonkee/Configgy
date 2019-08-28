@@ -90,25 +90,5 @@ namespace Configgy.Tests.Source
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
         }
-
-        [TestMethod]
-        public void Get_Uses_Name_Override_From_CommandLineNameAttribute()
-        {
-            const string name = "Testing";
-            const string nameOverride = "test";
-            const string expected = "1234";
-            var commandLine = new[] {"--test=1234"};
-
-            var attribute = new CommandLineNameAttribute(nameOverride);
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {attribute});
-
-            var source = new DashedCommandLineSource(commandLine);
-
-            var result = source.Get(property, out var value);
-
-            Assert.IsTrue(result);
-            Assert.AreEqual(expected, value);
-        }
     }
 }

@@ -31,22 +31,15 @@ namespace Configgy.Source
         /// <inheritdoc cref="IValueSource.Get"/>
         public override bool Get(IConfigProperty property, out string value)
         {
-            // Check for command line name overrides
-            var valueName = property.Attributes
-                .OfType<CommandLineNameAttribute>()
-                .Select(x => x.CommandLineName)
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x))
-            ?? property.ValueName;
-
             // See if the name exists in the dictionary
-            if (!_values.ContainsKey(valueName))
+            if (!_values.ContainsKey(property.ValueName))
             {
                 value = null;
                 return false;
             }
 
             // Get the raw value from the dictionary
-            value = _values[valueName];
+            value = _values[property.ValueName];
 
             // If the name is in the dictionary but contains no value and it is a boolean property then we assume it is true
             if (value == null && property.ValueType == typeof(bool)) value = "True";
