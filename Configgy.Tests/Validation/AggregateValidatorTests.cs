@@ -45,8 +45,6 @@ namespace Configgy.Tests.Validation
             var result = value;
 
             var validatorMockAttribute = new Mock<Attribute>(MockBehavior.Strict);
-            validatorMockAttribute.Setup(x => x.GetHashCode())
-                .Returns(0);
             var validatorMock = validatorMockAttribute.As<IValueValidator>();
             validatorMock.Setup(v => v.Validate(It.Is<IConfigProperty>(x => x == property), value, out result))
                 .Returns(true);

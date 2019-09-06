@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using Configgy.Cache;
@@ -153,10 +154,34 @@ namespace Configgy
         private object ProduceValue<T>(string valueName, PropertyInfo property)
         {
             _attributeCache.TryGetValue(valueName, out var attributes);
-            var prop = new ConfigProperty(valueName, typeof(T), property, attributes);
             
-            // Get the value from the factory
-            if (!Source.Get(prop, out var value))
+            attributes = (attributes ?? Enumerable.Empty<object>())
+                .Union(property?.GetCustomAttributes(true) ?? Enumerable.Empty<object>())
+                .ToArray();
+
+            var names = attributes
+                .OfType<AlternateNameAttribute>()
+                .OrderBy(x => x.Priority)
+                .Select(x => x.AlternateName)
+                .Append(valueName);
+            
+            ConfigProperty prop = null;
+            string value = null;
+            var found = false;
+            
+            // Try every known name in order
+            foreach (var name in names)
+            {
+                prop = new ConfigProperty(name, typeof(T), property, attributes);
+                
+                if (Source.Get(prop, out value))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
             {
                 // Throw an exception informing the user of the missing value
                 throw new MissingValueException(valueName);

@@ -94,7 +94,6 @@ namespace Configgy.Tests
                 .Returns(expectedResult1);
             attributeMock1.Setup(x => x.Order)
                 .Returns(0);
-            
 
             var attributeMock2 = new Mock<IValueTransformer>(MockBehavior.Strict);
             attributeMock2.Setup(x => x.Transform(It.IsNotNull<IConfigProperty>(), expectedResult1))
@@ -108,6 +107,32 @@ namespace Configgy.Tests
             var result = config.Get(valueName, null, typeof(string));
             
             Assert.AreEqual(expectedResult2, result);
+            sourceMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void Value_Name_Used_If_No_Source_Has_Alternate_Name()
+        {
+            const string valueName = "value name";
+            const string alternateName = "not value name";
+            var valueResult = "value result";
+            var alternateResult = (string) null;
+
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            sourceMock.Setup(x => x.Get(It.Is<IConfigProperty>(y => y.ValueName == valueName), out valueResult))
+                .Returns(true);
+            sourceMock.Setup(x => x.Get(It.Is<IConfigProperty>(y => y.ValueName == alternateName), out alternateResult))
+                .Returns(false);
+
+            var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());
+
+            var attribute = new AlternateNameAttribute(alternateName);
+            
+            config.AddAttribute(valueName, attribute);
+            
+            var result = config.Get(valueName, null, typeof(string));
+            
+            Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();
         }
     }

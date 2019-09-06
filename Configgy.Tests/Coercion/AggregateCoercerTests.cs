@@ -76,8 +76,6 @@ namespace Configgy.Tests.Coercion
             ConfigProperty property = null;
             
             var coercerMock1Attribute = new Mock<Attribute>(MockBehavior.Strict);
-            coercerMock1Attribute.Setup(x => x.GetHashCode())
-                .Returns(0);
             var coercerMock1 = coercerMock1Attribute.As<IValueCoercer>();
             coercerMock1.Setup(c => c.Coerce(It.Is<ConfigProperty>(x => x == property), value, out result))
                 .Returns(true);

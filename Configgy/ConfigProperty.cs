@@ -21,19 +21,14 @@ namespace Configgy
         /// <inheritdoc />
         public object[] Attributes { get; }
 
-        public ConfigProperty(string valueName, Type valueType, PropertyInfo property, IEnumerable<object> additionalAttributes)
+        public ConfigProperty(string valueName, Type valueType, PropertyInfo property, IEnumerable<object> attributes)
         {
-            PropertyName = property?.Name;
+            ValueName = valueName;
             ValueType = valueType;
-
-            Attributes = (additionalAttributes ?? Enumerable.Empty<object>())
-                .Union(property?.GetCustomAttributes(true) ?? Enumerable.Empty<object>())
-                .ToArray();
-
-            ValueName = Attributes.OfType<AlternateNameAttribute>()
-                .FirstOrDefault()
-                ?.AlternateName
-                ?? valueName;
+            PropertyName = property?.Name;
+            Attributes = attributes == null
+                ? new object[0]
+                : attributes as object[] ?? attributes.ToArray();
         }
     }
 }
