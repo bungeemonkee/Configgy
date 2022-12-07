@@ -40,6 +40,5 @@ jobs:
         # Duration after which artifact will expire in days. 0 means using default retention.
         retention-days: 0
     - name: Publish Nuget
-      run: dotnet nuget push package/Configgy.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.CONFIGGY_PUBLISH_KEY }}
+      run: dotnet nuget push package/Configgy.*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.CONFIGGY_PUBLISH_KEY }}
       if: ${{ github.ref_name == 'main' }}
-      continue-on-error: true
