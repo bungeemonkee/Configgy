@@ -24,7 +24,7 @@ namespace Configgy.Tests.Coercion
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(RegexParseException))]
         public void Coerce_Throws_Exception_For_Invalid_Expression_Strings()
         {
             const string value = "(";
