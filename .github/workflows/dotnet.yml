@@ -20,15 +20,15 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - name: Restore dependencies
+    - name: Restore Nuget
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
-    - name: Package
+    - name: Package Nuget
       run: dotnet pack --configuration release -o:package
-    - name: Upload a Build Artifact
+    - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
         # Artifact name
