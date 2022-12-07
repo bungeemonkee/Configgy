@@ -39,3 +39,7 @@ jobs:
         if-no-files-found: error
         # Duration after which artifact will expire in days. 0 means using default retention.
         retention-days: 0
+    - name: Publish Nuget
+      run: dotnet nuget push package/Configgy.*.nupkg --api-key ${{ secrets.CONFIGGY_PUBLISH_KEY }}
+      if: ${{ github.ref_name == 'main' }}
+      continue-on-error: true
