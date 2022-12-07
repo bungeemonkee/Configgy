@@ -26,13 +26,15 @@ jobs:
       run: dotnet build --no-restore --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
+    - name: Package
+      run: dotnet pack --configuration release -o:package
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
         # Artifact name
-        name: Configgy (netstandard 2.0)
+        name: Configgy
         # A file, directory or wildcard pattern that describes what to upload
-        path: Configgy/bin/Release/netstandard2.0
+        path: package/Configgy.*.nupkg
         # The desired behavior if no files are found using the provided path.
         if-no-files-found: error
         # Duration after which artifact will expire in days. 0 means using default retention.
