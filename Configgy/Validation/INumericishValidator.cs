@@ -20,6 +20,6 @@ namespace Configgy.Validation
         /// <summary>
         /// The list of allowed valid values.
         /// </summary>
-        T[] ValidValues { get; }
+        T[]? ValidValues { get; }
     }
 }

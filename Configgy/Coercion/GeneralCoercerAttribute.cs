@@ -8,7 +8,7 @@ namespace Configgy.Coercion
     public class GeneralCoercerAttribute : ValueCoercerAttributeBase
     {
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public override bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
             var type = typeof(T);
 
@@ -16,7 +16,7 @@ namespace Configgy.Coercion
             if (value == null)
             {
                 // Set the result to the default
-                result = default;
+                result = default!;
 
                 // If the type is nullable return true, if not then the default value is not correct
                 return IsNullable<T>();
@@ -27,12 +27,12 @@ namespace Configgy.Coercion
             // If the converter can't convert this type of thing then don't try
             if (!converter.CanConvertFrom(typeof(string)))
             {
-                result = default;
+                result = default!;
                 return false;
             }
 
             // Convert the value
-            result = (T)converter.ConvertFromString(value);
+            result = (T)converter.ConvertFromString(value)!;
             return true;
         }
     }

@@ -14,6 +14,6 @@ namespace Configgy.Transformation
         public virtual int Order { get; set; }
 
         /// <inheritdoc cref="IValueTransformer.Transform"/>
-        public abstract string Transform(IConfigProperty property, string value);
+        public abstract string? Transform(IConfigProperty property, string? value);
     }
 }

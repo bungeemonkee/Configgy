@@ -11,12 +11,19 @@ namespace Configgy.Coercion
     public class RegexCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public override bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
+            // If there is no value there is no regex
+            if (value == null)
+            {
+                result = default!;
+                return false;
+            }
+            
             // Only try to coerce values into Regex objects
             if (typeof(T) != typeof(Regex))
             {
-                result = default;
+                result = default!;
                 return false;
             }
 

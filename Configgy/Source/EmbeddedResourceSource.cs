@@ -43,7 +43,7 @@ namespace Configgy.Source
         }
 
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -71,13 +71,18 @@ namespace Configgy.Source
                 return false;
             }
 
-            // Get the value from the resource
-            using (var stream = resource.Assembly.GetManifestResourceStream(resource.Match.Value))
-            using (var textStream = new StreamReader(stream))
+            // Get the stream from the resource
+            using var stream = resource.Assembly.GetManifestResourceStream(resource.Match.Value);
+            if (stream == null)
             {
-                value = textStream.ReadToEnd();
-                return true;
+                value = null;
+                return false;
             }
+            
+            // Get the value from the resource stream
+            using var textStream = new StreamReader(stream);
+            value = textStream.ReadToEnd();
+            return true;
         }
     }
 }

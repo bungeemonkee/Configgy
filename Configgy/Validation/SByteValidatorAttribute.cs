@@ -21,7 +21,7 @@ namespace Configgy.Validation
         /// <summary>
         /// The set of values allowed by this validator.
         /// </summary>
-        public sbyte[] ValidValues { get; protected set; }
+        public sbyte[]? ValidValues { get; protected set; }
 
         /// <summary>
         /// Creates a validator with default max and min values.
@@ -50,12 +50,20 @@ namespace Configgy.Validation
         public SByteValidatorAttribute(params sbyte[] validValues)
             : this()
         {
+            Min = sbyte.MinValue;
+            Max = sbyte.MaxValue;
             ValidValues = validValues;
         }
 
         /// <inheritdoc cref="IValueValidator.Validate{T}"/>
-        public override bool Validate<T>(IConfigProperty property, string value, out T result)
+        public override bool Validate<T>(IConfigProperty property, string? value, out T result)
         {
+            if (value == null)
+            {
+                result = default!;
+                return false;
+            }
+
             var val = sbyte.Parse(value);
 
             if (val < Min || val > Max)

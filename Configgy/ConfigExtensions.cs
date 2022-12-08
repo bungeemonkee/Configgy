@@ -248,7 +248,7 @@ namespace Configgy
                 sb.AppendLine(">");
 
                 // Print the property description
-                var propertyDescription = property?.HelpAttribute.HelpText;
+                var propertyDescription = property.HelpAttribute?.HelpText;
                 if (string.IsNullOrWhiteSpace(propertyDescription)) continue;
                 PadAndWrap(propertyDescription, pad, width, sb);
                 sb.AppendLine();
@@ -263,7 +263,7 @@ namespace Configgy
             if (SimpleTypeNames.TryGetValue(type, out var name)) return name;
 
             // If the type is an array make sure to use the simple type name
-            if (type.IsArray) return GetTypeDisplayName(type.GetElementType()) + "[]";
+            if (type.IsArray) return GetTypeDisplayName(type.GetElementType()!) + "[]";
 
             // If the type is an enum include the enum values
             if (type.GetTypeInfo().IsEnum) return $"{type.Name}({string.Join(",", Enum.GetNames(type))})";

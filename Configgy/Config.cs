@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -45,11 +47,16 @@ namespace Configgy
         ///     Do not pass a value to this paramater so that the compiler default (the property name) is preserved.
         /// </param>
         /// <returns>The configuration value.</returns>
-        protected T Get<T>([CallerMemberName] string valueName = null, [CallerMemberName] string propertyName = null)
+        protected T Get<T>([CallerMemberName] string? valueName = null, [CallerMemberName] string? propertyName = null)
         {
-            if (propertyName == null || !_properties.TryGetValue(propertyName, out var property))
+            if (valueName == null || propertyName == null)
             {
-                property = null;
+                throw new InvalidOperationException("This should not occur. This means the [CallerMemberName] attribute did not work properly.");
+            }
+
+            if (!_properties.TryGetValue(propertyName, out var property))
+            {
+                throw new InvalidOperationException("This should not occur. A property name was passed by [CallerMemberName] that did not map to a property on the object.");
             }
 
             return Provider.Get<T>(valueName, property);

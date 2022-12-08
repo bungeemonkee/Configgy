@@ -21,7 +21,7 @@ namespace Configgy.Validation
         /// <summary>
         /// The set of values allowed by this validator.
         /// </summary>
-        public DateTime[] ValidValues { get; protected set; }
+        public DateTime[]? ValidValues { get; protected set; }
 
         /// <summary>
         /// Creates a validator with default max and min values.
@@ -50,12 +50,20 @@ namespace Configgy.Validation
         public DateTimeValidatorAttribute(params string[] validValues)
             : this()
         {
+            Min = DateTime.MinValue;
+            Max = DateTime.MaxValue;
             ValidValues = validValues.Select(DateTime.Parse).ToArray();
         }
 
         /// <inheritdoc cref="IValueValidator.Validate{T}"/>
-        public override bool Validate<T>(IConfigProperty property, string value, out T result)
+        public override bool Validate<T>(IConfigProperty property, string? value, out T result)
         {
+            if (value == null)
+            {
+                result = default!;
+                return false;
+            }
+            
             var val = DateTime.Parse(value);
 
             if (val < Min || val > Max)

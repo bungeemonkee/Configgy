@@ -21,7 +21,7 @@ namespace Configgy.Exceptions
         /// <summary>
         /// The property associated with the value that failed validation, or null if there is none.
         /// </summary>
-        public readonly ICustomAttributeProvider Property;
+        public readonly ICustomAttributeProvider? Property;
 
         /// <summary>
         /// Creates a new ValidationException with no inner exception.
@@ -29,9 +29,12 @@ namespace Configgy.Exceptions
         /// <param name="value">The raw string value.</param>
         /// <param name="valueName">The name of the value.</param>
         /// <param name="property">The property reference associated with the value.</param>
-        public ValidationException(string value, string valueName, ICustomAttributeProvider property)
+        public ValidationException(string value, string valueName, ICustomAttributeProvider? property)
             : base(GetMessage(value, valueName))
         {
+            Value = value;
+            ValueName = valueName;
+            Property = property;
         }
 
         /// <summary>
@@ -41,9 +44,12 @@ namespace Configgy.Exceptions
         /// <param name="valueName">The name of the value.</param>
         /// <param name="property">The property reference associated with the value.</param>
         /// <param name="innerException">The exception that caused the validation to fail.</param>
-        public ValidationException(string value, string valueName, ICustomAttributeProvider property, Exception innerException)
+        public ValidationException(string value, string valueName, ICustomAttributeProvider? property, Exception innerException)
             : base(GetMessage(value, valueName), innerException)
         {
+            Value = value;
+            ValueName = valueName;
+            Property = property;
         }
 
         private static string GetMessage(string value, string valueName)

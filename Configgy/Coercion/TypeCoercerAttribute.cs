@@ -11,12 +11,19 @@ namespace Configgy.Coercion
     public class TypeCoercerAttribute : ValueCoercerAttributeBase, IValueCoercer
     {
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public override bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
+            // If there is no type name there is no type to get
+            if (value == null)
+            {
+                result = default!;
+                return false;
+            }
+            
             // Only try to coerce values into Type objects
             if (typeof(T) != typeof(Type))
             {
-                result = default;
+                result = default!;
                 return false;
             }
 
@@ -26,7 +33,7 @@ namespace Configgy.Coercion
             // Unable to get the type
             if (type == null)
             {
-                result = default;
+                result = default!;
                 return false;
             }
 

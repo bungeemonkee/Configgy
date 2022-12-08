@@ -23,14 +23,14 @@ namespace Configgy.Validation
         }
 
         /// <inheritdoc cref="IValueValidator.Validate{T}"/>
-        public override bool Validate<T>(IConfigProperty property, string value, out T result)
+        public override bool Validate<T>(IConfigProperty property, string? value, out T result)
         {
-            if (!Expression.IsMatch(value))
+            if (value != null && !Expression.IsMatch(value))
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            result = default;
+            result = default!;
             return false;
         }
     }

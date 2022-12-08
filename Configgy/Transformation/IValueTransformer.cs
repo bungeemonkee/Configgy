@@ -16,6 +16,6 @@
         /// <param name="value">The raw string value to be transformed.</param>
         /// <param name="property">The <see cref="IConfigProperty"/> for this value.</param>
         /// <returns>The transformed configuration value.</returns>
-        string Transform(IConfigProperty property, string value);
+        string? Transform(IConfigProperty property, string? value);
     }
 }

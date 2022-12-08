@@ -67,28 +67,20 @@ namespace Configgy.Source
         }
 
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             ISet<Type> sourcesToIgnore = new HashSet<Type>();
-            if (property != null)
-            {
-                sourcesToIgnore.UnionWith(property.Attributes
-                    .OfType<PreventSourceAttribute>()
-                    .Select(x => x.SourceType)
-                    .Where(x => x != null));
-            }
+            sourcesToIgnore.UnionWith(property.Attributes
+                .OfType<PreventSourceAttribute>()
+                .Select(x => x.SourceType));
 
-            // Include sources specified as attributes if there are any
-            var sources = (IEnumerable<IValueSource>)_sources;
-            if (property != null)
-            {
-                sources = property.Attributes
-                    .OfType<IValueSource>()
-                    .Concat(_sources);
-            }
+                // Include sources specified as attributes if there are any
+                var sources = property.Attributes
+                .OfType<IValueSource>()
+                .Concat(_sources);
 
-            // Get each un-ignored source in turn
-            foreach (var source in sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
+                // Get each un-ignored source in turn
+                foreach (var source in sources.Where(x => !sourcesToIgnore.Contains(x.GetType())))
             {
                 // If a source has the value then return that value
                 if (source.Get(property, out value)) return true;

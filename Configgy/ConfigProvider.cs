@@ -115,9 +115,9 @@ namespace Configgy
         ///     The <see cref="PropertyInfo"/> for the property being populated.
         /// </param>
         /// <returns>The configuration value.</returns>
-        public T Get<T>(string valueName, PropertyInfo property)
+        public T Get<T>(string valueName, PropertyInfo? property)
         {
-            return (T)Cache.Get(valueName, x => ProduceValue<T>(x, property));
+            return (T)Cache.Get(valueName, x => ProduceValue<T>(x, property)!)!;
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace Configgy
             
             var get = getPrototype.MakeGenericMethod(valueType);
             
-            return (s, p) => get.Invoke(this, new object[] {s, p});
+            return (s, p) => get.Invoke(this, new object[] {s, p})!;
         }
         
-        private object ProduceValue<T>(string valueName, PropertyInfo property)
+        private object? ProduceValue<T>(string valueName, PropertyInfo? property)
         {
             _attributeCache.TryGetValue(valueName, out var attributes);
             
@@ -165,8 +165,8 @@ namespace Configgy
                 .Select(x => x.AlternateName)
                 .Append(valueName);
             
-            ConfigProperty prop = null;
-            string value = null;
+            ConfigProperty prop = null!;
+            string? value = null!;
             var found = false;
             
             // Try every known name in order

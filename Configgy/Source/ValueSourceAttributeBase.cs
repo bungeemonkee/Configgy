@@ -9,6 +9,6 @@ namespace Configgy.Source
     public abstract class ValueSourceAttributeBase : Attribute, IValueSource
     {
         /// <inheritdoc cref="IValueSource.Get"/>
-        public abstract bool Get(IConfigProperty property, out string value);
+        public abstract bool Get(IConfigProperty property, out string? value);
     }
 }

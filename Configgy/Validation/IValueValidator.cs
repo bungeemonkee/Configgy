@@ -19,6 +19,6 @@
         ///     If the validator did not successfully validate the value it should throw an exception, preferably <see cref="Exceptions.ValidationException"/>.
         /// </returns>
         /// <exception cref="Exceptions.ValidationException">Thrown when the value is not valid.</exception>
-        bool Validate<T>(IConfigProperty property, string value, out T result);
+        bool Validate<T>(IConfigProperty property, string? value, out T result);
     }
 }

@@ -31,7 +31,7 @@ namespace Configgy.Tests
 
         public T Get_Wrapper(string valueName)
         {
-            return Get<T>(valueName);
+            return Get<T>(valueName, nameof(TheProperty));
         }
     }
 }

@@ -207,7 +207,7 @@ namespace Configgy.Utilities
         /// </summary>
         /// <param name="publicKey">The public key of the certificate to find.</param>
         /// <returns>The certificate or null.</returns>
-        public static X509Certificate2 FindCertificateByPublicKey(byte[] publicKey)
+        public static X509Certificate2? FindCertificateByPublicKey(byte[] publicKey)
         {
             var certificates = FindCertificates(x => BytesAreEqual(x.GetPublicKey(), publicKey));
 

@@ -9,6 +9,6 @@ namespace Configgy.Validation
     public abstract class ValueValidatorAttributeBase : Attribute, IValueValidator
     {
         /// <inheritdoc cref="IValueValidator.Validate{T}"/>
-        public abstract bool Validate<T>(IConfigProperty property, string value, out T result);
+        public abstract bool Validate<T>(IConfigProperty property, string? value, out T result);
     }
 }

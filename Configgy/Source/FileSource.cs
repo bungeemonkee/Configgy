@@ -26,7 +26,7 @@ namespace Configgy.Source
         }
 
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             var baseDirectory = AppContext.BaseDirectory;
 

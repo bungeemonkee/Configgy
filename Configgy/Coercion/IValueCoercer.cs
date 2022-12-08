@@ -13,6 +13,6 @@
         /// <param name="property">The <see cref="IConfigProperty"/> for this value.</param>
         /// <param name="result">The coerced value.</param>
         /// <returns>True if the value could be coerced, false otherwise.</returns>
-        bool Coerce<T>(IConfigProperty property, string value, out T result);
+        bool Coerce<T>(IConfigProperty property, string? value, out T result);
     }
 }

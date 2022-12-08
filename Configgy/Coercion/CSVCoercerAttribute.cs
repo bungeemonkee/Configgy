@@ -51,12 +51,12 @@ namespace Configgy.Coercion
         }
 
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public override bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
             // make sure the requested type is actually correct
             if (typeof(T) != ArrayType)
             {
-                result = default;
+                result = default!;
                 return false;
             }
 
@@ -69,7 +69,7 @@ namespace Configgy.Coercion
             // If the string is null then return null
             if (value == null)
             {
-                result = default;
+                result = default!;
                 return true;
             }
 
@@ -89,7 +89,7 @@ namespace Configgy.Coercion
             result = (T)(object)Array.CreateInstance(ItemType, values.Length);
 
             // copy the converted values into the typed result array
-            Array.Copy(values, (Array)(object)result, values.Length);
+            Array.Copy(values, (Array)(object)result!, values.Length);
 
             // return the result array
             return true;

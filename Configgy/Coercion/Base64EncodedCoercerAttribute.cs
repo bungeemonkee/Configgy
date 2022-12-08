@@ -8,19 +8,19 @@ namespace Configgy.Coercion
     public class Base64EncodedCoercerAttribute : ValueCoercerAttributeBase
     {
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public override bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public override bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
             // Only try to coerce values into byte arrays
             if (typeof(T) != typeof(byte[]))
             {
-                result = default;
+                result = default!;
                 return false;
             }
 
-            // If the value is null, return null
+            // If the value is null, return default/null
             if (value == null)
             {
-                result = default;
+                result = default!;
                 return true;
             }
 

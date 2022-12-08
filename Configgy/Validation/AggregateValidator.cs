@@ -15,7 +15,7 @@ namespace Configgy.Validation
         /// The <see cref="IValueValidator"/>s used by the type they are used for.
         /// This does not include ones defined as property attributes.
         /// </summary>
-        public IReadOnlyDictionary<Type, IValueValidator> ValidatorsByType => _validatorsByType as IReadOnlyDictionary<Type, IValueValidator>;
+        public IReadOnlyDictionary<Type, IValueValidator> ValidatorsByType => (IReadOnlyDictionary<Type, IValueValidator>)_validatorsByType;
 
         /// <summary>
         /// Creates an AggregateValidator with a default set of type-specific validators.
@@ -36,18 +36,15 @@ namespace Configgy.Validation
         }
 
         /// <inheritdoc cref="IValueValidator.Validate{T}"/>
-        public bool Validate<T>(IConfigProperty property, string value, out T result)
+        public bool Validate<T>(IConfigProperty property, string? value, out T result)
         {
             // Set the result to the default value
-            result = default;
+            result = default!;
 
             // Get the validator for the expected type
             // ...validate based on the type
             // ...and get the result
             var coerced = _validatorsByType.TryGetValue(typeof(T), out var typeValidator) && typeValidator.Validate(property, value, out result);
-
-            // If there is no property then return
-            if (property == null) return coerced;
 
             // Get any validators from the property attributes
             var propertyValidators = property.Attributes

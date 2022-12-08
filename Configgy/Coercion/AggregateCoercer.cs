@@ -40,7 +40,7 @@ namespace Configgy.Coercion
 
         
         /// <inheritdoc cref="IValueCoercer.Coerce{T}"/>
-        public bool Coerce<T>(IConfigProperty property, string value, out T result)
+        public bool Coerce<T>(IConfigProperty property, string? value, out T result)
         {
             var propertyCoercers = property.Attributes
                 .OfType<IValueCoercer>();
@@ -50,7 +50,7 @@ namespace Configgy.Coercion
                 if (coercer.Coerce(property, value, out result)) return true;
             }
 
-            result = default;
+            result = default!;
             return false;
         }
     }

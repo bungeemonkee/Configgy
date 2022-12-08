@@ -13,7 +13,7 @@ namespace Configgy.Transformation
         public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
 
         /// <inheritdoc cref="IValueTransformer.Transform"/>
-        public override string Transform(IConfigProperty property, string value)
+        public override string? Transform(IConfigProperty property, string? value)
         {
             return value != null
                 ? Culture.TextInfo.ToUpper(value)

@@ -8,7 +8,7 @@ namespace Configgy.Transformation
     public class DecryptionTransformerAttribute : ValueTransformerAttributeBase
     {
         /// <inheritdoc cref="IValueTransformer.Transform"/>
-        public override string Transform(IConfigProperty property, string value)
+        public override string? Transform(IConfigProperty property, string? value)
         {
             return value == null
                 ? null

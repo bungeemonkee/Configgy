@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Configgy.Transformation
@@ -26,7 +27,7 @@ namespace Configgy.Transformation
         /// Creates a default aggregate transformer that only looks for other transformers as property attributes.
         /// </summary>
         public AggregateTransformer()
-            : this(new IValueTransformer[0])
+            : this(Array.Empty<IValueTransformer>())
         { }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Configgy.Transformation
         }
 
         /// <inheritdoc cref="IValueTransformer.Transform"/>
-        public string Transform(IConfigProperty property, string value)
+        public string? Transform(IConfigProperty property, string? value)
         {
             var propertyTransformers = property.Attributes
                 .OfType<IValueTransformer>();

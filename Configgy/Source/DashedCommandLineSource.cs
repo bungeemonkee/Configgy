@@ -13,7 +13,7 @@ namespace Configgy.Source
         private const string CommandLineParameterRegexValue = @"^\-\-(?<name>[a-z][a-z0-9]*)(?<equals>=(?<value>.*))?$";
         private static readonly Regex CommandLineParameterRegex = new Regex(CommandLineParameterRegexValue, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
-        private readonly IReadOnlyDictionary<string, string> _values;
+        private readonly IReadOnlyDictionary<string, string?> _values;
 
         /// <summary>
         /// Creates a DashedCommandLineSource with the given command line.
@@ -29,7 +29,7 @@ namespace Configgy.Source
         }
 
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             // See if the name exists in the dictionary
             if (!_values.ContainsKey(property.ValueName))

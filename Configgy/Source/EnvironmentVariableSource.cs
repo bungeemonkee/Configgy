@@ -8,7 +8,7 @@ namespace Configgy.Source
     public class EnvironmentVariableSource : ValueSourceAttributeBase
     {
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             value = Environment.GetEnvironmentVariable(property.ValueName);
             return value != null;

@@ -8,7 +8,7 @@ namespace Configgy.Source
     public class AppSettingSource : ValueSourceAttributeBase
     {
         /// <inheritdoc cref="ValueSourceAttributeBase.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             value = ConfigurationManager.AppSettings[property.ValueName];
             return value != null;

@@ -9,7 +9,7 @@ namespace Configgy.Source
     public class DefaultValueAttributeSource : ValueSourceAttributeBase
     {
         /// <inheritdoc cref="IValueSource.Get"/>
-        public override bool Get(IConfigProperty property, out string value)
+        public override bool Get(IConfigProperty property, out string? value)
         {
             // Get the default value attribute
             var attribute = property.Attributes
