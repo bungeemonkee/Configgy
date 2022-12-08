@@ -13,9 +13,9 @@
     <PackageProjectUrl>https://github.com/bungeemonkee/Configgy</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/bungeemonkee/Configgy/master/LICENSE</PackageLicenseUrl>
     <PackageTags>Configgy, config, configuration</PackageTags>
-    <AssemblyVersion>5.0.1.03</AssemblyVersion>
-    <FileVersion>5.0.1.03</FileVersion>
-    <Version>5.0.1-alpha03</Version>
+    <AssemblyVersion>5.0.3.00</AssemblyVersion>
+    <FileVersion>5.0.3.00</FileVersion>
+    <Version>5.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
