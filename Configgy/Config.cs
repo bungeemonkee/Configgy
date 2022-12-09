@@ -44,7 +44,7 @@ namespace Configgy
         /// <param name="propertyName">
         ///     The name of the property on the configuration object.
         ///     This will automatically be the name of the calling method or property and will be populated by the compiler.
-        ///     Do not pass a value to this paramater so that the compiler default (the property name) is preserved.
+        ///     Do not pass a value to this parameter so that the compiler default (the property name) is preserved.
         /// </param>
         /// <returns>The configuration value.</returns>
         protected T Get<T>([CallerMemberName] string? valueName = null, [CallerMemberName] string? propertyName = null)
