@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Source;
@@ -16,7 +18,13 @@ namespace Configgy.Tests.Source
             const string expected = "1";
             var value = expected;
 
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);            
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);            
             
             var sourceMock1 = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock1.Setup(c => c.Get(property, out value))
@@ -40,7 +48,13 @@ namespace Configgy.Tests.Source
             const string expected = "1";
             var value = expected;
 
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);     
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);     
 
             var sourceMock1 = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock1.Setup(c => c.Get(property, out value))
@@ -67,7 +81,13 @@ namespace Configgy.Tests.Source
 
             var preventSourceAttribute = new PreventSourceAttribute(typeof(ValueSourceStub));
 
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new []{preventSourceAttribute});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new []{preventSourceAttribute});
 
             var sourceStub = new ValueSourceStub();
 
@@ -84,7 +104,13 @@ namespace Configgy.Tests.Source
             const string name = "some value";
             var expected = "value";
 
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);     
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);     
 
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock.Setup(c => c.Get(property, out expected))
@@ -104,13 +130,19 @@ namespace Configgy.Tests.Source
             const string name = "some value";
             var expected = "value";
 
-            ConfigProperty property = null;   
+            ConfigProperty property = null!;   
 
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock.Setup(c => c.Get(It.Is<ConfigProperty>(x => x == property), out expected))
                 .Returns(true);
             
-            property = new ConfigProperty(name, typeof(string), null, new [] {sourceMock.Object});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {sourceMock.Object});
 
             var source = new AggregateSource();
 

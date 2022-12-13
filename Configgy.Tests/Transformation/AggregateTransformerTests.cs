@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Transformation;
@@ -16,7 +17,13 @@ namespace Configgy.Tests.Transformation
             const string name = "some value";
             const string value = "1";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var transformerMock1 = new Mock<IValueTransformer>(MockBehavior.Strict);
             transformerMock1.Setup(x => x.Transform(property, value))
@@ -50,7 +57,13 @@ namespace Configgy.Tests.Transformation
                 .Returns(0);
             var transformerMock1 = transformerMock1Attribute.As<IValueTransformer>();
 
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {transformerMock1Attribute.Object});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {transformerMock1Attribute.Object});
 
             transformerMock1.Setup(x => x.Transform(property, value))
                 .Returns(value);

@@ -79,7 +79,13 @@ namespace Configgy.Tests
             int expectedValue;
             var cache = new TestingCache();
             
-            IConfigProperty property = new ConfigProperty(name, typeof(int), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+
+            IConfigProperty property = new ConfigProperty(name, typeof(int), propertyMock.Object, null);
 
             var sourceMock = new Mock<IValueSource>();
             sourceMock.Setup(s => s.Get(property, out expectedRaw))
@@ -93,7 +99,9 @@ namespace Configgy.Tests
             validatorMock.Setup(s => s.Validate(property, expectedRaw, out expectedValue))
                 .Callback(() => throw new Exception());
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, null);
+            var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
+
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
             config.Validate();
         }

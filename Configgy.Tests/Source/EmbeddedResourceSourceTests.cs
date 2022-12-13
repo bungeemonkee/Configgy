@@ -1,6 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Configgy.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Configgy.Tests.Source
 {
@@ -14,11 +17,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue1Embedded";
             const string expected = "This is a string value.";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -30,11 +39,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue2Embedded";
             const string expected = "[ \"string array\" ]";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -46,11 +61,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue3Embedded";
             const string expected = "<element>some xml</element>";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -62,11 +83,17 @@ namespace Configgy.Tests.Source
             const string name = "Test_Value_4_Embedded";
             const string expected = "Setting!";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EmbeddedResourceSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -77,7 +104,13 @@ namespace Configgy.Tests.Source
         {
             const string name = "NOT ACTUALLY A RESOURCE!!!!!!";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EmbeddedResourceSource();
 

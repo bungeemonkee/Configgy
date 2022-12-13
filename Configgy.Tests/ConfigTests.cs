@@ -45,7 +45,12 @@ namespace Configgy.Tests
             cacheMock.Setup(c => c.Get(name, It.IsAny<Func<string, object>>()))
                 .Returns(expected);
 
-            var config = new ConfigWrapper<object>(cacheMock.Object, null, null, null, null);
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            var transformerMock = new Mock<IValueTransformer>(MockBehavior.Strict);
+            var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
+            var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
+            
+            var config = new ConfigWrapper<object>(cacheMock.Object, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
             var result = config.Get_Wrapper(name);
 
@@ -312,14 +317,18 @@ namespace Configgy.Tests
         {
             const string name = "__value__";
 
-            string expectedRaw;
+            string? expectedRaw;
             var cache = new TestingCache();
 
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock.Setup(s => s.Get(It.IsNotNull<IConfigProperty>(), out expectedRaw))
                 .Returns(false);
 
-            var config = new ConfigWrapper<int>(cache, sourceMock.Object, null, null, null);
+            var transformerMock = new Mock<IValueTransformer>(MockBehavior.Strict);
+            var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
+            var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
+            
+            var config = new ConfigWrapper<int>(cache, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
             config.Get_Wrapper(name);
         }

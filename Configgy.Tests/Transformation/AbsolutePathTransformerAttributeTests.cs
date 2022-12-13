@@ -1,7 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Transformation;
+using Moq;
 
 namespace Configgy.Tests.Transformation
 {
@@ -12,9 +15,15 @@ namespace Configgy.Tests.Transformation
         [TestMethod]
         public void Transform_Returns_Null_For_Null_Values()
         {
-            const string value = null;
+            const string? value = null;
             
-            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 
@@ -29,7 +38,13 @@ namespace Configgy.Tests.Transformation
             const string value = "test.text";
             var expected = Path.GetFullPath(value);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 

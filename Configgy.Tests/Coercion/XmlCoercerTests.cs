@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Coercion;
+using Moq;
 
 namespace Configgy.Tests.Coercion
 {
@@ -25,7 +26,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             CollectionAssert.AreEqual(expected, result);
             Assert.IsTrue(coerced);
@@ -46,7 +49,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new XmlCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -55,11 +60,13 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void XmlCoercer_Coerce_Returns_Null_With_Null_Xml()
         {
-            const string input = null;
+            const string? input = null;
 
             var coercer = new XmlCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsNull(result);
             Assert.IsTrue(coerced);

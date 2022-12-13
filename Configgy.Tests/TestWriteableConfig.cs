@@ -4,6 +4,6 @@ namespace Configgy.Tests
     {
         public int Integer { get; set; }
         
-        public string String { get; set; }
+        public string? String { get; set; }
     }
 }

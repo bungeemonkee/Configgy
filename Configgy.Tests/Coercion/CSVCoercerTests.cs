@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Coercion;
+using Moq;
 
 namespace Configgy.Tests.Coercion
 {
@@ -17,7 +18,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsTrue(coerced);
             CollectionAssert.AreEqual(expected, result);
@@ -31,7 +34,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int), " | ");
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsTrue(coerced);
             CollectionAssert.AreEqual(expected, result);
@@ -44,7 +49,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            var coerced = coercer.Coerce(null, input, out long[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out long[] result);
 
             Assert.IsFalse(coerced);
             Assert.IsNull(result);
@@ -58,7 +65,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            coercer.Coerce(null, input, out int[] _);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            coercer.Coerce(propertyMock.Object, input, out int[] _);
         }
 
         [TestMethod]
@@ -68,7 +77,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(int[]));
@@ -78,11 +89,13 @@ namespace Configgy.Tests.Coercion
         [TestMethod]
         public void Coerce_Returns_Null_Array_With_Null_String()
         {
-            const string input = null;
+            const string? input = null;
 
             var coercer = new CsvCoercerAttribute(typeof(int));
 
-            var coerced = coercer.Coerce(null, input, out int[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out int[] result);
 
             Assert.IsTrue(coerced);
             Assert.IsNull(result);
@@ -92,11 +105,13 @@ namespace Configgy.Tests.Coercion
         [ExpectedException(typeof(InvalidOperationException))]
         public void Coerce_Throws_Exception_For_Unconvertible_Type()
         {
-            const string input = null;
+            const string? input = null;
 
             var coercer = new CsvCoercerAttribute(typeof(DescriptionAttribute));
 
-            var coerced = coercer.Coerce(null, input, out DescriptionAttribute[] result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, input, out DescriptionAttribute[] result);
 
             Assert.IsTrue(coerced);
             Assert.IsNull(result);

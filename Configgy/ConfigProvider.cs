@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using Configgy.Cache;
@@ -115,7 +114,7 @@ namespace Configgy
         ///     The <see cref="PropertyInfo"/> for the property being populated.
         /// </param>
         /// <returns>The configuration value.</returns>
-        public T Get<T>(string valueName, PropertyInfo? property)
+        public T Get<T>(string valueName, PropertyInfo property)
         {
             return (T)Cache.Get(valueName, x => ProduceValue<T>(x, property)!)!;
         }
@@ -151,12 +150,12 @@ namespace Configgy
             return (s, p) => get.Invoke(this, new object[] {s, p})!;
         }
         
-        private object? ProduceValue<T>(string valueName, PropertyInfo? property)
+        private object? ProduceValue<T>(string valueName, PropertyInfo property)
         {
             _attributeCache.TryGetValue(valueName, out var attributes);
             
             attributes = (attributes ?? Enumerable.Empty<object>())
-                .Union(property?.GetCustomAttributes(true) ?? Enumerable.Empty<object>())
+                .Union(property.GetCustomAttributes(true))
                 .ToArray();
 
             var names = attributes

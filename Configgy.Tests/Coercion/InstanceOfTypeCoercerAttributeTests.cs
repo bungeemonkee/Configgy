@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Coercion;
+using Moq;
 
 namespace Configgy.Tests.Coercion
 {
@@ -18,7 +19,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out int result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out int result);
 
             Assert.IsInstanceOfType(result, typeof(int));
             Assert.AreEqual(expected, result);
@@ -33,7 +36,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out int result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);
@@ -47,7 +52,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out int result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);
@@ -61,7 +68,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            coercer.Coerce(null, value, out ClassWithNoDefaultConstructor _);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            coercer.Coerce(propertyMock.Object, value, out ClassWithNoDefaultConstructor _);
         }
 
         [TestMethod]
@@ -72,7 +81,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new InstanceOfTypeCoercerAttribute();
 
-            coercer.Coerce(null, value, out ClassWithBrokenConstructor _);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            coercer.Coerce(propertyMock.Object, value, out ClassWithBrokenConstructor _);
         }
     }
 }

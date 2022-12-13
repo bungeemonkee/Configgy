@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Validation;
+using Moq;
 
 namespace Configgy.Tests.Validation
 {
@@ -24,19 +26,25 @@ namespace Configgy.Tests.Validation
         protected abstract string AnInvalidValue { get; }
         protected abstract string UnParseable { get; }
 
-        protected virtual string TypeMaxString => TypeMax.ToString();
+        protected virtual string TypeMaxString => TypeMax!.ToString()!;
 
-        protected virtual string TypeMinString => TypeMin.ToString();
+        protected virtual string TypeMinString => TypeMin!.ToString()!;
 
         protected abstract INumericishValidator<TNumericish> MakeValidator(TNumericish min, TNumericish max,
-            TNumericish[] validValues);
+            TNumericish[]? validValues);
 
         [TestMethod]
         public void NumericishValidator_Validate_Allows_TypeMax()
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, TypeMaxString, out TNumericish value);
         }
@@ -46,7 +54,13 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, TypeMinString, out TNumericish value);
         }
@@ -56,9 +70,15 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
-            validator.Validate(property, TestingMax.ToString(), out TNumericish value);
+            validator.Validate(property, TestingMax!.ToString(), out TNumericish value);
         }
 
         [TestMethod]
@@ -66,9 +86,15 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
-            validator.Validate(property, TestingMin.ToString(), out TNumericish value);
+            validator.Validate(property, TestingMin!.ToString(), out TNumericish value);
         }
 
         [TestMethod]
@@ -76,7 +102,13 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, WithinTestingRange, out TNumericish value);
         }
@@ -86,7 +118,13 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, ValidValues);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, AValidValue, out TNumericish value);
         }
@@ -97,7 +135,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, AboveTypeMax, out TNumericish value);
         }
@@ -108,7 +150,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, BelowTypeMin, out TNumericish value);
         }
@@ -119,7 +165,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, AboveTestingMax, out TNumericish value);
         }
@@ -130,7 +180,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, BelowTestingMin, out TNumericish value);
         }
@@ -141,7 +195,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, ValidValues);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, AnInvalidValue, out TNumericish value);
         }
@@ -152,7 +210,11 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TestingMin, TestingMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             validator.Validate(property, UnParseable, out TNumericish value);
         }
@@ -162,7 +224,13 @@ namespace Configgy.Tests.Validation
         {
             var validator = MakeValidator(TypeMin, TypeMax, null);
             
-            IConfigProperty property = new ConfigProperty(null, typeof(TNumericish), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("value", typeof(TNumericish), propertyMock.Object, null);
 
             var result = validator.Validate(property, WithinTestingRange, out TNumericish value);
 

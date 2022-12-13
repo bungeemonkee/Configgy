@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Configgy.Coercion;
+using Moq;
 
 namespace Configgy.Tests.Coercion
 {
@@ -24,7 +25,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new Base64EncodedCoercerAttribute();
 
-            var success = coercer.Coerce<byte[]>(null, base64, out var dataOut);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var success = coercer.Coerce<byte[]>(propertyMock.Object, base64, out var dataOut);
 
             Assert.IsTrue(success);
             CollectionAssert.AreEquivalent(dataIn, dataOut);
@@ -45,7 +48,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new Base64EncodedCoercerAttribute();
 
-            var result = coercer.Coerce<DateTime>(null, base64, out _);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var result = coercer.Coerce<DateTime>(propertyMock.Object, base64, out _);
 
             Assert.IsFalse(result);
         }
@@ -55,7 +60,9 @@ namespace Configgy.Tests.Coercion
         {
             var coercer = new Base64EncodedCoercerAttribute();
 
-            var result = coercer.Coerce<byte[]>(null, null, out var dataOut);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var result = coercer.Coerce<byte[]>(propertyMock.Object, null, out var dataOut);
 
             Assert.IsTrue(result);
             Assert.IsNull(dataOut);

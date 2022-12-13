@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Source;
+using Moq;
 
 namespace Configgy.Tests.Source
 {
@@ -29,7 +31,13 @@ namespace Configgy.Tests.Source
         {
             var source = new EnvironmentVariableSource();
             
-            IConfigProperty property = new ConfigProperty(Name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(Name, typeof(string), propertyMock.Object, null);
 
             var result = source.Get(property, out var value);
 
@@ -42,7 +50,13 @@ namespace Configgy.Tests.Source
         {
             const string name = " garbage string: P(*TO(*HFJJJFS#@(**&&^$%#*&()FDGO*^FDC VBNJUYT";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new EnvironmentVariableSource();
 

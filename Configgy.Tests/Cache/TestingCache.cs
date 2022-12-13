@@ -10,12 +10,12 @@ namespace Configgy.Tests.Cache
     [ExcludeFromCodeCoverage]
     public class TestingCache : IValueCache
     {
-        public void Add(string valueName, object value)
+        public void Add(string valueName, object? value)
         {
             // Nothing to do
         }
 
-        public object Get(string valueName, Func<string, object> valueCallback)
+        public object? Get(string valueName, Func<string, object?> valueCallback)
         {
             return valueCallback(valueName);
         }

@@ -40,7 +40,7 @@ namespace Configgy.Tests.Utilities
             var certificate = EncryptionUtility
                 .FindCertificates(x => !HasPrivateKey(x) && HasPublicKey(x))
                 // Make sure there is no other certificate with this public key and a private key as well
-                .FirstOrDefault(x => ! HasPrivateKey(EncryptionUtility.FindCertificateByPublicKey(x.GetPublicKey())));
+                .FirstOrDefault(x => !HasPrivateKey(EncryptionUtility.FindCertificateByPublicKey(x.GetPublicKey())!));
 
             if (certificate == null)
                 Assert.Inconclusive("Unable to find a certificate suitable to preform the test.");
@@ -82,8 +82,8 @@ namespace Configgy.Tests.Utilities
         {
             try
             {
-                var key = certificate.GetPublicKey();
-                return key != null;
+                certificate.GetPublicKey();
+                return true;
             }
             catch
             {

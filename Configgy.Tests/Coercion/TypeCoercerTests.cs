@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Coercion;
+using Moq;
 
 namespace Configgy.Tests.Coercion
 {
@@ -17,7 +18,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out Type result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out Type result);
 
             Assert.AreSame(expected, result);
             Assert.IsTrue(coerced);
@@ -30,7 +33,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out Type result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out Type result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -43,7 +48,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out Type result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out Type result);
 
             Assert.IsNull(result);
             Assert.IsFalse(coerced);
@@ -57,7 +64,9 @@ namespace Configgy.Tests.Coercion
 
             var coercer = new TypeCoercerAttribute();
 
-            var coerced = coercer.Coerce(null, value, out int result);
+            var propertyMock = new Mock<IConfigProperty>(MockBehavior.Strict);
+
+            var coerced = coercer.Coerce(propertyMock.Object, value, out int result);
 
             Assert.AreEqual(expected, result);
             Assert.IsFalse(coerced);

@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Configgy.Cache;
 using Configgy.Coercion;
 using Configgy.Source;
@@ -21,10 +22,17 @@ namespace Configgy.Tests
             var cacheMock = new Mock<IValueCache>(MockBehavior.Strict);
             cacheMock.Setup(x => x.Get(valueName, It.IsAny<Func<string, object>>()))
                 .Returns(valueResult);
+            
+            var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
+            var transformerMock = new Mock<IValueTransformer>(MockBehavior.Strict);
+            var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
+            var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
 
-            var config = new ConfigProvider(cacheMock.Object, null, null, null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
 
-            var result = config.Get(valueName, null, typeof(string));
+            var config = new ConfigProvider(cacheMock.Object, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
+
+            var result = config.Get(valueName, propertyMock.Object, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             cacheMock.VerifyAll();
@@ -40,9 +48,15 @@ namespace Configgy.Tests
             sourceMock.Setup(x => x.Get(It.IsNotNull<IConfigProperty>(), out valueResult))
                 .Returns(true);
 
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
             var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());
 
-            var result = config.Get(valueName, null, typeof(string));
+            var result = config.Get(valueName, propertyMock.Object, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();
@@ -69,7 +83,13 @@ namespace Configgy.Tests
             
             config.AddAttribute(valueName, attributeMock.Object);
             
-            var result = config.Get(valueName, null, typeof(string));
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            var result = config.Get(valueName, propertyMock.Object, typeof(string));
             
             Assert.AreEqual(expectedResult, result);
             sourceMock.VerifyAll();
@@ -104,7 +124,13 @@ namespace Configgy.Tests
             config.AddAttribute(valueName, attributeMock1.Object);
             config.AddAttribute(valueName, attributeMock2.Object);
             
-            var result = config.Get(valueName, null, typeof(string));
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            var result = config.Get(valueName, propertyMock.Object, typeof(string));
             
             Assert.AreEqual(expectedResult2, result);
             sourceMock.VerifyAll();
@@ -116,7 +142,7 @@ namespace Configgy.Tests
             const string valueName = "value name";
             const string alternateName = "not value name";
             var valueResult = "value result";
-            var alternateResult = (string) null;
+            var alternateResult = (string?) null;
 
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock.Setup(x => x.Get(It.Is<IConfigProperty>(y => y.ValueName == valueName), out valueResult))
@@ -130,7 +156,13 @@ namespace Configgy.Tests
             
             config.AddAttribute(valueName, attribute);
             
-            var result = config.Get(valueName, null, typeof(string));
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            var result = config.Get(valueName, propertyMock.Object, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();

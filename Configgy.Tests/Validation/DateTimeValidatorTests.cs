@@ -37,7 +37,7 @@ namespace Configgy.Tests.Validation
         protected override string WithinTestingRange => "2016-03-01";
 
         protected override INumericishValidator<DateTime> MakeValidator(DateTime min, DateTime max,
-            DateTime[] validValues)
+            DateTime[]? validValues)
         {
             return validValues == null
                 ? new DateTimeValidatorAttribute(min.ToString("O"), max.ToString("O"))

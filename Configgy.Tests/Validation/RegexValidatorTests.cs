@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Validation;
+using Moq;
 
 namespace Configgy.Tests.Validation
 {
@@ -12,7 +14,13 @@ namespace Configgy.Tests.Validation
         [TestMethod]
         public void Validate_Allows_Valid_Value()
         {
-            IConfigProperty property = new ConfigProperty("testing", typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("testing", typeof(string), propertyMock.Object, null);
             
             var validator = new RegexValidatorAttribute("aaabbbccc");
 
@@ -23,7 +31,9 @@ namespace Configgy.Tests.Validation
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void Validate_Throws_Exception_For_Invalid_Value()
         {
-            IConfigProperty property = new ConfigProperty("testing", typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            
+            IConfigProperty property = new ConfigProperty("testing", typeof(string), propertyMock.Object, null);
             
             var validator = new RegexValidatorAttribute("aaabbbccc");
 

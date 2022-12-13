@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Configgy.Source;
@@ -15,7 +17,13 @@ namespace Configgy.Tests.Source
         {
             var source = new DefaultValueAttributeSource();
             
-            IConfigProperty property = new ConfigProperty("something", typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty("something", typeof(string), propertyMock.Object, null);
 
             var result = source.Get(property, out var value);
 
@@ -33,7 +41,13 @@ namespace Configgy.Tests.Source
             defaultValueAttributeMock.SetupGet(d => d.Value)
                 .Returns(expected);
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
@@ -51,9 +65,15 @@ namespace Configgy.Tests.Source
 
             var defaultValueAttributeMock = new Mock<DefaultValueAttribute>(name);
             defaultValueAttributeMock.SetupGet(d => d.Value)
-                .Returns((string)null);
+                .Returns((string?)null);
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
@@ -75,11 +95,17 @@ namespace Configgy.Tests.Source
             defaultValueAttributeMock.SetupGet(d => d.Value)
                 .Returns(expected);
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {defaultValueAttributeMock.Object});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {defaultValueAttributeMock.Object});
 
             var source = new DefaultValueAttributeSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expectedConverted, value);
             Assert.IsTrue(result);

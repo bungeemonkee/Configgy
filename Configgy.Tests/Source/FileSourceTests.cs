@@ -1,6 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Source;
+using Moq;
 
 namespace Configgy.Tests.Source
 {
@@ -14,11 +17,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue1";
             const string expected = "This is a string value.";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new FileSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -30,11 +39,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue2";
             const string expected = "[\"string array\"]";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new FileSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -46,11 +61,17 @@ namespace Configgy.Tests.Source
             const string name = "TestValue3";
             const string expected = "<element>some xml</element>";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new FileSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.AreEqual(expected, value);
             Assert.IsTrue(result);
@@ -61,11 +82,17 @@ namespace Configgy.Tests.Source
         {
             const string name = "this file doesn't exist";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new FileSource();
 
-            var result = source.Get(property, out string value);
+            var result = source.Get(property, out var value);
 
             Assert.IsNull(value);
             Assert.IsFalse(result);

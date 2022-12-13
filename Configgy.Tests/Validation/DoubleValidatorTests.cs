@@ -38,7 +38,7 @@ namespace Configgy.Tests.Validation
 
         protected override string WithinTestingRange => "15";
 
-        protected override INumericishValidator<double> MakeValidator(double min, double max, double[] validValues)
+        protected override INumericishValidator<double> MakeValidator(double min, double max, double[]? validValues)
         {
             return validValues == null
                 ? new DoubleValidatorAttribute(min, max)

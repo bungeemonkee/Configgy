@@ -6,7 +6,7 @@ namespace Configgy
     {
         string ValueName { get; }
         
-        string? PropertyName { get; }
+        string PropertyName { get; }
 
         Type ValueType { get; }
 

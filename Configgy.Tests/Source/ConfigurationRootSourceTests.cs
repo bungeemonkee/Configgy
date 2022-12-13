@@ -1,6 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Source;
+using Moq;
 
 namespace Configgy.Tests.Source
 {
@@ -14,7 +17,13 @@ namespace Configgy.Tests.Source
             const string name = "Setting1";
             const string expected = "Value1";
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new ConfigurationRootSource();
 
@@ -32,7 +41,13 @@ namespace Configgy.Tests.Source
             
             var prefixAttribute = new ConfigurationRootPrefixAttribute("Section2");
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {prefixAttribute});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {prefixAttribute});
 
             var source = new ConfigurationRootSource();
 
@@ -49,7 +64,13 @@ namespace Configgy.Tests.Source
             
             var prefixAttribute = new ConfigurationRootPrefixAttribute("y25ej574q45h");
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, new [] {prefixAttribute});
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {prefixAttribute});
 
             var source = new ConfigurationRootSource();
 

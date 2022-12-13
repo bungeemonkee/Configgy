@@ -37,7 +37,7 @@ namespace Configgy.Tests.Validation
         protected override string WithinTestingRange => "00:07:00";
 
         protected override INumericishValidator<TimeSpan> MakeValidator(TimeSpan min, TimeSpan max,
-            TimeSpan[] validValues)
+            TimeSpan[]? validValues)
         {
             return validValues == null
                 ? new TimeSpanValidatorAttribute(min.ToString(), max.ToString())

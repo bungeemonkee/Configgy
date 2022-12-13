@@ -1,6 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Configgy.Source;
+using Moq;
 
 namespace Configgy.Tests.Source
 {
@@ -15,7 +18,13 @@ namespace Configgy.Tests.Source
             const string expected = "Blah";
             var commandLine = new[] {"--Testing=Blah"};
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -32,7 +41,13 @@ namespace Configgy.Tests.Source
             const string expected = "True";
             var commandLine = new[] {"--Testing"};
             
-            IConfigProperty property = new ConfigProperty(name, typeof(bool), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(bool), propertyMock.Object, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -48,7 +63,13 @@ namespace Configgy.Tests.Source
             const string name = "Testing";
             var commandLine = new[] {"--Testing"};
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -63,8 +84,14 @@ namespace Configgy.Tests.Source
         {
             const string name = "Testing";
             var commandLine = new[] {"--Banana=Blah"};
+
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -81,7 +108,13 @@ namespace Configgy.Tests.Source
             const string expected = "Blah";
             var commandLine = new[] {"--tEstinG=Blah"};
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), null, null);
+            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
+            propertyMock.Setup(x => x.GetCustomAttributes(true))
+                .Returns(Array.Empty<object>());
+            propertyMock.SetupGet(x => x.Name)
+                .Returns("property");
+            
+            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
