@@ -17,13 +17,7 @@ namespace Configgy.Tests.Transformation
             const string name = "some value";
             const string value = "1";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var transformerMock1 = new Mock<IValueTransformer>(MockBehavior.Strict);
             transformerMock1.Setup(x => x.Transform(property, value))
@@ -57,13 +51,7 @@ namespace Configgy.Tests.Transformation
                 .Returns(0);
             var transformerMock1 = transformerMock1Attribute.As<IValueTransformer>();
 
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {transformerMock1Attribute.Object});
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, new [] {transformerMock1Attribute.Object});
 
             transformerMock1.Setup(x => x.Transform(property, value))
                 .Returns(value);

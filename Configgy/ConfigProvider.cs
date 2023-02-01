@@ -152,6 +152,9 @@ namespace Configgy
         
         private object? ProduceValue<T>(string valueName, PropertyInfo property)
         {
+            // TODO: Inject the NullableReferenceChecker instance
+            var nullableReferenceChecker = new NullableReferenceChecker();
+            
             _attributeCache.TryGetValue(valueName, out var attributes);
             
             attributes = (attributes ?? Enumerable.Empty<object>())
@@ -171,7 +174,7 @@ namespace Configgy
             // Try every known name in order
             foreach (var name in names)
             {
-                prop = new ConfigProperty(name, typeof(T), property, attributes);
+                prop = new ConfigProperty(name, property, attributes);
                 
                 if (Source.Get(prop, out value))
                 {
@@ -182,8 +185,27 @@ namespace Configgy
 
             if (!found)
             {
-                // Throw an exception informing the user of the missing value
-                throw new MissingValueException(valueName);
+                if (nullableReferenceChecker.RequiresNullableReferenceCheck(prop))
+                {
+                    // Null reference checks for this property are required
+                    // Make sure a null value is allowed
+                    if (!nullableReferenceChecker.SatisfiesNullableReferenceRules(prop, null))
+                    {
+                        // This property requires nullable reference validation but failed it
+                        throw new NullableReferenceValidationException(valueName);
+                    }
+                    
+                    // No value was found but this property can be null so implicitly "find" a null value
+                    found = true;
+                    value = null;
+                }
+                else
+                {
+                    // No value was found but the property is either a value type or doesn't
+                    // have nullability reference type annotations, so fall back on the old behavior
+                    // Throw an exception informing the user of the missing value
+                    throw new MissingValueException(valueName);
+                }
             }
 
             // Transform the value
@@ -204,6 +226,12 @@ namespace Configgy
             {
                 // Throw an exception informing the user of the failed coercion
                 throw new CoercionException(value, valueName, type, property);
+            }
+
+            // Check the value for nullability
+            if (nullableReferenceChecker.RequiresNullableReferenceCheck(prop) && !nullableReferenceChecker.SatisfiesNullableReferenceRules(prop, value))
+            {
+                throw new NullableReferenceValidationException(valueName);
             }
 
             // Return the result

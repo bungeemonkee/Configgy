@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Reflection;
 using Configgy.Cache;
 using Configgy.Coercion;
@@ -28,11 +30,9 @@ namespace Configgy.Tests
             var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
             var coercerMock = new Mock<IValueCoercer>(MockBehavior.Strict);
 
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-
             var config = new ConfigProvider(cacheMock.Object, sourceMock.Object, transformerMock.Object, validatorMock.Object, coercerMock.Object);
 
-            var result = config.Get(valueName, propertyMock.Object, typeof(string));
+            var result = config.Get(valueName, TestUtilities.NullableProperty, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             cacheMock.VerifyAll();
@@ -47,16 +47,10 @@ namespace Configgy.Tests
             var sourceMock = new Mock<IValueSource>(MockBehavior.Strict);
             sourceMock.Setup(x => x.Get(It.IsNotNull<IConfigProperty>(), out valueResult))
                 .Returns(true);
-
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
             
             var config = new ConfigProvider(new DictionaryCache(), sourceMock.Object, new AggregateTransformer(), new AggregateValidator(), new AggregateCoercer());
 
-            var result = config.Get(valueName, propertyMock.Object, typeof(string));
+            var result = config.Get(valueName, TestUtilities.NullableProperty, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();
@@ -82,14 +76,8 @@ namespace Configgy.Tests
                 .Returns(0);
             
             config.AddAttribute(valueName, attributeMock.Object);
-            
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            var result = config.Get(valueName, propertyMock.Object, typeof(string));
+
+            var result = config.Get(valueName, TestUtilities.NullableProperty, typeof(string));
             
             Assert.AreEqual(expectedResult, result);
             sourceMock.VerifyAll();
@@ -123,14 +111,8 @@ namespace Configgy.Tests
             
             config.AddAttribute(valueName, attributeMock1.Object);
             config.AddAttribute(valueName, attributeMock2.Object);
-            
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            var result = config.Get(valueName, propertyMock.Object, typeof(string));
+
+            var result = config.Get(valueName, TestUtilities.NullableProperty, typeof(string));
             
             Assert.AreEqual(expectedResult2, result);
             sourceMock.VerifyAll();
@@ -156,13 +138,7 @@ namespace Configgy.Tests
             
             config.AddAttribute(valueName, attribute);
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            var result = config.Get(valueName, propertyMock.Object, typeof(string));
+            var result = config.Get(valueName, TestUtilities.NullableProperty, typeof(string));
             
             Assert.AreEqual(valueResult, result);
             sourceMock.VerifyAll();

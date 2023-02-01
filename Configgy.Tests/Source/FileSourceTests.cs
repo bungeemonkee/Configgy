@@ -17,13 +17,7 @@ namespace Configgy.Tests.Source
             const string name = "TestValue1";
             const string expected = "This is a string value.";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new FileSource();
 
@@ -39,13 +33,7 @@ namespace Configgy.Tests.Source
             const string name = "TestValue2";
             const string expected = "[\"string array\"]";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new FileSource();
 
@@ -61,13 +49,7 @@ namespace Configgy.Tests.Source
             const string name = "TestValue3";
             const string expected = "<element>some xml</element>";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new FileSource();
 
@@ -82,13 +64,7 @@ namespace Configgy.Tests.Source
         {
             const string name = "this file doesn't exist";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new FileSource();
 

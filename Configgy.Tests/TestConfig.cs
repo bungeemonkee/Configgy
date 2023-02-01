@@ -12,6 +12,12 @@ namespace Configgy.Tests
         [ConfigurationRootPrefix("Section02.Section03")]
         public string Setting03 => Get<string>();
 
+        public object? Setting04 => Get<object?>();
+
+        public int Setting05 => Get<int>();
+
+        public bool Setting06 => Get<bool>();
+
         public TestConfig()
             : base(new ConfigProvider())
         {

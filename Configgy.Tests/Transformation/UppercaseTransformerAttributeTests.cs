@@ -17,13 +17,7 @@ namespace Configgy.Tests.Transformation
         {
             const string? value = null;
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty("value", TestUtilities.NullableProperty, null);
 
             var transformer = new UppercaseTransformerAttribute();
 
@@ -38,13 +32,7 @@ namespace Configgy.Tests.Transformation
             const string value = "blah blah";
             const string expected = "BLAH BLAH";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty("value", TestUtilities.NullableProperty, null);
 
             var transformer = new UppercaseTransformerAttribute();
 
@@ -60,13 +48,7 @@ namespace Configgy.Tests.Transformation
             const string expected = "BLAH BLAH";
             var culture = CultureInfo.InvariantCulture;
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty("value", TestUtilities.NullableProperty, null);
 
             var transformer = new UppercaseTransformerAttribute
             {

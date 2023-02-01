@@ -17,14 +17,8 @@ namespace Configgy.Tests.Coercion
             const string name = "some value";
             const string value = "1";
             const int expected = 1;
-
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
             
-            IConfigProperty property = new ConfigProperty(name, typeof(int), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var result = expected;
 
@@ -52,13 +46,7 @@ namespace Configgy.Tests.Coercion
             var result = expected;
             var invalidResult = 0;
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(int), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var coercerMock1 = new Mock<IValueCoercer>(MockBehavior.Strict);
             coercerMock1.Setup(c => c.Coerce(property, value, out invalidResult))
@@ -93,13 +81,7 @@ namespace Configgy.Tests.Coercion
             coercerMock1.Setup(c => c.Coerce(It.Is<ConfigProperty>(x => x == property), value, out result))
                 .Returns(true);
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            property = new ConfigProperty(name, typeof(int), propertyMock.Object, new []{coercerMock1Attribute.Object});
+            property = new ConfigProperty(name, TestUtilities.NullableProperty, new []{coercerMock1Attribute.Object});
 
             var coercerMock2 = new Mock<IValueCoercer>(MockBehavior.Strict);
 
@@ -118,13 +100,7 @@ namespace Configgy.Tests.Coercion
             const string name = "name";
             const string value = "1";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(int), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var coercer = new AggregateCoercer(new IValueCoercer[0]);
 

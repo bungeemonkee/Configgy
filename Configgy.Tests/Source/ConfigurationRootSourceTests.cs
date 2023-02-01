@@ -17,13 +17,7 @@ namespace Configgy.Tests.Source
             const string name = "Setting1";
             const string expected = "Value1";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new ConfigurationRootSource();
 
@@ -41,13 +35,7 @@ namespace Configgy.Tests.Source
             
             var prefixAttribute = new ConfigurationRootPrefixAttribute("Section2");
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {prefixAttribute});
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, new [] {prefixAttribute});
 
             var source = new ConfigurationRootSource();
 
@@ -63,14 +51,8 @@ namespace Configgy.Tests.Source
             const string name = "wh4t4";
             
             var prefixAttribute = new ConfigurationRootPrefixAttribute("y25ej574q45h");
-            
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, new [] {prefixAttribute});
+
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, new [] {prefixAttribute});
 
             var source = new ConfigurationRootSource();
 

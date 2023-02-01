@@ -17,13 +17,7 @@ namespace Configgy.Tests.Transformation
         {
             const string? value = null;
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty("value", TestUtilities.NullableProperty, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 
@@ -38,13 +32,7 @@ namespace Configgy.Tests.Transformation
             const string value = "test.text";
             var expected = Path.GetFullPath(value);
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty("value", typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty("value", TestUtilities.NullableProperty, null);
 
             var transformer = new AbsolutePathTransformerAttribute();
 

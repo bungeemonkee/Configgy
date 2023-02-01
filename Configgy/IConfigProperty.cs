@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace Configgy
 {
@@ -11,5 +12,7 @@ namespace Configgy
         Type ValueType { get; }
 
         object[] Attributes { get; }
+        
+        NullabilityInfo NullabilityInfo { get; }
     }
 }

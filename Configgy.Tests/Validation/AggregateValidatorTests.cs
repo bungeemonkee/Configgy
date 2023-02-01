@@ -19,19 +19,11 @@ namespace Configgy.Tests.Validation
             const string name = "name";
             var result = "something";
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var validatorMock = new Mock<IValueValidator>(MockBehavior.Strict);
             validatorMock.Setup(v => v.Validate(property, value, out result))
                 .Returns(true);
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
 
             var validator = new AggregateValidator(new Dictionary<Type, IValueValidator>
             {
@@ -58,13 +50,7 @@ namespace Configgy.Tests.Validation
             validatorMock.Setup(v => v.Validate(It.Is<IConfigProperty>(x => x == property), value, out result))
                 .Returns(true);
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            property = new ConfigProperty(name, typeof(string), propertyMock.Object, new[] {validatorMockAttribute.Object});
+            property = new ConfigProperty(name, TestUtilities.NullableProperty, new[] {validatorMockAttribute.Object});
 
             var validator = new AggregateValidator(new Dictionary<Type, IValueValidator>());
 

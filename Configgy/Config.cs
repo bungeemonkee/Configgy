@@ -59,7 +59,7 @@ namespace Configgy
                 throw new InvalidOperationException("This should not occur. A property name was passed by [CallerMemberName] that did not map to a property on the object.");
             }
 
-            return Provider.Get<T>(valueName, property);
+            return Provider.Get<T>(valueName, property!);
         }
     }
 }

@@ -31,13 +31,7 @@ namespace Configgy.Tests.Source
         {
             var source = new EnvironmentVariableSource();
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(Name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(Name, TestUtilities.NullableProperty, null);
 
             var result = source.Get(property, out var value);
 
@@ -49,14 +43,8 @@ namespace Configgy.Tests.Source
         public void Get_Returns_Null_When_No_Matching_Environment_Variable()
         {
             const string name = " garbage string: P(*TO(*HFJJJFS#@(**&&^$%#*&()FDGO*^FDC VBNJUYT";
-            
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new EnvironmentVariableSource();
 

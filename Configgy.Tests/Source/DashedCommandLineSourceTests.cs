@@ -18,13 +18,7 @@ namespace Configgy.Tests.Source
             const string expected = "Blah";
             var commandLine = new[] {"--Testing=Blah"};
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -37,17 +31,11 @@ namespace Configgy.Tests.Source
         [TestMethod]
         public void Get_Assumes_True_For_Boolean_With_No_Value()
         {
-            const string name = "Testing";
+            var name = TestUtilities.NonNullableBoolean.Name;
             const string expected = "True";
-            var commandLine = new[] {"--Testing"};
+            var commandLine = new[] {"--" + name};
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(bool), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NonNullableBoolean, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -60,16 +48,10 @@ namespace Configgy.Tests.Source
         [TestMethod]
         public void Get_Returns_Null_For_Non_Boolean_With_No_Value()
         {
-            const string name = "Testing";
-            var commandLine = new[] {"--Testing"};
+            var name = TestUtilities.NullableProperty.Name;
+            var commandLine = new[] {"--" + name};
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -84,14 +66,8 @@ namespace Configgy.Tests.Source
         {
             const string name = "Testing";
             var commandLine = new[] {"--Banana=Blah"};
-
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
             
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new DashedCommandLineSource(commandLine);
 
@@ -108,13 +84,7 @@ namespace Configgy.Tests.Source
             const string expected = "Blah";
             var commandLine = new[] {"--tEstinG=Blah"};
             
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
-            
-            IConfigProperty property = new ConfigProperty(name, typeof(string), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var source = new DashedCommandLineSource(commandLine);
 

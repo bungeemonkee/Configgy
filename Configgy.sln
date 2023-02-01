@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configgy", "Configgy\Config
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configgy.Tests", "Configgy.Tests\Configgy.Tests.csproj", "{B38EA7C3-B62E-4BFA-BDC6-5DC8EC0F5313}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configgy.Tests.NullableDisable", "Configgy.Tests.NullableDisable\Configgy.Tests.NullableDisable.csproj", "{AE56D723-0FD3-4818-9F09-F23E3D25F78D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{B38EA7C3-B62E-4BFA-BDC6-5DC8EC0F5313}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38EA7C3-B62E-4BFA-BDC6-5DC8EC0F5313}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38EA7C3-B62E-4BFA-BDC6-5DC8EC0F5313}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE56D723-0FD3-4818-9F09-F23E3D25F78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE56D723-0FD3-4818-9F09-F23E3D25F78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE56D723-0FD3-4818-9F09-F23E3D25F78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE56D723-0FD3-4818-9F09-F23E3D25F78D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

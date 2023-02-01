@@ -78,14 +78,8 @@ namespace Configgy.Tests
             var expectedRaw = "blorb";
             int expectedValue;
             var cache = new TestingCache();
-            
-            var propertyMock = new Mock<PropertyInfo>(MockBehavior.Strict);
-            propertyMock.Setup(x => x.GetCustomAttributes(true))
-                .Returns(Array.Empty<object>());
-            propertyMock.SetupGet(x => x.Name)
-                .Returns("property");
 
-            IConfigProperty property = new ConfigProperty(name, typeof(int), propertyMock.Object, null);
+            IConfigProperty property = new ConfigProperty(name, TestUtilities.NullableProperty, null);
 
             var sourceMock = new Mock<IValueSource>();
             sourceMock.Setup(s => s.Get(property, out expectedRaw))
